@@ -1,0 +1,307 @@
+/* ============================================
+   Skill Tree Modal Styles - 游戏风格优化版
+   ============================================ */
+
+/* 技能树容器 */
+.skill-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* 技能节点基础样式 */
+.skill-node {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 2px solid var(--container-border);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+    backdrop-filter: blur(5px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 技能节点悬停效果 */
+.skill-node:hover {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
+    border-color: var(--accent-blue);
+    transform: translateX(4px);
+    box-shadow: -4px 0 12px rgba(130, 170, 255, 0.3);
+}
+
+/* 技能节点背景光效 */
+.skill-node::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.skill-node:hover::before {
+    left: 100%;
+}
+
+/* 技能名称 */
+.skill-node .skill-name {
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    font-size: 1.05em;
+    color: var(--primary-text-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+}
+
+/* 技能操作按钮基础样式 */
+.skill-node .skill-action button {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 按钮光效动画 */
+.skill-node .skill-action button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.skill-node .skill-action button:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* 可学习状态 */
+.skill-node.learnable {
+    border-color: var(--xp-color);
+    box-shadow: 0 0 20px rgba(95, 219, 167, 0.3), inset 0 0 20px rgba(95, 219, 167, 0.05);
+    animation: pulse-learnable 2s ease-in-out infinite;
+}
+
+@keyframes pulse-learnable {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(95, 219, 167, 0.3), inset 0 0 20px rgba(95, 219, 167, 0.05);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(95, 219, 167, 0.5), inset 0 0 30px rgba(95, 219, 167, 0.1);
+    }
+}
+
+.skill-node.learnable .skill-action button {
+    background: linear-gradient(135deg, var(--xp-color), #7fd9c1);
+    color: #0a0a0a;
+    box-shadow: 0 4px 15px rgba(95, 219, 167, 0.4);
+}
+
+.skill-node.learnable .skill-action button:hover {
+    background: linear-gradient(135deg, #7fd9c1, var(--xp-color));
+    box-shadow: 0 6px 25px rgba(95, 219, 167, 0.6);
+    transform: translateY(-2px);
+}
+
+/* 锁定状态 */
+.skill-node.locked {
+    opacity: 0.5;
+    filter: grayscale(0.5);
+}
+
+.skill-node.locked .skill-action button {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 已满级状态 */
+.skill-node.mastered {
+    border-color: rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+}
+
+.skill-node.mastered .skill-action button {
+    background: transparent;
+    color: var(--xp-color);
+    border: 2px solid var(--xp-color);
+    cursor: default;
+    box-shadow: 0 0 10px rgba(95, 219, 167, 0.3);
+}
+
+/* 已选择状态 */
+.skill-node.selected {
+    background: linear-gradient(135deg, rgba(130, 170, 255, 0.25), rgba(130, 170, 255, 0.15));
+    border-color: var(--accent-blue-deep);
+    box-shadow: 0 0 25px rgba(130, 170, 255, 0.5), inset 0 0 25px rgba(130, 170, 255, 0.1);
+    animation: pulse-selected 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-selected {
+    0%, 100% {
+        box-shadow: 0 0 25px rgba(130, 170, 255, 0.5), inset 0 0 25px rgba(130, 170, 255, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(130, 170, 255, 0.7), inset 0 0 35px rgba(130, 170, 255, 0.15);
+    }
+}
+
+.skill-node.selected .skill-action button {
+    background: linear-gradient(135deg, var(--accent-blue-deep), var(--accent-blue));
+    color: white;
+    box-shadow: 0 4px 20px rgba(130, 170, 255, 0.6);
+}
+
+/* 内联按钮（职业升级按钮） */
+.inline-button {
+    background: linear-gradient(135deg, var(--accent-blue-deep), var(--accent-blue));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.95em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(130, 170, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.inline-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.inline-button:hover::before {
+    left: 100%;
+}
+
+.inline-button:hover {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-deep));
+    box-shadow: 0 6px 25px rgba(130, 170, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.inline-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(130, 170, 255, 0.4);
+}
+
+.inline-button:disabled {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+}
+
+/* 切换按钮（继承内联按钮样式，无需额外样式） */
+
+/* 职业标题区域 */
+.skill-tree-job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, rgba(130, 170, 255, 0.15), rgba(130, 170, 255, 0.05));
+    border-radius: 10px;
+    border: 2px solid rgba(130, 170, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.skill-tree-job-header h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.3em;
+    color: var(--accent-blue);
+    text-shadow: 0 2px 8px rgba(130, 170, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* 模态框底部 */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
+    border-radius: 10px;
+    border: 2px solid var(--container-border);
+}
+
+.footer-cost {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--xp-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.footer-confirm-button {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}
+
+.footer-confirm-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 6px 30px rgba(16, 185, 129, 0.6);
+    transform: translateY(-2px);
+}
+
+.footer-confirm-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 15px rgba(16, 185, 129, 0.5);
+}
+
+.footer-confirm-button:disabled {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+}
+
+/* 分隔线 */
+.thin-divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--container-border), transparent);
+    margin: 20px 0;
+}

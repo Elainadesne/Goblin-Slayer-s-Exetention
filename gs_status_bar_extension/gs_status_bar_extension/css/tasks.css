@@ -1,0 +1,141 @@
+/* Tasks Section Styles */
+.tasks-section-modern {
+    padding: 20px;
+}
+
+.subsection-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    margin: 20px 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.subsection-title i {
+    color: var(--accent-blue);
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.task-card-modern {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--container-border);
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.task-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent-blue);
+    transition: all 0.3s ease;
+}
+
+.task-card-modern.completed::before {
+    background: var(--xp-color);
+}
+
+.task-card-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-blue);
+}
+
+.task-card-modern.completed {
+    opacity: 0.7;
+}
+
+.task-card-modern.completed:hover {
+    opacity: 1;
+}
+
+.task-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(168, 192, 255, 0.2);
+}
+
+.task-status-icon {
+    font-size: 1.5em;
+    color: var(--accent-blue);
+}
+
+.task-card-modern.completed .task-status-icon {
+    color: var(--xp-color);
+}
+
+.task-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    flex: 1;
+}
+
+.task-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-description {
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    line-height: 1.5;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    border-left: 2px solid var(--accent-blue);
+}
+
+.task-detail {
+    display: flex;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.task-label {
+    color: var(--secondary-text-color);
+    font-weight: 600;
+    min-width: 50px;
+}
+
+.task-value {
+    color: var(--primary-text-color);
+    flex: 1;
+}
+
+.task-reward {
+    color: var(--xp-color);
+    font-weight: 600;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--secondary-text-color);
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+}

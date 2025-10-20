@@ -1,0 +1,64 @@
+/* 人物搜索样式 */
+
+.character-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.character-search-box i {
+    position: absolute;
+    left: 10px;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    pointer-events: none;
+}
+
+.character-search-input {
+    width: 100%;
+    padding: 6px 10px 6px 32px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--container-border);
+    border-radius: 4px;
+    color: var(--primary-text-color);
+    font-size: 0.85em;
+    transition: all 0.3s ease;
+}
+
+.character-search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 2px rgba(168, 192, 255, 0.1);
+}
+
+.character-search-input::placeholder {
+    color: var(--secondary-text-color);
+    opacity: 0.6;
+}
+
+.no-results-message {
+    padding: 20px;
+    text-align: center;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .character-search-box {
+        margin-top: 6px;
+    }
+
+    .character-search-input {
+        padding: 5px 8px 5px 28px;
+        font-size: 0.8em;
+    }
+
+    .character-search-box i {
+        left: 8px;
+        font-size: 0.85em;
+    }
+}

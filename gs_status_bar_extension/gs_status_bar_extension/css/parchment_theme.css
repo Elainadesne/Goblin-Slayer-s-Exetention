@@ -1,0 +1,381 @@
+/**
+ * Parchment Theme - 羊皮纸主题
+ * 淡黄肉色渐变的古典奇幻风格
+ */
+
+/* 羊皮纸主题根变量 */
+[data-theme="parchment"] {
+    /* 主色调 - 羊皮纸色系 */
+    --parchment-light: #faf7f0;
+    --parchment-base: #f4f1e8;
+    --parchment-medium: #ede7d3;
+    --parchment-dark: #e6d7b7;
+    --parchment-deep: #d4c4a0;
+    
+    /* 肉色调 */
+    --flesh-light: #fdf5f0;
+    --flesh-base: #f7e6d7;
+    --flesh-medium: #f0d5c4;
+    --flesh-dark: #e8c4a0;
+    
+    /* 古铜色调 */
+    --bronze-light: #d4af37;
+    --bronze-base: #cd7f32;
+    --bronze-dark: #b8860b;
+    
+    /* 深棕色调 */
+    --brown-light: #8b4513;
+    --brown-base: #654321;
+    --brown-dark: #3e2723;
+    
+    /* 主要背景色 */
+    --bg-primary: linear-gradient(135deg, var(--parchment-light) 0%, var(--flesh-light) 25%, var(--parchment-base) 50%, var(--flesh-base) 75%, var(--parchment-medium) 100%);
+    --bg-secondary: linear-gradient(135deg, var(--parchment-base) 0%, var(--flesh-base) 50%, var(--parchment-medium) 100%);
+    --bg-tertiary: linear-gradient(135deg, var(--parchment-medium) 0%, var(--flesh-medium) 50%, var(--parchment-dark) 100%);
+    --bg-hover: linear-gradient(135deg, var(--flesh-light) 0%, var(--parchment-light) 50%, var(--flesh-base) 100%);
+    
+    /* 文字颜色 */
+    --primary-text-color: var(--brown-dark);
+    --secondary-text-color: var(--brown-base);
+    --tertiary-text-color: var(--brown-light);
+    --accent-text-color: var(--bronze-dark);
+    
+    /* 强调色 */
+    --accent-blue: var(--bronze-base);
+    --accent-blue-deep: var(--bronze-dark);
+    --accent-blue-light: var(--bronze-light);
+    --accent-glow: rgba(205, 127, 50, 0.3);
+    
+    /* 边框颜色 */
+    --border-color: rgba(139, 69, 19, 0.2);
+    --border-hover: rgba(139, 69, 19, 0.4);
+    --border-active: var(--bronze-base);
+    
+    /* 容器边框 */
+    --container-border: rgba(139, 69, 19, 0.15);
+    
+    /* 阴影 */
+    --shadow-light: rgba(139, 69, 19, 0.1);
+    --shadow-medium: rgba(139, 69, 19, 0.2);
+    --shadow-heavy: rgba(139, 69, 19, 0.3);
+    
+    /* 装备品质颜色 - 羊皮纸风格 */
+    --tier-普通: #8b4513;
+    --tier-普通-rgba: rgba(139, 69, 19, 0.1);
+    --tier-普通-shadow: rgba(139, 69, 19, 0.3);
+    
+    --tier-精良: #228b22;
+    --tier-精良-rgba: rgba(34, 139, 34, 0.1);
+    --tier-精良-shadow: rgba(34, 139, 34, 0.3);
+    
+    --tier-稀有: #4169e1;
+    --tier-稀有-rgba: rgba(65, 105, 225, 0.1);
+    --tier-稀有-shadow: rgba(65, 105, 225, 0.3);
+    
+    --tier-史诗: #8a2be2;
+    --tier-史诗-rgba: rgba(138, 43, 226, 0.1);
+    --tier-史诗-shadow: rgba(138, 43, 226, 0.3);
+    
+    --tier-传奇: #ff8c00;
+    --tier-传奇-rgba: rgba(255, 140, 0, 0.1);
+    --tier-传奇-shadow: rgba(255, 140, 0, 0.3);
+}
+
+/* 羊皮纸主题的主面板 */
+[data-theme="parchment"] #gs-status-bar-panel {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--bronze-base) !important;
+    box-shadow: 
+        0 20px 60px rgba(139, 69, 19, 0.4),
+        0 0 100px rgba(205, 127, 50, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 4px rgba(139, 69, 19, 0.1) !important;
+}
+
+/* 羊皮纸纹理效果 */
+[data-theme="parchment"] #gs-status-bar-panel::before {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(205, 127, 50, 0.6) 20%,
+        rgba(212, 175, 55, 0.8) 50%,
+        rgba(205, 127, 50, 0.6) 80%,
+        transparent
+    ) !important;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.8) !important;
+}
+
+[data-theme="parchment"] #gs-status-bar-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, rgba(205, 127, 50, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(139, 69, 19, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px, 30px 30px, 70px 70px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme="parchment"] #gs-status-bar-panel > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* 导航栏 */
+[data-theme="parchment"] .top-nav {
+    background: var(--bg-secondary) !important;
+    border-bottom: 2px solid rgba(205, 127, 50, 0.3) !important;
+    box-shadow: 0 2px 10px var(--shadow-light) !important;
+}
+
+/* 导航按钮 */
+[data-theme="parchment"] .nav-button {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--primary-text-color) !important;
+    box-shadow: 
+        0 2px 8px var(--shadow-light),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="parchment"] .nav-button:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 
+        0 6px 20px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 15px var(--accent-glow) !important;
+    transform: translateY(-2px);
+}
+
+[data-theme="parchment"] .nav-button.active {
+    background: linear-gradient(135deg, var(--bronze-light), var(--bronze-base)) !important;
+    border-color: var(--bronze-dark) !important;
+    color: var(--parchment-light) !important;
+    box-shadow: 
+        0 6px 25px var(--shadow-heavy),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 30px var(--accent-glow) !important;
+}
+
+/* 侧边栏 */
+[data-theme="parchment"] .sidebar-nav {
+    background: var(--bg-secondary) !important;
+    border-right: 2px solid rgba(205, 127, 50, 0.2) !important;
+}
+
+[data-theme="parchment"] .sidebar-item {
+    background: rgba(244, 241, 232, 0.5) !important;
+    border: 1px solid transparent !important;
+    color: var(--primary-text-color) !important;
+}
+
+[data-theme="parchment"] .sidebar-item:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 0 4px 15px var(--shadow-light) !important;
+}
+
+[data-theme="parchment"] .sidebar-item.active {
+    background: linear-gradient(135deg, var(--bronze-light), var(--bronze-base)) !important;
+    border-color: var(--bronze-dark) !important;
+    color: var(--parchment-light) !important;
+    box-shadow: 
+        0 4px 20px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 卡片元素 */
+[data-theme="parchment"] .card,
+[data-theme="parchment"] .item-entry,
+[data-theme="parchment"] .stat-card,
+[data-theme="parchment"] .equipment-card-modern,
+[data-theme="parchment"] .inventory-card-modern {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--primary-text-color) !important;
+    box-shadow: 
+        0 4px 15px var(--shadow-light),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="parchment"] .card:hover,
+[data-theme="parchment"] .item-entry:hover,
+[data-theme="parchment"] .stat-card:hover,
+[data-theme="parchment"] .equipment-card-modern:hover,
+[data-theme="parchment"] .inventory-card-modern:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 
+        0 8px 30px var(--shadow-medium),
+        0 0 20px var(--accent-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+/* 输入框和表单元素 */
+[data-theme="parchment"] input[type="text"],
+[data-theme="parchment"] input[type="search"],
+[data-theme="parchment"] textarea,
+[data-theme="parchment"] select {
+    background: var(--bg-tertiary) !important;
+    border: 2px solid var(--border-color) !important;
+    color: var(--primary-text-color) !important;
+    box-shadow: inset 0 2px 4px var(--shadow-light) !important;
+}
+
+[data-theme="parchment"] input[type="text"]:focus,
+[data-theme="parchment"] input[type="search"]:focus,
+[data-theme="parchment"] textarea:focus,
+[data-theme="parchment"] select:focus {
+    background: var(--bg-hover) !important;
+    border-color: var(--bronze-base) !important;
+    box-shadow: 
+        0 0 20px var(--accent-glow),
+        inset 0 2px 4px var(--shadow-light) !important;
+}
+
+/* 按钮 */
+[data-theme="parchment"] button:not(.modal-close-button):not(.nav-button):not(.sidebar-item) {
+    background: linear-gradient(135deg, var(--bronze-light), var(--bronze-base)) !important;
+    border: 2px solid var(--bronze-dark) !important;
+    color: var(--parchment-light) !important;
+    box-shadow: 
+        0 4px 15px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="parchment"] button:not(.modal-close-button):not(.nav-button):not(.sidebar-item):hover {
+    background: linear-gradient(135deg, var(--bronze-base), var(--bronze-dark)) !important;
+    box-shadow: 
+        0 6px 20px var(--shadow-heavy),
+        0 0 25px var(--accent-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-2px);
+}
+
+/* 开关按钮 */
+[data-theme="parchment"] #gs-open-panel-button {
+    background: linear-gradient(
+        135deg,
+        var(--bronze-light),
+        var(--bronze-base)
+    ) !important;
+    border: 3px solid var(--bronze-dark) !important;
+    box-shadow: 
+        0 6px 25px var(--shadow-heavy),
+        0 0 40px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="parchment"] #gs-open-panel-button:hover {
+    background: linear-gradient(
+        135deg,
+        var(--bronze-base),
+        var(--bronze-dark)
+    ) !important;
+    box-shadow: 
+        0 8px 35px var(--shadow-heavy),
+        0 0 60px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 滚动条 */
+[data-theme="parchment"] ::-webkit-scrollbar-track {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="parchment"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--bronze-light), var(--bronze-base)) !important;
+    border: 2px solid var(--bronze-dark) !important;
+    box-shadow: 0 2px 8px var(--shadow-light) !important;
+}
+
+[data-theme="parchment"] ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--bronze-base), var(--bronze-dark)) !important;
+    box-shadow: 0 0 15px var(--accent-glow) !important;
+}
+
+/* 设置界面特殊样式 */
+[data-theme="parchment"] .gs-settings-section {
+    background: var(--bg-secondary) !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: 
+        0 6px 20px var(--shadow-light),
+        0 0 30px rgba(205, 127, 50, 0.1),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="parchment"] .gs-setting-item {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="parchment"] .gs-setting-item:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 0 4px 15px var(--shadow-light) !important;
+}
+
+/* 主题切换按钮 */
+[data-theme="parchment"] .gs-theme-option {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--primary-text-color) !important;
+}
+
+[data-theme="parchment"] .gs-theme-option:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+}
+
+[data-theme="parchment"] .gs-theme-option.active {
+    background: linear-gradient(135deg, var(--bronze-light), var(--bronze-base)) !important;
+    border-color: var(--bronze-dark) !important;
+    color: var(--parchment-light) !important;
+    box-shadow: 0 0 20px var(--accent-glow) !important;
+}
+
+
+/* 确保所有内容区域都应用主题 */
+[data-theme="parchment"] .content-area,
+[data-theme="parchment"] .tab-pane,
+[data-theme="parchment"] .content-detail-panel,
+[data-theme="parchment"] #status-content-detail,
+[data-theme="parchment"] #world-content-detail {
+    background: transparent !important;
+}
+
+/* 确保Discord布局区域应用主题 */
+[data-theme="parchment"] .discord-layout {
+    background: transparent !important;
+}
+
+/* 子列表面板 */
+[data-theme="parchment"] .sub-list-panel,
+[data-theme="parchment"] #world-sub-list {
+    background: var(--bg-secondary) !important;
+    border-right: 2px solid rgba(205, 127, 50, 0.2) !important;
+}
+
+/* 确保所有文字颜色正确 */
+[data-theme="parchment"] * {
+    color: var(--primary-text-color);
+}
+
+[data-theme="parchment"] .secondary-text {
+    color: var(--secondary-text-color) !important;
+}
+
+/* 状态卡片 */
+[data-theme="parchment"] .stat-card,
+[data-theme="parchment"] .hero-stat-card {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+}

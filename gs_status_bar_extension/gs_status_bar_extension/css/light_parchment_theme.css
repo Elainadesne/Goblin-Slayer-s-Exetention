@@ -1,0 +1,490 @@
+/**
+ * Light Parchment Theme - 淡色羊皮纸主题
+ * 非常浅的象牙奶油色调，带玫瑰金强调色
+ */
+
+/* 淡色羊皮纸主题根变量 */
+[data-theme="light-parchment"] {
+    /* 象牙/奶油色系 - 主背景 */
+    --ivory-lightest: #fffef9;
+    --ivory-light: #faf8f3;
+    --ivory-base: #f5f3ed;
+    --ivory-medium: #f0ede5;
+    --ivory-dark: #ebe7dc;
+    --ivory-darker: #e6e1d4;
+    
+    /* 文字颜色 - 柔和棕灰色 */
+    --text-primary: #5a5550;
+    --text-secondary: #6e6860;
+    --text-tertiary: #8b8680;
+    --text-light: #a39d95;
+    
+    /* 玫瑰金强调色 */
+    --rose-gold-lightest: #fef5f1;
+    --rose-gold-light: #f4d5c8;
+    --rose-gold: #e8b4a0;
+    --rose-gold-medium: #dda08a;
+    --rose-gold-dark: #d89a7f;
+    --rose-gold-darker: #c8856a;
+    
+    /* 边框颜色 */
+    --border-lightest: rgba(90, 85, 80, 0.06);
+    --border-light: rgba(90, 85, 80, 0.1);
+    --border-medium: rgba(90, 85, 80, 0.15);
+    --border-dark: rgba(90, 85, 80, 0.25);
+    
+    /* 阴影颜色 */
+    --shadow-soft: rgba(90, 85, 80, 0.08);
+    --shadow-medium: rgba(90, 85, 80, 0.12);
+    --shadow-strong: rgba(90, 85, 80, 0.18);
+    
+    /* 装备品质颜色 - 柔和版本 */
+    --tier-普通: #8b8680;
+    --tier-普通-rgba: rgba(139, 134, 128, 0.12);
+    --tier-普通-shadow: rgba(139, 134, 128, 0.25);
+    
+    --tier-精良: #7ba88f;
+    --tier-精良-rgba: rgba(123, 168, 143, 0.12);
+    --tier-精良-shadow: rgba(123, 168, 143, 0.3);
+    
+    --tier-稀有: #7ba3c0;
+    --tier-稀有-rgba: rgba(123, 163, 192, 0.12);
+    --tier-稀有-shadow: rgba(123, 163, 192, 0.3);
+    
+    --tier-史诗: #a88bc7;
+    --tier-史诗-rgba: rgba(168, 139, 199, 0.12);
+    --tier-史诗-shadow: rgba(168, 139, 199, 0.3);
+    
+    --tier-传奇: #e8b870;
+    --tier-传奇-rgba: rgba(232, 184, 112, 0.12);
+    --tier-传奇-shadow: rgba(232, 184, 112, 0.3);
+    
+    /* 主要背景渐变 */
+    --bg-primary: linear-gradient(135deg, var(--ivory-lightest) 0%, var(--ivory-light) 50%, var(--ivory-base) 100%);
+    --bg-secondary: linear-gradient(135deg, var(--ivory-light) 0%, var(--ivory-base) 50%, var(--ivory-medium) 100%);
+    --bg-tertiary: linear-gradient(135deg, var(--ivory-base) 0%, var(--ivory-medium) 50%, var(--ivory-dark) 100%);
+    --bg-hover: linear-gradient(135deg, var(--rose-gold-lightest) 0%, var(--ivory-lightest) 50%, var(--ivory-light) 100%);
+    
+    /* 强调色 */
+    --accent-primary: var(--rose-gold);
+    --accent-light: var(--rose-gold-light);
+    --accent-dark: var(--rose-gold-dark);
+    --accent-glow: rgba(232, 180, 160, 0.25);
+}
+
+/* ========== 主面板 ========== */
+[data-theme="light-parchment"] #gs-status-bar-panel {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--rose-gold) !important;
+    box-shadow: 
+        0 20px 60px var(--shadow-strong),
+        0 0 100px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5),
+        inset 0 -2px 4px var(--shadow-soft) !important;
+    color: var(--text-primary) !important;
+}
+
+/* 面板装饰光效 */
+[data-theme="light-parchment"] #gs-status-bar-panel::before {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(232, 180, 160, 0.4) 20%,
+        rgba(244, 213, 200, 0.6) 50%,
+        rgba(232, 180, 160, 0.4) 80%,
+        transparent
+    ) !important;
+    box-shadow: 0 0 30px rgba(244, 213, 200, 0.6) !important;
+}
+
+[data-theme="light-parchment"] #gs-status-bar-panel::after {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(232, 180, 160, 0.2) 50%,
+        transparent
+    ) !important;
+    box-shadow: 0 0 20px rgba(232, 180, 160, 0.3) !important;
+}
+
+/* ========== 导航栏 ========== */
+[data-theme="light-parchment"] .top-nav {
+    background: var(--bg-secondary) !important;
+    border-bottom: 2px solid var(--border-medium) !important;
+    box-shadow: 0 2px 10px var(--shadow-soft) !important;
+}
+
+/* 导航按钮 */
+[data-theme="light-parchment"] .nav-button {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 
+        0 2px 8px var(--shadow-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="light-parchment"] .nav-button:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--rose-gold-light) !important;
+    box-shadow: 
+        0 4px 15px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 0 15px var(--accent-glow) !important;
+    transform: translateY(-1px);
+}
+
+[data-theme="light-parchment"] .nav-button.active {
+    background: linear-gradient(135deg, var(--rose-gold-light), var(--rose-gold)) !important;
+    border-color: var(--rose-gold-dark) !important;
+    color: white !important;
+    box-shadow: 
+        0 4px 20px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 0 25px var(--accent-glow) !important;
+}
+
+/* ========== 侧边栏 ========== */
+[data-theme="light-parchment"] .sidebar-nav {
+    background: var(--bg-secondary) !important;
+    border-right: 2px solid var(--border-light) !important;
+}
+
+[data-theme="light-parchment"] .sidebar-item {
+    background: rgba(250, 248, 243, 0.5) !important;
+    border: 1px solid transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light-parchment"] .sidebar-item:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-medium) !important;
+    box-shadow: 0 3px 12px var(--shadow-soft) !important;
+}
+
+[data-theme="light-parchment"] .sidebar-item.active {
+    background: linear-gradient(135deg, var(--rose-gold-light), var(--rose-gold)) !important;
+    border-color: var(--rose-gold-dark) !important;
+    color: white !important;
+    box-shadow: 
+        0 3px 15px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ========== 卡片元素 ========== */
+[data-theme="light-parchment"] .card,
+[data-theme="light-parchment"] .item-entry,
+[data-theme="light-parchment"] .stat-card,
+[data-theme="light-parchment"] .equipment-card-modern,
+[data-theme="light-parchment"] .inventory-card-modern {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 
+        0 3px 12px var(--shadow-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="light-parchment"] .card:hover,
+[data-theme="light-parchment"] .item-entry:hover,
+[data-theme="light-parchment"] .stat-card:hover,
+[data-theme="light-parchment"] .equipment-card-modern:hover,
+[data-theme="light-parchment"] .inventory-card-modern:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--rose-gold-light) !important;
+    box-shadow: 
+        0 6px 25px var(--shadow-medium),
+        0 0 20px var(--accent-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    transform: translateY(-2px);
+}
+
+/* ========== 输入框和表单元素 ========== */
+[data-theme="light-parchment"] input[type="text"],
+[data-theme="light-parchment"] input[type="search"],
+[data-theme="light-parchment"] textarea,
+[data-theme="light-parchment"] select {
+    background: var(--ivory-medium) !important;
+    border: 2px solid var(--border-medium) !important;
+    color: var(--text-primary) !important;
+    box-shadow: inset 0 2px 4px var(--shadow-soft) !important;
+}
+
+[data-theme="light-parchment"] input[type="text"]:focus,
+[data-theme="light-parchment"] input[type="search"]:focus,
+[data-theme="light-parchment"] textarea:focus,
+[data-theme="light-parchment"] select:focus {
+    background: var(--ivory-light) !important;
+    border-color: var(--rose-gold) !important;
+    box-shadow: 
+        0 0 20px var(--accent-glow),
+        inset 0 2px 4px var(--shadow-soft) !important;
+}
+
+[data-theme="light-parchment"] input::placeholder,
+[data-theme="light-parchment"] textarea::placeholder {
+    color: var(--text-light) !important;
+}
+
+/* ========== 按钮 ========== */
+[data-theme="light-parchment"] button:not(.modal-close-button):not(.nav-button):not(.sidebar-item) {
+    background: linear-gradient(135deg, var(--rose-gold-light), var(--rose-gold)) !important;
+    border: 2px solid var(--rose-gold-dark) !important;
+    color: white !important;
+    box-shadow: 
+        0 3px 12px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="light-parchment"] button:not(.modal-close-button):not(.nav-button):not(.sidebar-item):hover {
+    background: linear-gradient(135deg, var(--rose-gold), var(--rose-gold-dark)) !important;
+    box-shadow: 
+        0 5px 20px var(--shadow-strong),
+        0 0 25px var(--accent-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    transform: translateY(-2px);
+}
+
+/* ========== 开关按钮 ========== */
+[data-theme="light-parchment"] #gs-open-panel-button {
+    background: linear-gradient(
+        135deg,
+        var(--rose-gold-light),
+        var(--rose-gold)
+    ) !important;
+    border: 3px solid var(--rose-gold-dark) !important;
+    box-shadow: 
+        0 6px 25px var(--shadow-strong),
+        0 0 40px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="light-parchment"] #gs-open-panel-button:hover {
+    background: linear-gradient(
+        135deg,
+        var(--rose-gold),
+        var(--rose-gold-dark)
+    ) !important;
+    box-shadow: 
+        0 8px 35px var(--shadow-strong),
+        0 0 60px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ========== 滚动条 ========== */
+[data-theme="light-parchment"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+[data-theme="light-parchment"] ::-webkit-scrollbar-track {
+    background: var(--ivory-medium) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 6px;
+}
+
+[data-theme="light-parchment"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--rose-gold-light), var(--rose-gold)) !important;
+    border: 2px solid var(--rose-gold-dark) !important;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px var(--shadow-soft) !important;
+}
+
+[data-theme="light-parchment"] ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--rose-gold), var(--rose-gold-dark)) !important;
+    box-shadow: 0 0 15px var(--accent-glow) !important;
+}
+
+/* ========== 设置界面 ========== */
+[data-theme="light-parchment"] .gs-settings-section {
+    background: var(--bg-secondary) !important;
+    border: 2px solid var(--border-light) !important;
+    box-shadow: 
+        0 4px 15px var(--shadow-soft),
+        0 0 30px rgba(232, 180, 160, 0.1),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="light-parchment"] .gs-setting-item {
+    background: var(--ivory-light) !important;
+    border: 1px solid var(--border-light) !important;
+}
+
+[data-theme="light-parchment"] .gs-setting-item:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-medium) !important;
+    box-shadow: 0 3px 12px var(--shadow-soft) !important;
+}
+
+/* 主题切换按钮 */
+[data-theme="light-parchment"] .gs-theme-option {
+    background: var(--ivory-base) !important;
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light-parchment"] .gs-theme-option:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--rose-gold-light) !important;
+}
+
+[data-theme="light-parchment"] .gs-theme-option.active {
+    background: linear-gradient(135deg, var(--rose-gold-light), var(--rose-gold)) !important;
+    border-color: var(--rose-gold-dark) !important;
+    color: white !important;
+    box-shadow: 0 0 20px var(--accent-glow) !important;
+}
+
+/* ========== 滑块控件 ========== */
+[data-theme="light-parchment"] .gs-slider-control input[type="range"] {
+    background: var(--ivory-medium);
+}
+
+[data-theme="light-parchment"] .gs-slider-control input[type="range"]::-webkit-slider-track {
+    background: var(--ivory-dark);
+    border: 1px solid var(--border-light);
+}
+
+[data-theme="light-parchment"] .gs-slider-control input[type="range"]::-webkit-slider-thumb {
+    background: linear-gradient(135deg, var(--rose-gold-light), var(--rose-gold)) !important;
+    border: 2px solid var(--rose-gold-dark) !important;
+    box-shadow: 0 2px 8px var(--shadow-medium) !important;
+}
+
+[data-theme="light-parchment"] .gs-slider-control input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 15px var(--accent-glow) !important;
+}
+
+/* ========== 开关控件 ========== */
+[data-theme="light-parchment"] .gs-toggle-slider {
+    background-color: var(--border-medium) !important;
+}
+
+[data-theme="light-parchment"] .gs-toggle-switch input:checked + .gs-toggle-slider {
+    background-color: var(--rose-gold) !important;
+}
+
+[data-theme="light-parchment"] .gs-toggle-slider:before {
+    background-color: var(--ivory-lightest) !important;
+    box-shadow: 0 2px 4px var(--shadow-soft) !important;
+}
+
+/* ========== 通知样式 ========== */
+[data-theme="light-parchment"] .gs-notification {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--rose-gold) !important;
+    box-shadow: 0 8px 30px var(--shadow-strong) !important;
+}
+
+[data-theme="light-parchment"] .gs-notification span {
+    color: var(--text-primary) !important;
+}
+
+/* ========== 模态框 ========== */
+[data-theme="light-parchment"] .modal-content {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--rose-gold) !important;
+    box-shadow: 0 20px 60px var(--shadow-strong) !important;
+}
+
+/* ========== 标签和徽章 ========== */
+[data-theme="light-parchment"] .badge,
+[data-theme="light-parchment"] .tag {
+    background: var(--rose-gold-light) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--rose-gold) !important;
+}
+
+/* ========== 分隔线 ========== */
+[data-theme="light-parchment"] hr,
+[data-theme="light-parchment"] .divider {
+    border-color: var(--border-medium) !important;
+    background: var(--border-medium) !important;
+}
+
+/* ========== 链接 ========== */
+[data-theme="light-parchment"] a {
+    color: var(--rose-gold-dark) !important;
+}
+
+[data-theme="light-parchment"] a:hover {
+    color: var(--rose-gold-darker) !important;
+    text-decoration: underline;
+}
+
+/* ========== 纹理效果 ========== */
+[data-theme="light-parchment"] #gs-status-bar-panel {
+    position: relative;
+}
+
+[data-theme="light-parchment"] #gs-status-bar-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(232, 180, 160, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, rgba(244, 213, 200, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(232, 180, 160, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px, 30px 30px, 70px 70px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme="light-parchment"] #gs-status-bar-panel > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ========== 装饰边框效果 ========== */
+[data-theme="light-parchment"] .card::before,
+[data-theme="light-parchment"] .equipment-card-modern::before,
+[data-theme="light-parchment"] .inventory-card-modern::before {
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        var(--rose-gold) 50%,
+        transparent 70%
+    ) !important;
+    opacity: 0.2;
+}
+
+
+/* 确保所有内容区域都应用主题 */
+[data-theme="light-parchment"] .content-area,
+[data-theme="light-parchment"] .tab-pane,
+[data-theme="light-parchment"] .content-detail-panel,
+[data-theme="light-parchment"] #status-content-detail,
+[data-theme="light-parchment"] #world-content-detail {
+    background: transparent !important;
+}
+
+/* 确保Discord布局区域应用主题 */
+[data-theme="light-parchment"] .discord-layout {
+    background: transparent !important;
+}
+
+/* 子列表面板 */
+[data-theme="light-parchment"] .sub-list-panel,
+[data-theme="light-parchment"] #world-sub-list {
+    background: var(--bg-secondary) !important;
+    border-right: 2px solid var(--border-light) !important;
+}
+
+/* 确保所有文字颜色正确 */
+[data-theme="light-parchment"] * {
+    color: var(--text-primary);
+}
+
+[data-theme="light-parchment"] .secondary-text {
+    color: var(--text-secondary) !important;
+}
+
+/* 状态卡片 */
+[data-theme="light-parchment"] .stat-card,
+[data-theme="light-parchment"] .hero-stat-card {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-light) !important;
+}

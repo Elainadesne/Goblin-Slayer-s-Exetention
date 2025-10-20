@@ -1,0 +1,84 @@
+/* Import all modular CSS files */
+@import url('./discord_layout.css');
+@import url('./layout.css');
+@import url('./sections.css');
+@import url('./cards.css');
+@import url('./components.css');
+@import url('./panel.css');
+@import url('./hero_status.css');
+@import url('./tasks.css');
+@import url('./toast.css');
+@import url('./skill_tree.css');
+@import url('./radar_chart.css');
+@import url('./inventory_filters.css');
+@import url('./lazy_load.css');
+@import url('./character_search.css');
+@import url('./animations.css');
+@import url('./micro_interactions.css');
+@import url('./error_display.css');
+@import url('./settings.css');
+@import url('./genie_effect.css');
+@import url('./glassmorphism.css');
+@import url('./light_theme.css');
+@import url('./parchment_theme.css');
+@import url('./light_parchment_theme.css');
+
+/* Base variables and global styles from the original, preferred theme */
+:root {
+  --bg-color-start: #1a234f;
+  --bg-color-end: #3c2a4d;
+  --primary-text-color: #e0d6c8;
+  --secondary-text-color: #8b949e;
+  --accent-blue: #a8c0ff;
+  --accent-blue-deep: #82aaff;
+  --accent-glow: rgba(168, 192, 255, 0.2);
+  --accent-glow-strong: rgba(168, 192, 255, 0.35);
+  --container-border: rgba(168, 192, 255, 0.5);
+  --summary-hover-bg: rgba(168, 192, 255, 0.1);
+  --hp-color: #ff6b6b;
+  --armor-color: #8cb4ff;
+  --resource-color: #c792ea;
+  --faith-color: #fffac8;
+  --stamina-color: #5fdba7;
+  --xp-color: #5fdba7;
+  --love-color: #ff85a2;
+  --trust-color: #85e0ff;
+  --tier-普通: #9e9e9e;
+  --tier-精良: #5c6bc0;
+  --tier-稀有: #ab47bc;
+  --tier-史诗: #ff8f00;
+  --tier-传奇: #ff4081;
+  --tier-普通-rgba: rgba(158, 158, 158, 0.18);
+  --tier-精良-rgba: rgba(92, 107, 192, 0.18);
+  --tier-稀有-rgba: rgba(171, 71, 188, 0.18);
+  --tier-史诗-rgba: rgba(255, 143, 0, 0.18);
+  --tier-传奇-rgba: rgba(255, 64, 129, 0.18);
+  --tier-普通-shadow: rgba(158, 158, 158, 0.35);
+  --tier-精良-shadow: rgba(92, 107, 192, 0.35);
+  --tier-稀有-shadow: rgba(171, 71, 188, 0.35);
+  --tier-史诗-shadow: rgba(255, 143, 0, 0.35);
+  --tier-传奇-shadow: rgba(255, 64, 129, 0.35);
+}
+
+.error-message {
+  padding: 20px;
+  text-align: center;
+  border: 2px dashed #5a677d;
+  border-radius: 8px;
+  margin: 20px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.error-message h1 {
+  color: var(--hp-color);
+  font-family: 'Cinzel Decorative', serif;
+}
+
+.value-main {
+  font-weight: 700;
+  color: #f0f6fc;
+  text-shadow: 0 0 5px var(--accent-glow-strong);
+}
+b {
+  color: var(--accent-blue);
+  font-weight: normal;
+}

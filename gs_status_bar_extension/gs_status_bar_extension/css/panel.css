@@ -1,0 +1,325 @@
+/* This file can be used for panel-specific overrides or styles that don't fit other categories. */
+
+.property,
+.stat-line {
+  margin-bottom: 10px;
+}
+.property-name {
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+.quote-text {
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--accent-blue);
+  padding: 8px 12px;
+  margin-top: 5px;
+  border-left: 3px solid var(--accent-blue);
+  background: rgba(26, 35, 79, 0.3);
+  border-radius: 0 4px 4px 0;
+  box-shadow: inset 3px 0 8px -2px var(--accent-blue);
+}
+.abilities-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 30px;
+  margin-top: 8px;
+}
+
+.abilities-grid span {
+  font-size: 1em;
+  color: var(--secondary-text-color);
+  white-space: nowrap;
+  min-width: 120px;
+  flex: 0 0 auto;
+}
+
+.abilities-grid span b {
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.char-indicators {
+  display: flex;
+  gap: 8px;
+  font-size: 1.1em;
+  margin-left: 10px;
+}
+.char-indicators .companion-indicator {
+  color: var(--love-color);
+}
+.summary-details {
+  margin-left: auto;
+  padding-right: 15px;
+  font-family: 'Merriweather', serif;
+  font-weight: normal;
+  font-size: 0.8em;
+  color: var(--secondary-text-color);
+  align-self: center;
+}
+
+.item-quantity {
+  font-size: 0.9em;
+  color: var(--secondary-text-color);
+  margin-left: auto;
+  padding-right: 15px;
+}
+
+/* 
+NPC Character Card Enhancements */
+.character-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.character-detail-header .value-main {
+  font-size: 2em;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+  background: linear-gradient(135deg, var(--primary-text-color), var(--accent-blue));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--accent-glow-strong));
+}
+
+.character-card-content {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  gap: 20px;
+  padding: 0 10px 0 5px;
+  min-height: 0;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card-col-left,
+.card-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  width: 100%;
+  overflow-wrap: break-word;
+  padding-right: 10px;
+}
+
+.card-col-left {
+  justify-content: flex-start;
+  padding-right: 15px;
+}
+
+.card-col-right {
+  justify-content: flex-start;
+  padding-right: 5px;
+}
+
+.card-col-right p {
+  margin: 8px 0;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.card-col-right .property {
+  margin-bottom: 15px;
+}
+
+.card-col-right .property-name {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.card-col-right .value-main {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.detail-section-header {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin: 10px 0 8px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(168, 192, 255, 0.3);
+}
+
+.sub-section-content {
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+.sub-section-content b {
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--secondary-text-color);
+}
+
+/* Property display in equipment/items */
+.property {
+  margin-bottom: 12px;
+}
+
+.property .property-name {
+  display: inline-block;
+  min-width: 60px;
+  font-weight: 600;
+  color: var(--accent-blue);
+}
+
+.property .value-main {
+  font-weight: 600;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 900px) {
+  .character-card-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .character-detail-header .value-main {
+    font-size: 1.5em;
+  }
+}
+
+
+/* Details wrapper for character cards */
+.details-wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 300px);
+  padding-right: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.details-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.details-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.details-wrapper::-webkit-scrollbar-thumb {
+  background: var(--container-border);
+  border-radius: 4px;
+}
+
+.details-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+
+/* Equipment Tier Badges and Colors - 小标签样式 */
+.tier-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.7em;
+  font-weight: 600;
+  margin-left: 6px;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.tier-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.tier-badge.tier-普通 {
+  background: var(--tier-普通-rgba);
+  color: var(--tier-普通);
+  border: 1px solid var(--tier-普通);
+}
+
+.tier-badge.tier-精良 {
+  background: var(--tier-精良-rgba);
+  color: var(--tier-精良);
+  border: 1px solid var(--tier-精良);
+}
+
+.tier-badge.tier-稀有 {
+  background: var(--tier-稀有-rgba);
+  color: var(--tier-稀有);
+  border: 1px solid var(--tier-稀有);
+}
+
+.tier-badge.tier-史诗 {
+  background: var(--tier-史诗-rgba);
+  color: var(--tier-史诗);
+  border: 1px solid var(--tier-史诗);
+}
+
+.tier-badge.tier-传奇 {
+  background: var(--tier-传奇-rgba);
+  color: var(--tier-传奇);
+  border: 1px solid var(--tier-传奇);
+  animation: legendary-badge-glow 2s ease-in-out infinite;
+}
+
+@keyframes legendary-badge-glow {
+  0%, 100% {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 8px var(--tier-传奇-shadow);
+  }
+  50% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 16px var(--tier-传奇-shadow);
+  }
+}
+
+/* Gradient text for tier names */
+.gradient-text {
+  font-weight: 600;
+}
+
+.gradient-text-tier-普通 {
+  color: var(--tier-普通);
+}
+
+.gradient-text-tier-精良 {
+  color: var(--tier-精良);
+  text-shadow: 0 0 8px var(--tier-精良-shadow);
+}
+
+.gradient-text-tier-稀有 {
+  color: var(--tier-稀有);
+  text-shadow: 0 0 8px var(--tier-稀有-shadow);
+}
+
+.gradient-text-tier-史诗 {
+  color: var(--tier-史诗);
+  text-shadow: 0 0 8px var(--tier-史诗-shadow);
+}
+
+.gradient-text-tier-传奇 {
+  color: var(--tier-传奇);
+  text-shadow: 0 0 10px var(--tier-传奇-shadow);
+  animation: legendary-glow 2s ease-in-out infinite;
+}
+
+@keyframes legendary-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--tier-传奇-shadow);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--tier-传奇-shadow), 0 0 30px var(--tier-传奇-shadow);
+  }
+}

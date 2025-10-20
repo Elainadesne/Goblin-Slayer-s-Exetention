@@ -1,0 +1,381 @@
+/**
+ * Light Theme - 亮色主题
+ * 清爽现代的亮色风格
+ */
+
+/* 亮色主题根变量 */
+[data-theme="light"] {
+    /* 主色调 - 白色和浅蓝 */
+    --light-white: #ffffff;
+    --light-gray-50: #f9fafb;
+    --light-gray-100: #f3f4f6;
+    --light-gray-200: #e5e7eb;
+    --light-gray-300: #d1d5db;
+    --light-gray-400: #9ca3af;
+    
+    /* 蓝色强调 */
+    --blue-light: #dbeafe;
+    --blue-base: #3b82f6;
+    --blue-dark: #1d4ed8;
+    --blue-deeper: #1e40af;
+    
+    /* 文字颜色 */
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+    --text-light: #9ca3af;
+    
+    /* 背景色 */
+    --bg-primary: linear-gradient(135deg, #ffffff 0%, #f9fafb 50%, #f3f4f6 100%);
+    --bg-secondary: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #e5e7eb 100%);
+    --bg-tertiary: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 50%, #d1d5db 100%);
+    --bg-hover: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%);
+    
+    /* 强调色 */
+    --accent-blue: var(--blue-base);
+    --accent-blue-deep: var(--blue-dark);
+    --accent-blue-light: var(--blue-light);
+    --accent-glow: rgba(59, 130, 246, 0.2);
+    
+    /* 边框颜色 */
+    --border-color: rgba(17, 24, 39, 0.1);
+    --border-hover: rgba(17, 24, 39, 0.2);
+    --border-active: var(--blue-base);
+    
+    /* 阴影 */
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --shadow-heavy: rgba(0, 0, 0, 0.15);
+    
+    /* 装备品质颜色 - 亮色版本 */
+    --tier-普通: #6b7280;
+    --tier-普通-rgba: rgba(107, 114, 128, 0.1);
+    --tier-普通-shadow: rgba(107, 114, 128, 0.3);
+    
+    --tier-精良: #10b981;
+    --tier-精良-rgba: rgba(16, 185, 129, 0.1);
+    --tier-精良-shadow: rgba(16, 185, 129, 0.3);
+    
+    --tier-稀有: #3b82f6;
+    --tier-稀有-rgba: rgba(59, 130, 246, 0.1);
+    --tier-稀有-shadow: rgba(59, 130, 246, 0.3);
+    
+    --tier-史诗: #8b5cf6;
+    --tier-史诗-rgba: rgba(139, 92, 246, 0.1);
+    --tier-史诗-shadow: rgba(139, 92, 246, 0.3);
+    
+    --tier-传奇: #f59e0b;
+    --tier-传奇-rgba: rgba(245, 158, 11, 0.1);
+    --tier-传奇-shadow: rgba(245, 158, 11, 0.3);
+}
+
+/* 亮色主题的主面板 */
+[data-theme="light"] #gs-status-bar-panel {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--blue-base) !important;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        0 0 100px rgba(59, 130, 246, 0.1),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.05) !important;
+    color: var(--text-primary) !important;
+}
+
+/* 面板装饰光效 */
+[data-theme="light"] #gs-status-bar-panel::before {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(59, 130, 246, 0.3) 20%,
+        rgba(147, 197, 253, 0.4) 50%,
+        rgba(59, 130, 246, 0.3) 80%,
+        transparent
+    ) !important;
+    box-shadow: 0 0 30px rgba(147, 197, 253, 0.5) !important;
+}
+
+[data-theme="light"] #gs-status-bar-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, rgba(147, 197, 253, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px, 60px 60px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme="light"] #gs-status-bar-panel > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* 导航栏 */
+[data-theme="light"] .top-nav {
+    background: var(--bg-secondary) !important;
+    border-bottom: 2px solid rgba(59, 130, 246, 0.2) !important;
+    box-shadow: 0 2px 10px var(--shadow-light) !important;
+}
+
+/* 导航按钮 */
+[data-theme="light"] .nav-button {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 
+        0 2px 8px var(--shadow-light),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+[data-theme="light"] .nav-button:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 
+        0 4px 15px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 0 15px var(--accent-glow) !important;
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .nav-button.active {
+    background: linear-gradient(135deg, var(--blue-light), var(--blue-base)) !important;
+    border-color: var(--blue-dark) !important;
+    color: white !important;
+    box-shadow: 
+        0 4px 20px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 0 25px var(--accent-glow) !important;
+}
+
+/* 侧边栏 */
+[data-theme="light"] .sidebar-nav {
+    background: var(--bg-secondary) !important;
+    border-right: 2px solid rgba(59, 130, 246, 0.15) !important;
+}
+
+[data-theme="light"] .sidebar-item {
+    background: rgba(249, 250, 251, 0.5) !important;
+    border: 1px solid transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .sidebar-item:hover {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 0 3px 12px var(--shadow-light) !important;
+}
+
+[data-theme="light"] .sidebar-item.active {
+    background: linear-gradient(135deg, var(--blue-light), var(--blue-base)) !important;
+    border-color: var(--blue-dark) !important;
+    color: white !important;
+    box-shadow: 
+        0 3px 15px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 卡片元素 */
+[data-theme="light"] .card,
+[data-theme="light"] .item-entry,
+[data-theme="light"] .stat-card,
+[data-theme="light"] .equipment-card-modern,
+[data-theme="light"] .inventory-card-modern {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 
+        0 3px 12px var(--shadow-light),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+[data-theme="light"] .card:hover,
+[data-theme="light"] .item-entry:hover,
+[data-theme="light"] .stat-card:hover,
+[data-theme="light"] .equipment-card-modern:hover,
+[data-theme="light"] .inventory-card-modern:hover {
+    background: var(--light-white) !important;
+    border-color: var(--blue-base) !important;
+    box-shadow: 
+        0 6px 25px var(--shadow-medium),
+        0 0 20px var(--accent-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    transform: translateY(-2px);
+}
+
+/* 输入框和表单元素 */
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="search"],
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+    background: var(--light-white) !important;
+    border: 2px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: inset 0 2px 4px var(--shadow-light) !important;
+}
+
+[data-theme="light"] input[type="text"]:focus,
+[data-theme="light"] input[type="search"]:focus,
+[data-theme="light"] textarea:focus,
+[data-theme="light"] select:focus {
+    background: var(--light-white) !important;
+    border-color: var(--blue-base) !important;
+    box-shadow: 
+        0 0 20px var(--accent-glow),
+        inset 0 2px 4px var(--shadow-light) !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+    color: var(--text-light) !important;
+}
+
+/* 按钮 */
+[data-theme="light"] button:not(.modal-close-button):not(.nav-button):not(.sidebar-item) {
+    background: linear-gradient(135deg, var(--blue-base), var(--blue-dark)) !important;
+    border: 2px solid var(--blue-deeper) !important;
+    color: white !important;
+    box-shadow: 
+        0 3px 12px var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="light"] button:not(.modal-close-button):not(.nav-button):not(.sidebar-item):hover {
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue-deeper)) !important;
+    box-shadow: 
+        0 5px 20px var(--shadow-heavy),
+        0 0 25px var(--accent-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-2px);
+}
+
+/* 开关按钮 */
+[data-theme="light"] #gs-open-panel-button {
+    background: linear-gradient(
+        135deg,
+        var(--blue-base),
+        var(--blue-dark)
+    ) !important;
+    border: 3px solid var(--blue-deeper) !important;
+    box-shadow: 
+        0 6px 25px var(--shadow-heavy),
+        0 0 40px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="light"] #gs-open-panel-button:hover {
+    background: linear-gradient(
+        135deg,
+        var(--blue-dark),
+        var(--blue-deeper)
+    ) !important;
+    box-shadow: 
+        0 8px 35px var(--shadow-heavy),
+        0 0 60px var(--accent-glow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 滚动条 */
+[data-theme="light"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+    background: var(--light-gray-100) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--blue-base), var(--blue-dark)) !important;
+    border: 2px solid var(--blue-deeper) !important;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px var(--shadow-light) !important;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue-deeper)) !important;
+    box-shadow: 0 0 15px var(--accent-glow) !important;
+}
+
+/* 设置界面 */
+[data-theme="light"] .gs-settings-section {
+    background: var(--bg-secondary) !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: 
+        0 4px 15px var(--shadow-light),
+        0 0 30px rgba(59, 130, 246, 0.05),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+}
+
+[data-theme="light"] .gs-setting-item {
+    background: var(--light-white) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="light"] .gs-setting-item:hover {
+    background: var(--light-gray-50) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: 0 3px 12px var(--shadow-light) !important;
+}
+
+/* 主题切换按钮 */
+[data-theme="light"] .gs-theme-option {
+    background: var(--light-gray-100) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .gs-theme-option:hover {
+    background: var(--light-gray-200) !important;
+    border-color: var(--border-hover) !important;
+}
+
+[data-theme="light"] .gs-theme-option.active {
+    background: linear-gradient(135deg, var(--blue-base), var(--blue-dark)) !important;
+    border-color: var(--blue-deeper) !important;
+    color: white !important;
+    box-shadow: 0 0 20px var(--accent-glow) !important;
+}
+
+
+/* 确保所有内容区域都应用主题 */
+[data-theme="light"] .content-area,
+[data-theme="light"] .tab-pane,
+[data-theme="light"] .content-detail-panel,
+[data-theme="light"] #status-content-detail,
+[data-theme="light"] #world-content-detail {
+    background: transparent !important;
+}
+
+/* 确保Discord布局区域应用主题 */
+[data-theme="light"] .discord-layout {
+    background: transparent !important;
+}
+
+/* 子列表面板 */
+[data-theme="light"] .sub-list-panel,
+[data-theme="light"] #world-sub-list {
+    background: var(--bg-secondary) !important;
+    border-right: 2px solid var(--border-color) !important;
+}
+
+/* 确保所有文字颜色正确 */
+[data-theme="light"] * {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .secondary-text {
+    color: var(--text-secondary) !important;
+}
+
+/* 状态卡片 */
+[data-theme="light"] .stat-card,
+[data-theme="light"] .hero-stat-card {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+}

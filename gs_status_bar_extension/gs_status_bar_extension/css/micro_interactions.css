@@ -1,0 +1,391 @@
+/* 微交互动画 - 提升用户体验的细节 */
+
+/* ===== 悬停提示动画 ===== */
+[title]:hover::after {
+    animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== 图标旋转动画 ===== */
+.fa-sync,
+.fa-refresh,
+.fa-spinner {
+    transition: transform 0.3s var(--animation-easing-smooth);
+}
+
+button:hover .fa-sync,
+button:hover .fa-refresh {
+    transform: rotate(180deg);
+}
+
+/* ===== 箭头动画 ===== */
+.arrow-toggle {
+    transition: transform 0.3s var(--animation-easing-smooth);
+}
+
+details[open] .arrow-toggle {
+    transform: rotate(90deg);
+}
+
+/* ===== 复选框动画 ===== */
+input[type="checkbox"] {
+    transition: all 0.2s var(--animation-easing-smooth);
+}
+
+input[type="checkbox"]:checked {
+    animation: checkboxPop 0.3s var(--animation-easing-bounce);
+}
+
+@keyframes checkboxPop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ===== 徽章动画 ===== */
+.tier-badge,
+.skill-rank,
+.inventory-tier {
+    transition: all 0.2s var(--animation-easing-smooth);
+}
+
+.tier-badge:hover,
+.skill-rank:hover,
+.inventory-tier:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* ===== 数量徽章动画 ===== */
+.inventory-item-quantity {
+    transition: all 0.2s var(--animation-easing-smooth);
+}
+
+.inventory-card-modern:hover .inventory-item-quantity {
+    transform: scale(1.15);
+    animation: quantityPulse 1s ease-in-out infinite;
+}
+
+@keyframes quantityPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* ===== 图标呼吸动画 ===== */
+.stat-card-icon,
+.skill-card-icon {
+    animation: iconBreathe 3s ease-in-out infinite;
+}
+
+@keyframes iconBreathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ===== 边框光晕动画 ===== */
+.equipment-card-modern:hover::before,
+.inventory-card-modern:hover::before {
+    animation: borderGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ===== 加载点动画 ===== */
+.loading-dots::after {
+    content: '';
+    animation: loadingDots 1.5s steps(4) infinite;
+}
+
+@keyframes loadingDots {
+    0% {
+        content: '';
+    }
+
+    25% {
+        content: '.';
+    }
+
+    50% {
+        content: '..';
+    }
+
+    75% {
+        content: '...';
+    }
+}
+
+/* ===== 成功/错误反馈动画 ===== */
+.success-feedback {
+    animation: successPulse 0.5s var(--animation-easing-smooth);
+}
+
+.error-feedback {
+    animation: errorShake 0.5s var(--animation-easing-smooth);
+}
+
+@keyframes successPulse {
+    0% {
+        background-color: transparent;
+        transform: scale(1);
+    }
+
+    50% {
+        background-color: rgba(95, 219, 167, 0.2);
+        transform: scale(1.02);
+    }
+
+    100% {
+        background-color: transparent;
+        transform: scale(1);
+    }
+}
+
+@keyframes errorShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* ===== 点击波纹效果 ===== */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::after {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+}
+
+/* ===== 焦点环动画 ===== */
+*:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+    animation: focusRing 0.3s var(--animation-easing-smooth);
+}
+
+@keyframes focusRing {
+    from {
+        outline-offset: 0;
+        outline-width: 0;
+    }
+
+    to {
+        outline-offset: 2px;
+        outline-width: 2px;
+    }
+}
+
+/* ===== 滑动指示器 ===== */
+.swipe-indicator {
+    animation: swipeHint 2s ease-in-out infinite;
+}
+
+@keyframes swipeHint {
+
+    0%,
+    100% {
+        transform: translateX(0);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateX(10px);
+        opacity: 1;
+    }
+}
+
+/* ===== 新内容高亮 ===== */
+.new-content {
+    animation: newContentHighlight 2s ease-out;
+}
+
+@keyframes newContentHighlight {
+    0% {
+        background-color: rgba(168, 192, 255, 0.3);
+        box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    100% {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+/* ===== 计数器动画 ===== */
+.counter {
+    animation: counterTick 0.3s var(--animation-easing-smooth);
+}
+
+@keyframes counterTick {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== 星星闪烁（用于稀有物品）===== */
+.tier-传奇::before,
+.tier-史诗::before {
+    content: '✨';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    animation: starTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+    }
+}
+
+/* ===== 进度条填充动画 ===== */
+.progress-bar-fill {
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+    animation: progressSweep 2s ease-in-out infinite;
+}
+
+@keyframes progressSweep {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* ===== 悬停放大镜效果 ===== */
+.zoomable {
+    transition: transform 0.3s var(--animation-easing-smooth);
+    cursor: zoom-in;
+}
+
+.zoomable:hover {
+    transform: scale(1.5);
+    z-index: 10;
+}
+
+/* ===== 平滑滚动 ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===== 内容加载骨架屏动画 ===== */
+.skeleton {
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
+    background-size: 200% 100%;
+    animation: skeletonLoading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonLoading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}

@@ -1,0 +1,510 @@
+/* macOS 风格丝滑动画系统 */
+
+/* ===== 全局动画配置 ===== */
+:root {
+    --animation-duration-fast: 0.2s;
+    --animation-duration-normal: 0.3s;
+    --animation-duration-slow: 0.5s;
+    --animation-easing: cubic-bezier(0.4, 0.0, 0.2, 1); /* Material Design */
+    --animation-easing-smooth: cubic-bezier(0.25, 0.1, 0.25, 1); /* macOS 风格 */
+    --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ===== 减少动画（尊重用户偏好）===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== 面板打开/关闭动画 ===== */
+#gs-status-bar-panel-container {
+    transition: opacity var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+#gs-status-bar-panel {
+    transition: 
+        transform var(--animation-duration-normal) var(--animation-easing-smooth),
+        opacity var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+/* 只在非Genie方式打开时使用panelSlideIn动画 */
+#gs-status-bar-panel.visible:not(.genie-opening):not(.genie-closing):not(.genie-opened) {
+    animation: panelSlideIn var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+@keyframes panelSlideIn {
+    from {
+        transform: scale(0.95) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== 标签页切换动画 ===== */
+.tab-pane {
+    animation: fadeIn var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== 导航按钮动画 ===== */
+.nav-button,
+.sidebar-nav-item,
+.sub-list-item {
+    transition: 
+        background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+        color var(--animation-duration-fast) var(--animation-easing-smooth),
+        transform var(--animation-duration-fast) var(--animation-easing-smooth),
+        box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+.nav-button:hover,
+.sidebar-nav-item:hover,
+.sub-list-item:hover {
+    transform: translateY(-1px);
+}
+
+.nav-button:active,
+.sidebar-nav-item:active,
+.sub-list-item:active {
+    transform: scale(0.98);
+}
+
+.nav-button.active,
+.sidebar-nav-item.active,
+.sub-list-item.active {
+    animation: activePulse var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+@keyframes activePulse {
+    0% {
+        box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    50% {
+        box-shadow: 0 0 15px var(--accent-glow);
+    }
+    100% {
+        box-shadow: 0 0 10px var(--accent-glow);
+    }
+}
+
+/* ===== 卡片动画 ===== */
+.stat-card,
+.attribute-card-modern,
+.skill-card-modern,
+.equipment-card-modern,
+.inventory-card-modern,
+.task-card-modern,
+.info-card {
+    transition: 
+        transform var(--animation-duration-fast) var(--animation-easing-smooth),
+        box-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
+        border-color var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+.stat-card:hover,
+.attribute-card-modern:hover,
+.skill-card-modern:hover,
+.equipment-card-modern:hover,
+.inventory-card-modern:hover,
+.task-card-modern:hover,
+.info-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 卡片进入动画 */
+.stat-card,
+.attribute-card-modern,
+.skill-card-modern,
+.equipment-card-modern,
+.inventory-card-modern,
+.task-card-modern {
+    animation: cardSlideIn var(--animation-duration-normal) var(--animation-easing-smooth) backwards;
+}
+
+/* 错开动画 */
+.stat-card:nth-child(1),
+.attribute-card-modern:nth-child(1),
+.skill-card-modern:nth-child(1),
+.equipment-card-modern:nth-child(1),
+.inventory-card-modern:nth-child(1),
+.task-card-modern:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.stat-card:nth-child(2),
+.attribute-card-modern:nth-child(2),
+.skill-card-modern:nth-child(2),
+.equipment-card-modern:nth-child(2),
+.inventory-card-modern:nth-child(2),
+.task-card-modern:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(3),
+.attribute-card-modern:nth-child(3),
+.skill-card-modern:nth-child(3),
+.equipment-card-modern:nth-child(3),
+.inventory-card-modern:nth-child(3),
+.task-card-modern:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.stat-card:nth-child(4),
+.attribute-card-modern:nth-child(4),
+.skill-card-modern:nth-child(4),
+.equipment-card-modern:nth-child(4),
+.inventory-card-modern:nth-child(4),
+.task-card-modern:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ===== 进度条动画 ===== */
+.stat-card-bar-fill,
+.progress-bar-fill,
+.training-progress-fill {
+    transition: width var(--animation-duration-slow) var(--animation-easing-smooth);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+/* ===== 按钮动画 ===== */
+button,
+.compare-button,
+.filter-select,
+.search-input {
+    transition: 
+        background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+        border-color var(--animation-duration-fast) var(--animation-easing-smooth),
+        transform var(--animation-duration-fast) var(--animation-easing-smooth),
+        box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+button:hover,
+.compare-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+button:active,
+.compare-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ===== 输入框动画 ===== */
+.search-input:focus,
+.filter-select:focus,
+.character-search-input:focus {
+    animation: inputFocus var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+@keyframes inputFocus {
+    0% {
+        box-shadow: 0 0 0 0 rgba(168, 192, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(168, 192, 255, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 0 3px rgba(168, 192, 255, 0.1);
+    }
+}
+
+/* ===== 模态框动画 ===== */
+.modal-overlay {
+    animation: modalFadeIn var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+.modal-content {
+    animation: modalSlideUp var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ===== 滚动条动画 ===== */
+::-webkit-scrollbar-thumb {
+    transition: background-color var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+/* ===== 加载动画 ===== */
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== 脉冲动画（用于通知）===== */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* ===== 抖动动画（用于错误）===== */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+/* ===== 弹跳动画 ===== */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ===== 打开按钮动画 ===== */
+#gs-open-panel-button {
+    transition: 
+        transform var(--animation-duration-fast) var(--animation-easing-smooth),
+        box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+#gs-open-panel-button:hover {
+    transform: scale(1.15);
+    animation: buttonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px var(--accent-glow), 0 0 30px var(--accent-glow);
+    }
+}
+
+/* ===== 子菜单展开动画 ===== */
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+.sidebar-submenu.active {
+    max-height: 200px;
+}
+
+.sidebar-submenu-item {
+    animation: submenuItemSlide var(--animation-duration-fast) var(--animation-easing-smooth) backwards;
+}
+
+.sidebar-submenu-item:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.sidebar-submenu-item:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+@keyframes submenuItemSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===== 筛选器动画 ===== */
+.inventory-filters,
+.character-search-box {
+    animation: filterSlideDown var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+@keyframes filterSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 200px;
+    }
+}
+
+/* ===== 隐藏/显示动画 ===== */
+.inventory-card-modern.hidden {
+    animation: fadeOut var(--animation-duration-fast) var(--animation-easing-smooth) forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+/* ===== 数值变化动画 ===== */
+.stat-card-value,
+.attribute-value-large,
+.money-value {
+    transition: 
+        color var(--animation-duration-fast) var(--animation-easing-smooth),
+        transform var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+/* 数值增加时的动画 */
+@keyframes valueIncrease {
+    0% {
+        color: var(--xp-color);
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        color: var(--primary-text-color);
+        transform: scale(1);
+    }
+}
+
+/* 数值减少时的动画 */
+@keyframes valueDecrease {
+    0% {
+        color: var(--hp-color);
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        color: var(--primary-text-color);
+        transform: scale(1);
+    }
+}
+
+/* ===== 背景渐变动画 ===== */
+.hero-header-card,
+.money-display {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.2),
+        rgba(168, 192, 255, 0.05),
+        rgba(0, 0, 0, 0.2)
+    );
+    background-size: 200% 200%;
+    animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ===== 性能优化 ===== */
+/* 使用 GPU 加速 */
+.nav-button,
+.sidebar-nav-item,
+.sub-list-item,
+.stat-card,
+.attribute-card-modern,
+.skill-card-modern,
+.equipment-card-modern,
+.inventory-card-modern,
+button {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    :root {
+        --animation-duration-fast: 0.15s;
+        --animation-duration-normal: 0.25s;
+        --animation-duration-slow: 0.4s;
+    }
+}

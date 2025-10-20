@@ -1,0 +1,673 @@
+/**
+ * Settings View Styles
+ * 设置界面样式
+ * 所有样式限定在 #gs-status-bar-panel 内
+ */
+
+#gs-status-bar-panel .gs-settings-view {
+    height: 100%;
+    overflow-y: auto;
+    padding: 24px;
+    background: transparent;
+}
+
+#gs-status-bar-panel .gs-settings-header {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid rgba(168, 192, 255, 0.3);
+}
+
+#gs-status-bar-panel .gs-settings-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#gs-status-bar-panel .gs-settings-header h2 i {
+    color: var(--accent-blue);
+}
+
+#gs-status-bar-panel .gs-settings-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: var(--secondary-text-color);
+}
+
+/* 设置内容区域 */
+#gs-status-bar-panel .gs-settings-content {
+    max-width: 800px;
+}
+
+/* 设置分组 */
+#gs-status-bar-panel .gs-settings-section {
+    margin-bottom: 32px;
+    background: rgba(26, 35, 79, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(168, 192, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#gs-status-bar-panel .gs-settings-section:hover {
+    border-color: rgba(168, 192, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(168, 192, 255, 0.15);
+}
+
+#gs-status-bar-panel .gs-settings-section-title {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(168, 192, 255, 0.2);
+}
+
+#gs-status-bar-panel .gs-settings-section-title i {
+    color: var(--accent-blue);
+    font-size: 20px;
+}
+
+#gs-status-bar-panel .gs-settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 设置项 */
+#gs-status-bar-panel .gs-setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid rgba(168, 192, 255, 0.15);
+    transition: all 0.2s ease;
+}
+
+#gs-status-bar-panel .gs-setting-item:hover {
+    background: rgba(168, 192, 255, 0.1);
+    border-color: rgba(168, 192, 255, 0.3);
+}
+
+#gs-status-bar-panel .gs-setting-info {
+    flex: 1;
+    margin-right: 20px;
+}
+
+#gs-status-bar-panel .gs-setting-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--primary-text-color);
+    margin-bottom: 4px;
+}
+
+#gs-status-bar-panel .gs-setting-description {
+    margin: 0;
+    font-size: 13px;
+    color: var(--secondary-text-color);
+    line-height: 1.4;
+}
+
+#gs-status-bar-panel .gs-setting-control {
+    flex-shrink: 0;
+}
+
+/* 主题切换按钮 */
+#gs-status-bar-panel .gs-theme-toggle {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(168, 192, 255, 0.2);
+}
+
+#gs-status-bar-panel .gs-theme-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: var(--secondary-text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#gs-status-bar-panel .gs-theme-option:hover {
+    background: rgba(168, 192, 255, 0.1);
+    color: var(--primary-text-color);
+}
+
+#gs-status-bar-panel .gs-theme-option.active {
+    background: var(--accent-blue);
+    color: white;
+    box-shadow: 0 0 20px rgba(168, 192, 255, 0.3);
+}
+
+#gs-status-bar-panel .gs-theme-option i {
+    font-size: 16px;
+}
+
+/* 滑块控制 */
+#gs-status-bar-panel .gs-slider-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 200px;
+}
+
+#gs-status-bar-panel .gs-slider-control input[type="range"] {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(168, 192, 255, 0.2);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+#gs-status-bar-panel .gs-slider-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#gs-status-bar-panel .gs-slider-control input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px rgba(168, 192, 255, 0.2);
+}
+
+#gs-status-bar-panel .gs-slider-control input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#gs-status-bar-panel .gs-slider-control input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px rgba(168, 192, 255, 0.2);
+}
+
+#gs-status-bar-panel .gs-slider-value {
+    min-width: 50px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent-blue);
+}
+
+/* 开关按钮 */
+#gs-status-bar-panel .gs-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+#gs-status-bar-panel .gs-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#gs-status-bar-panel .gs-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(168, 192, 255, 0.2);
+    transition: 0.3s;
+    border-radius: 26px;
+}
+
+#gs-status-bar-panel .gs-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#gs-status-bar-panel .gs-toggle-switch input:checked + .gs-toggle-slider {
+    background-color: var(--accent-blue);
+}
+
+#gs-status-bar-panel .gs-toggle-switch input:checked + .gs-toggle-slider:before {
+    transform: translateX(24px);
+}
+
+#gs-status-bar-panel .gs-toggle-switch:hover .gs-toggle-slider {
+    box-shadow: 0 0 0 4px rgba(168, 192, 255, 0.15);
+}
+
+/* 设置按钮 */
+#gs-status-bar-panel .gs-settings-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#gs-status-bar-panel .gs-settings-btn:hover {
+    background: var(--accent-blue-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 192, 255, 0.4);
+}
+
+#gs-status-bar-panel .gs-settings-btn:active {
+    transform: translateY(0);
+}
+
+#gs-status-bar-panel .gs-settings-btn-danger {
+    background: #ef4444;
+}
+
+#gs-status-bar-panel .gs-settings-btn-danger:hover {
+    background: #dc2626;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* 关于信息 */
+#gs-status-bar-panel .gs-about-info {
+    text-align: center;
+    padding: 24px;
+}
+
+#gs-status-bar-panel .gs-about-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-deep));
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: white;
+    box-shadow: 0 8px 30px rgba(168, 192, 255, 0.4);
+}
+
+#gs-status-bar-panel .gs-about-info h4 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+
+#gs-status-bar-panel .gs-about-info .version {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: var(--secondary-text-color);
+}
+
+#gs-status-bar-panel .gs-about-info .description {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    color: var(--secondary-text-color);
+    line-height: 1.6;
+}
+
+#gs-status-bar-panel .gs-about-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+#gs-status-bar-panel .gs-about-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(168, 192, 255, 0.2);
+    border-radius: 12px;
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+#gs-status-bar-panel .gs-about-link:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 192, 255, 0.3);
+}
+
+/* 通知样式 */
+.gs-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gs-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.gs-notification-success {
+    border-left: 4px solid #10b981;
+}
+
+.gs-notification-success i {
+    color: #10b981;
+}
+
+.gs-notification-error {
+    border-left: 4px solid #ef4444;
+}
+
+.gs-notification-error i {
+    color: #ef4444;
+}
+
+.gs-notification span {
+    font-size: 14px;
+    color: #1f2937;
+}
+
+/* 紧凑模式 */
+#gs-status-bar-panel.compact-mode .gs-settings-view {
+    padding: 16px;
+}
+
+#gs-status-bar-panel.compact-mode .gs-settings-section {
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+#gs-status-bar-panel.compact-mode .gs-setting-item {
+    padding: 12px;
+}
+
+/* 禁用动画 */
+.no-animations * {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #gs-status-bar-panel .gs-settings-view {
+        padding: 16px;
+    }
+
+    #gs-status-bar-panel .gs-setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    #gs-status-bar-panel .gs-setting-info {
+        margin-right: 0;
+    }
+
+    #gs-status-bar-panel .gs-setting-control {
+        width: 100%;
+    }
+
+    #gs-status-bar-panel .gs-slider-control {
+        width: 100%;
+    }
+
+    #gs-status-bar-panel .gs-theme-toggle {
+        width: 100%;
+    }
+
+    #gs-status-bar-panel .gs-theme-option {
+        flex: 1;
+        justify-content: center;
+    }
+
+    #gs-status-bar-panel .gs-about-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #gs-status-bar-panel .gs-about-link {
+        justify-content: center;
+    }
+}
+
+/* 暗色主题特定样式 */
+[data-theme="dark"] .gs-notification {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .gs-notification span {
+    color: var(--text-primary);
+}
+
+/* 亮色主题特定样式 */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-hover: #f3f4f6;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+}
+
+
+/* ============================================
+   快捷键设置样式
+   ============================================ */
+
+.gs-shortcut-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gs-shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--container-border);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.gs-shortcut-item:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-blue);
+}
+
+.gs-shortcut-info {
+    flex: 1;
+}
+
+.gs-shortcut-description {
+    font-size: 0.95em;
+    color: var(--primary-text-color);
+    font-weight: 500;
+}
+
+.gs-shortcut-key {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gs-kbd {
+    display: inline-block;
+    padding: 6px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: var(--accent-blue);
+    background: linear-gradient(135deg, rgba(130, 170, 255, 0.15), rgba(130, 170, 255, 0.05));
+    border: 2px solid var(--accent-blue);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(130, 170, 255, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 60px;
+    text-align: center;
+}
+
+.gs-shortcut-edit-btn {
+    padding: 6px 10px;
+    background: rgba(130, 170, 255, 0.1);
+    border: 1px solid var(--accent-blue);
+    border-radius: 6px;
+    color: var(--accent-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gs-shortcut-edit-btn:hover {
+    background: var(--accent-blue);
+    color: white;
+    box-shadow: 0 0 15px rgba(130, 170, 255, 0.5);
+}
+
+.gs-shortcut-edit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.gs-shortcut-help {
+    margin-top: 15px;
+    padding: 12px 16px;
+    background: rgba(130, 170, 255, 0.05);
+    border: 1px solid rgba(130, 170, 255, 0.2);
+    border-radius: 8px;
+}
+
+.gs-shortcut-help p {
+    margin: 6px 0;
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+}
+
+.gs-shortcut-help i {
+    margin-right: 6px;
+    color: var(--accent-blue);
+}
+
+/* 通知消息 */
+.gs-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    border: 2px solid;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.gs-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.gs-notification-success {
+    border-color: #10b981;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+}
+
+.gs-notification-success i {
+    color: #10b981;
+}
+
+.gs-notification-error {
+    border-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+}
+
+.gs-notification-error i {
+    color: #ef4444;
+}
+
+.gs-notification-info {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+}
+
+.gs-notification-info i {
+    color: #3b82f6;
+}
+
+/* 错误和信息消息 */
+.gs-error-message,
+.gs-info-message {
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.gs-error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+.gs-info-message {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #3b82f6;
+}

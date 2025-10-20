@@ -1,0 +1,235 @@
+/* ===== 雷达图布局 ===== */
+
+.attributes-layout-with-radar {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+/* 桌面端：雷达图在右，卡片在左 */
+@media (min-width: 769px) {
+  .attributes-layout-with-radar {
+    flex-direction: row;
+  }
+
+  .radar-chart-container {
+    flex: 0 0 400px;
+    order: 2; /* 雷达图在右 */
+  }
+
+  .attributes-cards-container {
+    flex: 1;
+    order: 1; /* 卡片在左 */
+  }
+}
+
+/* 移动端：雷达图在上，卡片在下 */
+@media (max-width: 768px) {
+  .attributes-layout-with-radar {
+    flex-direction: column;
+  }
+
+  .radar-chart-container {
+    width: 100%;
+    max-height: 40vh;
+    order: 1; /* 雷达图在上 */
+  }
+
+  .attributes-cards-container {
+    width: 100%;
+    order: 2; /* 卡片在下 */
+  }
+}
+
+/* ===== 雷达图容器 ===== */
+
+.radar-chart-container {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--container-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.radar-chart-title {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--primary-text-color);
+  margin: 0;
+  text-align: center;
+}
+
+/* ===== SVG 雷达图样式 ===== */
+
+.radar-chart {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.radar-data-fill {
+  transition: all 0.3s ease;
+}
+
+.radar-data-point {
+  transition: all 0.3s ease;
+}
+
+.radar-data-point:hover {
+  r: 6;
+  filter: drop-shadow(0 0 8px var(--accent-blue));
+}
+
+.radar-label {
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+.radar-value {
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+.radar-label-group:hover .radar-label {
+  font-size: 16px;
+  fill: var(--accent-blue);
+}
+
+.radar-label-group:hover .radar-value {
+  font-size: 18px;
+  filter: drop-shadow(0 0 6px var(--accent-blue));
+}
+
+/* ===== 图例 ===== */
+
+.radar-chart-legend {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9em;
+  color: var(--secondary-text-color);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ===== 文本摘要（可访问性） ===== */
+
+.radar-text-summary {
+  font-size: 0.85em;
+  color: var(--secondary-text-color);
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid var(--container-border);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ===== 动画效果 ===== */
+
+@keyframes radarFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.radar-chart {
+  animation: radarFadeIn 0.5s ease-out;
+}
+
+/* ===== 主题适配 ===== */
+
+/* 玻璃态主题 */
+.glassmorphism .radar-chart-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 羊皮纸主题 */
+.parchment-theme .radar-chart-container {
+  background: rgba(245, 235, 220, 0.1);
+  border-color: rgba(139, 90, 43, 0.3);
+}
+
+.parchment-theme .radar-data-fill {
+  fill: rgba(139, 90, 43, 0.3);
+}
+
+.parchment-theme .radar-data-point {
+  fill: #8b5a2b;
+}
+
+/* 淡色主题 */
+.light-theme .radar-chart-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .radar-label {
+  fill: #333;
+}
+
+.light-theme .radar-value {
+  fill: #0066cc;
+}
+
+/* ===== 可访问性 ===== */
+
+.radar-chart:focus {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 4px;
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .radar-grid-line {
+    stroke-width: 2;
+    opacity: 0.8;
+  }
+
+  .radar-data-fill {
+    fill-opacity: 0.5;
+  }
+
+  .radar-data-point {
+    r: 5;
+    stroke-width: 3;
+  }
+
+  .radar-label,
+  .radar-value {
+    font-weight: 700;
+  }
+
+  .radar-text-summary {
+    color: var(--primary-text-color);
+    font-weight: 600;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .radar-chart {
+    animation: none;
+  }
+
+  .radar-data-fill,
+  .radar-data-point,
+  .radar-label,
+  .radar-value {
+    transition: none;
+  }
+}

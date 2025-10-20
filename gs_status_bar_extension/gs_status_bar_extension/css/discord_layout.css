@@ -1,0 +1,551 @@
+/*
+ * Discord-style Layout
+ * This file contains all styles for the new three-pane layout.
+ */
+
+.discord-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Left sidebar for main categories (e.g., Status, Attributes) */
+.sidebar-nav {
+    width: 160px;
+    flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-right: 1px solid var(--container-border);
+}
+
+.sidebar-nav-item {
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-nav-item i {
+    font-size: 1.1em;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-nav-item:hover {
+    background-color: var(--summary-hover-bg);
+    color: var(--primary-text-color);
+    transform: translateX(2px);
+}
+
+.sidebar-nav-item.active {
+    background-color: var(--accent-blue);
+    color: var(--bg-color-start);
+    text-shadow: none;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.sidebar-nav-item.active i {
+    color: var(--bg-color-start);
+}
+
+/* Middle panel for sub-lists (e.g., list of characters) */
+.sub-list-panel {
+    width: 220px;
+    flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--container-border);
+    overflow: hidden;
+}
+
+.sub-list-header {
+    padding: 10px 15px;
+    font-weight: bold;
+    color: var(--primary-text-color);
+    border-bottom: 1px solid var(--container-border);
+}
+
+.sub-list-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.sub-list-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--secondary-text-color);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sub-list-item:hover {
+    background-color: var(--summary-hover-bg);
+}
+
+.sub-list-item.active {
+    background-color: rgba(168, 192, 255, 0.15);
+    color: var(--primary-text-color);
+}
+
+/* Main content area for details */
+.content-detail-panel {
+    flex: 1 1 auto;
+    padding: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-width: 0; /* Prevent flex item from overflowing */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Scrollbar styling for all relevant containers */
+.sidebar-nav,
+.sub-list-content,
+.content-detail-panel,
+#tasks-content,
+#territory-content {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sidebar-nav::-webkit-scrollbar,
+.sub-list-content::-webkit-scrollbar,
+.content-detail-panel::-webkit-scrollbar,
+#tasks-content::-webkit-scrollbar,
+#territory-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track,
+.sub-list-content::-webkit-scrollbar-track,
+.content-detail-panel::-webkit-scrollbar-track,
+#tasks-content::-webkit-scrollbar-track,
+#territory-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb,
+.sub-list-content::-webkit-scrollbar-thumb,
+.content-detail-panel::-webkit-scrollbar-thumb,
+#tasks-content::-webkit-scrollbar-thumb,
+#territory-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover,
+.sub-list-content::-webkit-scrollbar-thumb:hover,
+.content-detail-panel::-webkit-scrollbar-thumb:hover,
+#tasks-content::-webkit-scrollbar-thumb:hover,
+#territory-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 移动端滚动条样式 */
+@media (max-width: 768px) {
+    .sidebar-nav::-webkit-scrollbar,
+    .sub-list-content::-webkit-scrollbar,
+    .content-detail-panel::-webkit-scrollbar,
+    #tasks-content::-webkit-scrollbar,
+    #territory-content::-webkit-scrollbar,
+    #status-sidebar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-thumb,
+    .sub-list-content::-webkit-scrollbar-thumb,
+    .content-detail-panel::-webkit-scrollbar-thumb,
+    #tasks-content::-webkit-scrollbar-thumb,
+    #territory-content::-webkit-scrollbar-thumb,
+    #status-sidebar::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.4);
+        border-radius: 3px;
+    }
+}
+
+
+/* Sidebar Submenu */
+.sidebar-submenu {
+    display: none;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.sidebar-submenu.active {
+    display: block;
+}
+
+.sidebar-submenu-item {
+    padding: 8px 12px;
+    margin-bottom: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    transition: all 0.2s ease;
+    border-left: 2px solid transparent;
+}
+
+.sidebar-submenu-item:hover {
+    background-color: var(--summary-hover-bg);
+    color: var(--primary-text-color);
+    border-left-color: var(--accent-blue);
+}
+
+.sidebar-submenu-item.active {
+    background-color: rgba(168, 192, 255, 0.15);
+    color: var(--primary-text-color);
+    border-left-color: var(--accent-blue);
+}
+
+
+/* Sidebar Submenu Styles */
+.sidebar-submenu {
+    display: none;
+    padding-left: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-left: 2px solid rgba(168, 192, 255, 0.3);
+}
+
+.sidebar-submenu.active {
+    display: block;
+}
+
+.sidebar-submenu-item {
+    padding: 8px 12px;
+    margin-bottom: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    transition: all 0.2s ease;
+    border-left: 2px solid transparent;
+}
+
+.sidebar-submenu-item:hover {
+    background-color: var(--summary-hover-bg);
+    color: var(--primary-text-color);
+    border-left-color: var(--accent-blue);
+}
+
+.sidebar-submenu-item.active {
+    background-color: rgba(168, 192, 255, 0.15);
+    color: var(--primary-text-color);
+    border-left-color: var(--accent-blue);
+    font-weight: 600;
+}
+
+
+/* Mobile Responsive Design for Discord Layout */
+@media (max-width: 768px) {
+    /* 移动端：隐藏侧边栏，使用顶部标签页 */
+    .discord-layout {
+        flex-direction: column;
+    }
+
+    /* 隐藏左侧导航栏 */
+    .sidebar-nav {
+        display: none;
+    }
+
+    /* 隐藏中间列表面板 */
+    .sub-list-panel {
+        display: none;
+    }
+
+    /* 主内容区占满 */
+    .content-detail-panel {
+        width: 100%;
+        padding: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 状态标签页：在移动端显示为顶部标签 */
+    #status-pane.discord-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #status-pane #status-sidebar {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        padding: 5px;
+        border-right: none;
+        border-bottom: 1px solid var(--container-border);
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 5px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    #status-pane #status-sidebar::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    #status-pane #status-sidebar::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    #status-pane #status-sidebar::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
+    }
+
+    #status-pane .sidebar-nav-item {
+        flex-shrink: 0;
+        padding: 8px 12px;
+        white-space: nowrap;
+        font-size: 0.9em;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3);
+        user-select: none;
+        -webkit-user-select: none;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #status-pane .sidebar-nav-item span {
+        display: none;
+    }
+
+    #status-pane .sidebar-nav-item i {
+        font-size: 1.3em;
+        pointer-events: none;
+    }
+
+    #status-pane .sidebar-nav-item:active {
+        transform: scale(0.95);
+        background-color: rgba(168, 192, 255, 0.2);
+    }
+
+    /* 子菜单在移动端：只在装备激活时显示，且水平排列 */
+    #status-pane .sidebar-submenu {
+        display: none !important;
+        flex-direction: row;
+        padding-left: 0;
+        border-left: none;
+        gap: 5px;
+        margin-left: 5px;
+    }
+
+    /* 只有当父级导航项是装备且激活时才显示子菜单 */
+    #status-pane .sidebar-nav-item.active + .sidebar-submenu {
+        display: flex !important;
+    }
+
+    #status-pane .sidebar-submenu-item {
+        flex-shrink: 0;
+        padding: 6px 10px;
+        font-size: 0.85em;
+        white-space: nowrap;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3);
+        user-select: none;
+        -webkit-user-select: none;
+        min-width: 44px;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #status-pane .sidebar-submenu-item:active {
+        transform: scale(0.95);
+        background-color: rgba(168, 192, 255, 0.2);
+    }
+
+    /* 世界标签页：移动端特殊处理 */
+    #world-pane.discord-layout {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    /* 世界分类：顶部水平标签 */
+    #world-sidebar-main {
+        display: flex !important;
+        flex-direction: row;
+        width: 100%;
+        padding: 5px;
+        border-right: none;
+        border-bottom: 1px solid var(--container-border);
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 5px;
+        -webkit-overflow-scrolling: touch;
+        flex-shrink: 0;
+    }
+
+    #world-sidebar-main .sidebar-nav-item {
+        flex-shrink: 0;
+        padding: 8px 16px;
+        white-space: nowrap;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3);
+        user-select: none;
+        -webkit-user-select: none;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #world-sidebar-main .sidebar-nav-item i {
+        pointer-events: none;
+    }
+
+    #world-sidebar-main .sidebar-nav-item span {
+        pointer-events: none;
+    }
+
+    #world-sidebar-main .sidebar-nav-item:active {
+        transform: scale(0.95);
+        background-color: rgba(168, 192, 255, 0.2);
+    }
+
+    /* 角色列表：显示为水平滚动条 */
+    #world-sub-list {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--container-border);
+        max-height: 120px;
+        flex-shrink: 0;
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    #world-sub-list .sub-list-header {
+        padding: 6px 10px;
+        font-size: 0.85em;
+        background: rgba(0, 0, 0, 0.2);
+        flex-shrink: 0;
+    }
+
+    #world-sub-list .sub-list-content {
+        display: flex !important;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 8px;
+        padding: 8px;
+        -webkit-overflow-scrolling: touch;
+        flex: 1;
+    }
+
+    #world-sub-list .sub-list-content::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    #world-sub-list .sub-list-content::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    #world-sub-list .sub-list-content::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
+    }
+
+    #world-sub-list .sub-list-item {
+        flex-shrink: 0;
+        padding: 8px 16px;
+        border-bottom: none;
+        border-radius: 6px;
+        white-space: nowrap;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3);
+        user-select: none;
+        -webkit-user-select: none;
+        min-width: 80px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(168, 192, 255, 0.2);
+    }
+
+    #world-sub-list .sub-list-item:active {
+        transform: scale(0.95);
+        background-color: rgba(168, 192, 255, 0.2);
+    }
+
+    #world-sub-list .sub-list-item.active {
+        background: rgba(168, 192, 255, 0.25);
+        border-color: var(--accent-blue);
+        color: var(--primary-text-color);
+        font-weight: 600;
+    }
+
+    /* 角色详情：占满剩余空间 */
+    #world-content-detail {
+        width: 100%;
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        min-height: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* 小屏幕进一步优化 */
+    .sidebar-nav-item {
+        padding: 6px 10px !important;
+        font-size: 0.85em !important;
+    }
+
+    .sidebar-nav-item i {
+        font-size: 1.2em !important;
+    }
+
+    #world-sub-list {
+        max-height: 100px;
+    }
+
+    #world-sub-list .sub-list-header {
+        padding: 4px 8px;
+        font-size: 0.8em;
+    }
+
+    #world-sub-list .sub-list-content {
+        gap: 6px;
+        padding: 6px;
+    }
+
+    #world-sub-list .sub-list-item {
+        padding: 6px 12px;
+        font-size: 0.85em;
+        min-width: 70px;
+    }
+
+    /* 确保内容区域可以滚动 */
+    .content-detail-panel {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        max-height: calc(100vh - 250px);
+    }
+
+    #world-content-detail {
+        padding: 8px;
+    }
+}

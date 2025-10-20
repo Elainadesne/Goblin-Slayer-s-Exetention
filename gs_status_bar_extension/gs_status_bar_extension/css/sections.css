@@ -1,0 +1,128 @@
+/* Section Details/Summary */
+details.section {
+  --border-angle: 0deg;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(5px);
+  position: relative;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg-color-start), var(--bg-color-end)) padding-box,
+    conic-gradient(
+        from var(--border-angle),
+        var(--bg-color-start),
+        var(--accent-blue-deep) 25%,
+        var(--accent-blue-deep) 35%,
+        var(--accent-blue) 50%,
+        var(--bg-color-start)
+      )
+      border-box;
+  animation:
+    borderShine 4s linear infinite,
+    ambientGlow 3s infinite alternate;
+}
+
+details.sub-section,
+details.item-entry {
+  margin-bottom: 8px;
+  border: 1px solid rgba(168, 192, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+details.sub-section:hover,
+details.item-entry:hover {
+  border-color: var(--container-border);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+details.section > summary {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(18px, 3vw, 22px);
+  padding: 15px 20px;
+  letter-spacing: 2px;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+details.section[open] > summary {
+  border-bottom: 1px solid var(--container-border);
+}
+
+details.sub-section > summary,
+details.item-entry > summary {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1));
+  padding: 10px 15px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details.sub-section > summary:hover,
+details.item-entry > summary:hover {
+  background-color: var(--summary-hover-bg);
+}
+details.sub-section[open] > summary,
+details.item-entry[open] > summary {
+  color: var(--accent-blue-deep);
+  text-shadow: 0 0 8px var(--accent-glow-strong);
+}
+
+details > summary::before {
+  content: '✧';
+  font-size: 1.5em;
+  line-height: 1;
+  color: var(--accent-blue);
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition:
+    transform 0.4s ease,
+    color 0.4s ease,
+    text-shadow 0.4s ease;
+}
+details.section > summary::before {
+  display: none;
+}
+details.sub-section[open] > summary::before,
+details.item-entry[open] > summary::before {
+  color: #e0f2ff;
+  text-shadow:
+    0 0 5px #e0f2ff,
+    0 0 10px var(--accent-blue-deep);
+  transform: rotate(180deg);
+}
+
+.arrow-toggle {
+  transition: transform 0.2s ease-in-out;
+  margin-left: auto;
+}
+details[open] > summary .arrow-toggle {
+  transform: rotate(90deg);
+}
+details.section > summary .arrow-toggle {
+  display: none;
+}
+
+.section-content,
+.sub-section-content,
+.item-content {
+  padding: 15px;
+  font-size: 0.95em;
+  line-height: 1.7;
+}

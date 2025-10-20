@@ -1,0 +1,371 @@
+/**
+ * Genie Effect - macOS风格的精灵动画
+ * 面板打开和关闭时的流体动画效果
+ */
+
+/* 面板容器 - 添加透视效果 */
+#gs-status-bar-panel-container {
+    perspective: 2000px;
+    perspective-origin: 50% 50%;
+}
+
+/* 面板基础状态 */
+#gs-status-bar-panel {
+    transform-origin: center bottom;
+    will-change: transform, opacity, clip-path;
+}
+
+/* Genie打开动画 */
+@keyframes genieOpen {
+    0% {
+        transform: 
+            scale(0.1, 0.05) 
+            translateY(300px) 
+            translateX(0);
+        opacity: 0;
+        clip-path: polygon(
+            45% 100%, 55% 100%,
+            55% 100%, 45% 100%
+        );
+    }
+    
+    20% {
+        transform: 
+            scale(0.3, 0.2) 
+            translateY(250px) 
+            translateX(0);
+        opacity: 0.3;
+        clip-path: polygon(
+            40% 90%, 60% 90%,
+            60% 100%, 40% 100%
+        );
+    }
+    
+    40% {
+        transform: 
+            scale(0.6, 0.5) 
+            translateY(150px) 
+            translateX(0);
+        opacity: 0.6;
+        clip-path: polygon(
+            30% 60%, 70% 60%,
+            65% 100%, 35% 100%
+        );
+    }
+    
+    60% {
+        transform: 
+            scale(0.85, 0.75) 
+            translateY(50px) 
+            translateX(0);
+        opacity: 0.85;
+        clip-path: polygon(
+            15% 30%, 85% 30%,
+            75% 100%, 25% 100%
+        );
+    }
+    
+    80% {
+        transform: 
+            scale(0.95, 0.9) 
+            translateY(10px) 
+            translateX(0);
+        opacity: 0.95;
+        clip-path: polygon(
+            5% 10%, 95% 10%,
+            90% 100%, 10% 100%
+        );
+    }
+    
+    100% {
+        transform: 
+            scale(1, 1) 
+            translateY(0) 
+            translateX(0);
+        opacity: 1;
+        clip-path: polygon(
+            0% 0%, 100% 0%,
+            100% 100%, 0% 100%
+        );
+    }
+}
+
+/* Genie关闭动画 */
+@keyframes genieClose {
+    0% {
+        transform: 
+            scale(1, 1) 
+            translateY(0) 
+            translateX(0);
+        opacity: 1;
+        clip-path: polygon(
+            0% 0%, 100% 0%,
+            100% 100%, 0% 100%
+        );
+    }
+    
+    20% {
+        transform: 
+            scale(0.95, 0.9) 
+            translateY(10px) 
+            translateX(0);
+        opacity: 0.95;
+        clip-path: polygon(
+            5% 10%, 95% 10%,
+            90% 100%, 10% 100%
+        );
+    }
+    
+    40% {
+        transform: 
+            scale(0.85, 0.75) 
+            translateY(50px) 
+            translateX(0);
+        opacity: 0.85;
+        clip-path: polygon(
+            15% 30%, 85% 30%,
+            75% 100%, 25% 100%
+        );
+    }
+    
+    60% {
+        transform: 
+            scale(0.6, 0.5) 
+            translateY(150px) 
+            translateX(0);
+        opacity: 0.6;
+        clip-path: polygon(
+            30% 60%, 70% 60%,
+            65% 100%, 35% 100%
+        );
+    }
+    
+    80% {
+        transform: 
+            scale(0.3, 0.2) 
+            translateY(250px) 
+            translateX(0);
+        opacity: 0.3;
+        clip-path: polygon(
+            40% 90%, 60% 90%,
+            60% 100%, 40% 100%
+        );
+    }
+    
+    100% {
+        transform: 
+            scale(0.1, 0.05) 
+            translateY(300px) 
+            translateX(0);
+        opacity: 0;
+        clip-path: polygon(
+            45% 100%, 55% 100%,
+            55% 100%, 45% 100%
+        );
+    }
+}
+
+/* 应用Genie打开动画 */
+#gs-status-bar-panel.genie-opening {
+    animation: genieOpen 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    /* 确保动画结束后保持最终状态 */
+    animation-fill-mode: forwards;
+}
+
+/* 应用Genie关闭动画 */
+#gs-status-bar-panel.genie-closing {
+    animation: genieClose 0.6s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+    /* 确保动画结束后保持最终状态 */
+    animation-fill-mode: forwards;
+}
+
+/* 开关按钮的脉冲效果 */
+#gs-open-panel-button.genie-pulse {
+    animation: geniePulse 0.6s ease-out;
+}
+
+@keyframes geniePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    
+    20% {
+        transform: scale(1.3);
+    }
+    
+    40% {
+        transform: scale(0.9);
+    }
+    
+    60% {
+        transform: scale(1.1);
+    }
+    
+    80% {
+        transform: scale(0.95);
+    }
+}
+
+/* 增强版 - 带波纹效果 */
+#gs-open-panel-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(168, 192, 255, 0.4);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#gs-open-panel-button.genie-ripple::after {
+    animation: genieRipple 0.8s ease-out;
+}
+
+@keyframes genieRipple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.8;
+    }
+    
+    50% {
+        width: 100px;
+        height: 100px;
+        opacity: 0.4;
+    }
+    
+    100% {
+        width: 150px;
+        height: 150px;
+        opacity: 0;
+    }
+}
+
+/* 面板内容淡入淡出 - 优化版 */
+#gs-status-bar-panel .content-area,
+#gs-status-bar-panel .top-nav {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 打开时内容保持隐藏直到动画中期 */
+#gs-status-bar-panel.genie-opening .content-area,
+#gs-status-bar-panel.genie-opening .top-nav {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: contentFadeIn 0.25s ease 0.35s forwards;
+}
+
+/* 关闭时内容立即淡出 */
+#gs-status-bar-panel.genie-closing .content-area,
+#gs-status-bar-panel.genie-closing .top-nav {
+    opacity: 1;
+    animation: contentFadeOut 0.15s ease forwards;
+}
+
+@keyframes contentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes contentFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}
+
+/* 性能优化 - 使用GPU加速 */
+#gs-status-bar-panel.genie-opening,
+#gs-status-bar-panel.genie-closing {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+/* 禁用动画时的回退 */
+.no-animations #gs-status-bar-panel.genie-opening,
+.no-animations #gs-status-bar-panel.genie-closing {
+    animation: none !important;
+}
+
+.no-animations #gs-status-bar-panel {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* 移动端优化 - 简化动画 */
+@media (max-width: 768px) {
+    @keyframes genieOpen {
+        0% {
+            transform: scale(0.3) translateY(200px);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes genieClose {
+        0% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0.3) translateY(200px);
+            opacity: 0;
+        }
+    }
+    
+    #gs-status-bar-panel.genie-opening {
+        animation-duration: 0.4s;
+    }
+    
+    #gs-status-bar-panel.genie-closing {
+        animation-duration: 0.4s;
+    }
+}
+
+/* 减弱动画效果（用户偏好） */
+@media (prefers-reduced-motion: reduce) {
+    #gs-status-bar-panel.genie-opening,
+    #gs-status-bar-panel.genie-closing {
+        animation-duration: 0.2s;
+    }
+    
+    @keyframes genieOpen {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    
+    @keyframes genieClose {
+        from {
+            opacity: 1;
+            transform: scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+    }
+}

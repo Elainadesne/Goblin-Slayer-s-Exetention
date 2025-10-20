@@ -1,0 +1,104 @@
+<div id="gs-status-bar-panel-container" style="display: none;">
+    <div id="gs-status-bar-panel">
+        <button id="gs-close-panel-button" class="modal-close-button">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-location-info" id="nav-location-info">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="nav-location-text">加载中...</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-button active" data-tab="status">
+                    <i class="fa-solid fa-user"></i>
+                    <span>状态</span>
+                </button>
+                <button class="nav-button" data-tab="tasks">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>任务</span>
+                </button>
+                <button class="nav-button" data-tab="world">
+                    <i class="fa-solid fa-earth-asia"></i>
+                    <span>世界</span>
+                </button>
+                <button class="nav-button" data-tab="map">
+                    <i class="fa-solid fa-map"></i>
+                    <span>地图</span>
+                </button>
+                <button class="nav-button" data-tab="territory">
+                    <i class="fa-solid fa-landmark"></i>
+                    <span>领地</span>
+                </button>
+                <button class="nav-button" data-tab="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>设置</span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="content-area">
+            <!-- Status Tab (New Discord Layout) -->
+            <div id="status-pane" class="tab-pane active discord-layout">
+                <nav class="sidebar-nav" id="status-sidebar">
+                    <!-- Static navigation items will be rendered here by JS -->
+                </nav>
+                <main class="content-detail-panel" id="status-content-detail">
+                    <!-- Detailed content for status, attributes, skills, etc. -->
+                </main>
+            </div>
+
+            <!-- Tasks Tab (Simple Layout) -->
+            <div id="tasks-pane" class="tab-pane">
+                <div id="tasks-content">加载中...</div>
+            </div>
+
+            <!-- World Tab (New Discord Layout) -->
+            <div id="world-pane" class="tab-pane discord-layout">
+                <nav class="sidebar-nav" id="world-sidebar-main">
+                    <!-- Categories like '关系者', '敌对者' will be rendered here -->
+                </nav>
+                <div class="sub-list-panel" id="world-sub-list">
+                    <!-- Dynamic list of characters will be rendered here -->
+                </div>
+                <main class="content-detail-panel" id="world-content-detail">
+                    <!-- Detailed content for the selected character -->
+                </main>
+            </div>
+
+            <!-- Map Tab (Simple Layout) -->
+            <div id="map-pane" class="tab-pane">
+                <div id="map-content">加载中...</div>
+            </div>
+
+            <!-- Territory Tab (Simple Layout) -->
+            <div id="territory-pane" class="tab-pane">
+                <div id="territory-content">加载中...</div>
+            </div>
+
+            <!-- Settings Tab (Simple Layout) -->
+            <div id="settings-pane" class="tab-pane">
+                <div id="settings-content">加载中...</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gs-open-panel-button">
+    <i class="fa-solid fa-dice-d20"></i>
+</div>
+
+<!-- Skill Tree Modal (remains unchanged) -->
+<div id="skill-tree-modal" class="modal-overlay" style="display: none">
+    <div class="modal-content">
+        <button id="close-modal-button" class="modal-close-button">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2>职业与技能树</h2>
+        <div id="skill-tree-content"></div>
+        <div class="modal-footer">
+            <div id="footer-cost" class="footer-cost">总消耗: 0 职业点数</div>
+            <button id="footer-confirm-button" class="footer-confirm-button" disabled>确认升级</button>
+        </div>
+    </div>
+</div>

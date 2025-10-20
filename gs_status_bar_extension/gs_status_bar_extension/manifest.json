@@ -1,0 +1,9 @@
+{
+  "display_name": "GS状态栏",
+  "author": "Elainades&shiyue137",
+  "version": "1.0.0",
+  "description": "一个为哥布林杀手同人世界观设计的、通过点击消息按钮唤起的模块化状态栏面板。",
+  "js": "script.js",
+  "css": "css/base.css",
+  "html": "panel.html"
+}

@@ -1,0 +1,133 @@
+/* 背包搜索和筛选样式 */
+
+.inventory-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    color: var(--secondary-text-color);
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--container-border);
+    border-radius: 6px;
+    color: var(--primary-text-color);
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 3px rgba(168, 192, 255, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--secondary-text-color);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    flex: 1;
+    min-width: 120px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--container-border);
+    border-radius: 6px;
+    color: var(--primary-text-color);
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-select:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-blue);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(168, 192, 255, 0.1);
+}
+
+.filter-select option {
+    background: var(--bg-color-start);
+    color: var(--primary-text-color);
+}
+
+.inventory-stats {
+    text-align: center;
+    padding: 10px;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+}
+
+.inventory-stats #item-count {
+    color: var(--accent-blue);
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+/* 隐藏被筛选掉的物品 */
+.inventory-card-modern.hidden {
+    display: none !important;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .inventory-filters {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .search-input {
+        padding: 8px 10px 8px 35px;
+        font-size: 0.9em;
+    }
+
+    .filter-buttons {
+        gap: 6px;
+    }
+
+    .filter-select {
+        min-width: 100px;
+        padding: 6px 10px;
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .filter-select {
+        width: 100%;
+        min-width: auto;
+    }
+}

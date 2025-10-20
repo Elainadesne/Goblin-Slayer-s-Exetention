@@ -1,0 +1,111 @@
+/* 错误显示样式 */
+
+.error-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    text-align: center;
+    min-height: 400px;
+}
+
+.error-icon {
+    font-size: 4em;
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    animation: errorPulse 2s ease-in-out infinite;
+}
+
+@keyframes errorPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.error-title {
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    margin-bottom: 15px;
+    font-family: 'Cinzel', serif;
+}
+
+.error-message {
+    font-size: 1.1em;
+    color: var(--secondary-text-color);
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.error-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.error-button {
+    padding: 12px 24px;
+    background: var(--accent-blue-deep);
+    border: 1px solid var(--accent-blue);
+    border-radius: 8px;
+    color: var(--primary-text-color);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s var(--animation-easing-smooth);
+}
+
+.error-button:hover {
+    background: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.error-button:active {
+    transform: translateY(0);
+}
+
+.error-button i {
+    font-size: 1.1em;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .error-display {
+        padding: 40px 20px;
+        min-height: 300px;
+    }
+
+    .error-icon {
+        font-size: 3em;
+    }
+
+    .error-title {
+        font-size: 1.5em;
+    }
+
+    .error-message {
+        font-size: 1em;
+        padding: 15px;
+    }
+
+    .error-button {
+        padding: 10px 20px;
+        font-size: 0.95em;
+    }
+}

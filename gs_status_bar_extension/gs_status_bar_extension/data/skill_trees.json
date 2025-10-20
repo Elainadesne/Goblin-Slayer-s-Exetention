@@ -1,0 +1,60 @@
+{
+  "神官": {
+    "name": "神官",
+    "tier": 1,
+    "description": "以虔诚的信仰作为力量之源，沟通神明以施行奇迹的侍奉者，是队伍在绝望中的光明。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "priest_miracle",
+        "name": "奇迹",
+        "description": "呼唤神明的力量，降下神恩或神罚。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "能够向神明祈求并使用1-2阶的奇迹。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "可使用至多4阶的奇迹，且所有治疗类奇迹的效果提升20%。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "可使用至多6阶的奇迹，并且每日一次，可在深度祈祷后获得一次来自神明的、与当前困境相关的直接启示（通常为一句话的暗喻）。"
+          }
+        ],
+        "dependencies": []
+      }
+    ]
+  },
+  "斥候": {
+    "name": "斥候",
+    "tier": 1,
+    "description": "阴影中的潜行者与精巧的工匠，擅长侦察、解除陷阱和从敌人意想不到的位置发动致命一击。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "scout_stealth",
+        "name": "潜行",
+        "description": "在阴影或遮蔽物后隐藏身形。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "在昏暗光照、阴影或利用遮蔽物时，潜行检定获得+2加值。"
+          }
+        ],
+        "dependencies": []
+      }
+    ]
+  }
+}
