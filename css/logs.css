@@ -1,0 +1,337 @@
+/* ===== 日志视图样式 ===== */
+
+.logs-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  gap: 15px;
+}
+
+/* 日志头部 */
+.logs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--container-border);
+}
+
+.logs-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: var(--primary-text-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logs-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9em;
+}
+
+.logs-stats .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--secondary-text-color);
+}
+
+.logs-stats .stat-item.error {
+  color: var(--hp-color);
+}
+
+.logs-stats .stat-item.warn {
+  color: #ffa500;
+}
+
+/* 工具栏 */
+.logs-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.logs-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--container-border);
+  border-radius: 6px;
+  color: var(--secondary-text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-btn:hover {
+  background: rgba(168, 192, 255, 0.1);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.filter-btn.active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #1a234f;
+  font-weight: 600;
+}
+
+.logs-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--container-border);
+  border-radius: 6px;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.action-btn:hover {
+  background: rgba(168, 192, 255, 0.1);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auto-scroll-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--secondary-text-color);
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.auto-scroll-toggle input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* 日志列表 */
+.logs-list {
+  flex: 1;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--container-border);
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.no-logs {
+  text-align: center;
+  color: var(--secondary-text-color);
+  padding: 40px;
+  font-size: 1.1em;
+}
+
+/* 日志条目 */
+.log-entry {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid var(--container-border);
+  border-radius: 6px;
+  padding: 12px;
+  transition: all 0.2s ease;
+}
+
+.log-entry:hover {
+  background: rgba(0, 0, 0, 0.4);
+  transform: translateX(2px);
+}
+
+.log-entry.log-info {
+  border-left-color: var(--accent-blue);
+}
+
+.log-entry.log-success {
+  border-left-color: var(--stamina-color);
+}
+
+.log-entry.log-warn {
+  border-left-color: #ffa500;
+}
+
+.log-entry.log-error {
+  border-left-color: var(--hp-color);
+  background: rgba(255, 107, 107, 0.05);
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85em;
+}
+
+.log-time {
+  color: var(--secondary-text-color);
+  font-family: 'Courier New', monospace;
+}
+
+.log-level {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.log-info .log-level {
+  color: var(--accent-blue);
+  background: rgba(168, 192, 255, 0.1);
+}
+
+.log-success .log-level {
+  color: var(--stamina-color);
+  background: rgba(95, 219, 167, 0.1);
+}
+
+.log-warn .log-level {
+  color: #ffa500;
+  background: rgba(255, 165, 0, 0.1);
+}
+
+.log-error .log-level {
+  color: var(--hp-color);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.log-message {
+  color: var(--primary-text-color);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* 错误详情 */
+.log-error-details {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+.error-message {
+  color: var(--hp-color);
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.error-stack {
+  margin-top: 8px;
+}
+
+.error-stack summary {
+  cursor: pointer;
+  color: var(--secondary-text-color);
+  font-size: 0.9em;
+  padding: 4px 0;
+  user-select: none;
+}
+
+.error-stack summary:hover {
+  color: var(--accent-blue);
+}
+
+.error-stack pre {
+  margin-top: 8px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  color: var(--hp-color);
+  font-size: 0.85em;
+  line-height: 1.4;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .logs-container {
+    padding: 15px;
+  }
+
+  .logs-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .logs-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logs-filters,
+  .logs-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-btn,
+  .action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+/* 主题适配 */
+.light-theme .logs-list {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.light-theme .log-entry {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.light-theme .log-entry:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.parchment-theme .logs-list {
+  background: rgba(245, 235, 220, 0.1);
+}
+
+.parchment-theme .log-entry {
+  background: rgba(245, 235, 220, 0.05);
+  border-left-color: rgba(139, 90, 43, 0.5);
+}
+
+.glassmorphism .logs-container {
+  backdrop-filter: blur(10px);
+}
+
+.glassmorphism .logs-list {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}

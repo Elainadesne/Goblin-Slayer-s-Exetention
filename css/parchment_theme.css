@@ -79,10 +79,15 @@
     --tier-传奇: #ff8c00;
     --tier-传奇-rgba: rgba(255, 140, 0, 0.1);
     --tier-传奇-shadow: rgba(255, 140, 0, 0.3);
+
+    /* Canonical variable mapping for layout/panel compatibility */
+    --bg-color-start: var(--parchment-light);
+    --bg-color-end: var(--parchment-base);
+    --accent-glow-strong: rgba(205, 127, 50, 0.45);
 }
 
 /* 羊皮纸主题的主面板 */
-[data-theme="parchment"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="parchment"] {
     background: var(--bg-primary) !important;
     border: 2px solid var(--bronze-base) !important;
     box-shadow: 
@@ -93,7 +98,7 @@
 }
 
 /* 羊皮纸纹理效果 */
-[data-theme="parchment"] #gs-status-bar-panel::before {
+#gs-status-bar-panel[data-theme="parchment"]::before {
     background: linear-gradient(
         90deg,
         transparent,
@@ -105,7 +110,7 @@
     box-shadow: 0 0 30px rgba(212, 175, 55, 0.8) !important;
 }
 
-[data-theme="parchment"] #gs-status-bar-panel::after {
+#gs-status-bar-panel[data-theme="parchment"]::after {
     content: '';
     position: absolute;
     top: 0;
@@ -121,7 +126,7 @@
     z-index: 1;
 }
 
-[data-theme="parchment"] #gs-status-bar-panel > * {
+#gs-status-bar-panel[data-theme="parchment"] > * {
     position: relative;
     z-index: 2;
 }

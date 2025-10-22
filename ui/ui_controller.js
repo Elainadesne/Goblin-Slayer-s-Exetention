@@ -8,6 +8,7 @@ import { MapView } from './views/MapView.js';
 import { TaskView } from './views/TaskView.js';
 import { SkillTreeView } from './views/SkillTreeView.js';
 import { SettingsView } from './views/SettingsView.js';
+import { LogView } from './views/LogView.js';
 import { SkillTreeLoader } from '../core/skill_tree_loader.js';
 import { ImageDatabaseLoader } from '../core/image_database_loader.js';
 import { InventoryFilter } from '../utils/inventory_filter.js';
@@ -40,6 +41,7 @@ export class UIController {
         this.taskView = new TaskView(this.dataManager, this.elements);
         this.skillTreeView = null; // 延迟初始化
         this.settingsView = new SettingsView(this.dataManager, this.elements);
+        this.logView = new LogView(this.elements);
 
         this._boundDetailsToggleHandler = this._handleDetailsToggle.bind(this);
     }
@@ -98,6 +100,7 @@ export class UIController {
             tasksContent: doc.getElementById('tasks-content'),
             mapContent: doc.getElementById('map-content'),
             territoryContent: doc.getElementById('territory-content'),
+            logsContent: doc.getElementById('logs-content'),
             settingsContent: doc.getElementById('settings-content'),
 
             // Modal elements
@@ -114,6 +117,7 @@ export class UIController {
         this.territoryView.elements = this.elements;
         this.mapView.elements = this.elements;
         this.taskView.elements = this.elements;
+        this.logView.elements = this.elements;
         this.settingsView.elements = this.elements;
         
         // 初始化技能树视图
@@ -130,7 +134,10 @@ export class UIController {
 
     bindListeners() {
         this.panelManager.bindListeners();
+        this.panelManager.setLogsTabCallback(() => this.renderLogs());
         this.panelManager.setSettingsTabCallback(() => this.renderSettings());
+        this.panelManager.setReloadDataCallback(() => this.reloadAllData());
+        this.panelManager.setToggleConsoleCallback(() => this.toggleConsoleOutput());
         this.sidebarManager.bindListeners();
 
         this.elements.root.addEventListener('toggle', this._boundDetailsToggleHandler, true);
@@ -322,10 +329,122 @@ export class UIController {
         }
     }
 
+    renderLogs() {
+        Logger.log('Rendering logs view');
+        if (this.elements.logsContent && this.logView) {
+            this.logView.render();
+        }
+    }
+
     renderSettings() {
         Logger.log('Rendering settings view');
         if (this.elements.settingsContent && this.settingsView) {
             this.settingsView.render(this.elements.settingsContent);
         }
+    }
+
+    /**
+     * 重新加载所有数据
+     */
+    async reloadAllData() {
+        Logger.log('[UIController] 开始重新加载所有数据...');
+        
+        try {
+            // 显示加载提示
+            if (this.elements.statusContentDetail) {
+                this.elements.statusContentDetail.innerHTML = '<div class="loading-message">正在重新加载数据...</div>';
+            }
+            
+            this.showToast('正在重新加载数据...', 'info');
+            
+            // 尝试通过应用实例重新初始化（包括重新等待 Mvu）
+            const app = window.parent.gsStatusBarApp;
+            if (app && typeof app.reinitialize === 'function') {
+                Logger.log('[UIController] 使用应用的 reinitialize 方法');
+                await app.reinitialize();
+            } else {
+                // 降级方案：只重新加载数据
+                Logger.log('[UIController] 使用降级方案：只重新加载数据');
+                
+                // 重新加载数据
+                await this.dataManager.loadAllData();
+                
+                // 清除雷达图缓存
+                if (this.characterView && this.characterView.clearRadarChartCache) {
+                    this.characterView.clearRadarChartCache();
+                }
+                
+                // 清除渲染缓存
+                if (this.renderCache) {
+                    this.renderCache.clear();
+                }
+                
+                // 重新渲染当前视图
+                this.renderAll();
+            }
+            
+            Logger.success('[UIController] 数据重新加载成功');
+            
+            // 显示成功提示
+            this.showToast('数据已重新加载', 'success');
+            
+        } catch (error) {
+            Logger.error('[UIController] 重新加载数据失败', error);
+            this.showToast('数据加载失败: ' + error.message, 'error');
+            
+            // 如果是 Mvu 超时错误，提供更详细的提示
+            if (error.message.includes('Mvu')) {
+                this.showToast('提示：可以尝试刷新页面或检查 MVU 扩展是否正常', 'warn');
+            }
+        }
+    }
+
+    /**
+     * 切换控制台输出
+     */
+    toggleConsoleOutput() {
+        const currentState = Logger.consoleEnabled;
+        Logger.setConsoleEnabled(!currentState);
+        
+        const newState = Logger.consoleEnabled ? '已启用' : '已禁用';
+        Logger.log(`[UIController] 控制台输出${newState}`);
+        
+        this.showToast(`控制台输出${newState}`, 'info');
+    }
+
+    /**
+     * 显示提示消息
+     */
+    showToast(message, type = 'info') {
+        // 简单的提示实现
+        const toast = window.parent.document.createElement('div');
+        toast.className = `gs-toast gs-toast-${type}`;
+        toast.textContent = message;
+        
+        // 根据类型设置不同的持续时间
+        const duration = type === 'error' || type === 'warn' ? 5000 : 3000;
+        
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: rgba(26, 35, 79, 0.95);
+            border: 1px solid var(--container-border);
+            border-radius: 8px;
+            color: var(--primary-text-color);
+            z-index: 10001;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            word-wrap: break-word;
+        `;
+        
+        window.parent.document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideOutRight 0.3s ease-out';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
     }
 }

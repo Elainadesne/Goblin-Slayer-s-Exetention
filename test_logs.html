@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日志系统测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a234f;
+            color: #e0d6c8;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>日志系统测试</h1>
+    <p>点击按钮测试不同级别的日志：</p>
+    
+    <button onclick="testInfo()">测试 INFO</button>
+    <button onclick="testSuccess()">测试 SUCCESS</button>
+    <button onclick="testWarn()">测试 WARN</button>
+    <button onclick="testError()">测试 ERROR</button>
+    <button onclick="testMultiple()">测试多条日志</button>
+    <button onclick="exportLogs()">导出日志</button>
+    <button onclick="clearLogs()">清空日志</button>
+    
+    <div id="status"></div>
+
+    <script type="module">
+        import { Logger } from './core/logger.js';
+        
+        // 启用控制台输出以便测试
+        Logger.setConsoleEnabled(true);
+        
+        window.testInfo = function() {
+            Logger.log('这是一条信息日志');
+            updateStatus('已添加 INFO 日志');
+        };
+        
+        window.testSuccess = function() {
+            Logger.success('操作成功完成！');
+            updateStatus('已添加 SUCCESS 日志');
+        };
+        
+        window.testWarn = function() {
+            Logger.warn('这是一个警告信息');
+            updateStatus('已添加 WARN 日志');
+        };
+        
+        window.testError = function() {
+            try {
+                throw new Error('这是一个测试错误');
+            } catch (error) {
+                Logger.error('捕获到错误', error);
+                updateStatus('已添加 ERROR 日志');
+            }
+        };
+        
+        window.testMultiple = function() {
+            Logger.log('开始批量测试...');
+            Logger.success('第一步完成');
+            Logger.warn('注意：这是警告');
+            Logger.error('发生错误', new Error('测试错误'));
+            Logger.log('批量测试结束');
+            updateStatus('已添加 5 条日志');
+        };
+        
+        window.exportLogs = function() {
+            const logs = Logger.exportLogs();
+            console.log('导出的日志：\n', logs);
+            updateStatus(`已导出 ${Logger.getLogs().length} 条日志到控制台`);
+        };
+        
+        window.clearLogs = function() {
+            Logger.clearLogs();
+            updateStatus('日志已清空');
+        };
+        
+        function updateStatus(message) {
+            const status = document.getElementById('status');
+            const logs = Logger.getLogs();
+            status.innerHTML = `
+                <strong>${message}</strong><br>
+                当前日志总数: ${logs.length}<br>
+                错误: ${Logger.getLogsByLevel('ERROR').length}<br>
+                警告: ${Logger.getLogsByLevel('WARN').length}<br>
+                成功: ${Logger.getLogsByLevel('SUCCESS').length}<br>
+                信息: ${Logger.getLogsByLevel('INFO').length}
+            `;
+        }
+        
+        // 初始化显示
+        updateStatus('日志系统已就绪');
+        Logger.log('日志系统测试页面已加载');
+    </script>
+</body>
+</html>

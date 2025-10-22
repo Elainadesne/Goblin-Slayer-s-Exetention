@@ -67,10 +67,20 @@
     --tier-传奇: #f59e0b;
     --tier-传奇-rgba: rgba(245, 158, 11, 0.1);
     --tier-传奇-shadow: rgba(245, 158, 11, 0.3);
+
+   /* Canonical variable mapping for layout/panel compatibility */
+   --bg-color-start: var(--light-white);
+   --bg-color-end: var(--light-gray-100);
+   --container-border: var(--border-color);
+   --primary-text-color: var(--text-primary);
+   --secondary-text-color: var(--text-secondary);
+   --accent-blue: var(--blue-base);
+   --accent-blue-deep: var(--blue-dark);
+   --accent-glow-strong: rgba(59, 130, 246, 0.45);
 }
 
 /* 亮色主题的主面板 */
-[data-theme="light"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="light"] {
     background: var(--bg-primary) !important;
     border: 2px solid var(--blue-base) !important;
     box-shadow: 
@@ -82,7 +92,7 @@
 }
 
 /* 面板装饰光效 */
-[data-theme="light"] #gs-status-bar-panel::before {
+#gs-status-bar-panel[data-theme="light"]::before {
     background: linear-gradient(
         90deg,
         transparent,
@@ -94,7 +104,7 @@
     box-shadow: 0 0 30px rgba(147, 197, 253, 0.5) !important;
 }
 
-[data-theme="light"] #gs-status-bar-panel::after {
+#gs-status-bar-panel[data-theme="light"]::after {
     content: '';
     position: absolute;
     top: 0;
@@ -109,7 +119,7 @@
     z-index: 1;
 }
 
-[data-theme="light"] #gs-status-bar-panel > * {
+#gs-status-bar-panel[data-theme="light"] > * {
     position: relative;
     z-index: 2;
 }

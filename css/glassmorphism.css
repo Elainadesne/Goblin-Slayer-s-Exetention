@@ -464,7 +464,7 @@
 }
 
 /* 亮色主题玻璃态 */
-[data-theme="light"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="light"] {
     background: linear-gradient(
         165deg,
         rgba(255, 255, 255, 0.85),
@@ -485,7 +485,7 @@
 }
 
 /* 羊皮纸主题玻璃态 - 古典风格 */
-[data-theme="parchment"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="parchment"] {
     backdrop-filter: blur(15px) saturate(120%) sepia(20%);
     -webkit-backdrop-filter: blur(15px) saturate(120%) sepia(20%);
 }
@@ -504,7 +504,7 @@
 }
 
 /* 淡色羊皮纸主题玻璃态 - 轻盈优雅 */
-[data-theme="light-parchment"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="light-parchment"] {
     backdrop-filter: blur(12px) saturate(110%) brightness(105%);
     -webkit-backdrop-filter: blur(12px) saturate(110%) brightness(105%);
 }

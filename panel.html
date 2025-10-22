@@ -31,6 +31,10 @@
                     <i class="fa-solid fa-landmark"></i>
                     <span>领地</span>
                 </button>
+                <button class="nav-button" data-tab="logs">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>日志</span>
+                </button>
                 <button class="nav-button" data-tab="settings">
                     <i class="fa-solid fa-gear"></i>
                     <span>设置</span>
@@ -77,6 +81,11 @@
                 <div id="territory-content">加载中...</div>
             </div>
 
+            <!-- Logs Tab (Simple Layout) -->
+            <div id="logs-pane" class="tab-pane">
+                <div id="logs-content">加载中...</div>
+            </div>
+
             <!-- Settings Tab (Simple Layout) -->
             <div id="settings-pane" class="tab-pane">
                 <div id="settings-content">加载中...</div>
@@ -86,6 +95,23 @@
 </div>
 <div id="gs-open-panel-button">
     <i class="fa-solid fa-dice-d20"></i>
+</div>
+
+<!-- Context Menu for Open Button -->
+<div id="gs-button-context-menu" class="context-menu" style="display: none;">
+    <div class="context-menu-item" data-action="reload-data">
+        <i class="fa-solid fa-rotate"></i>
+        <span>重新加载数据</span>
+    </div>
+    <div class="context-menu-item" data-action="open-logs">
+        <i class="fa-solid fa-terminal"></i>
+        <span>查看日志</span>
+    </div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" data-action="toggle-console">
+        <i class="fa-solid fa-bug"></i>
+        <span>切换控制台输出</span>
+    </div>
 </div>
 
 <!-- Skill Tree Modal (remains unchanged) -->

@@ -17,6 +17,8 @@
 @import url('./micro_interactions.css');
 @import url('./error_display.css');
 @import url('./settings.css');
+@import url('./logs.css');
+@import url('./context_menu.css');
 @import url('./genie_effect.css');
 @import url('./glassmorphism.css');
 @import url('./light_theme.css');
@@ -81,4 +83,43 @@
 b {
   color: var(--accent-blue);
   font-weight: normal;
+}
+/* === Canonical theme variable bridging on the panel node ===
+   Place variables directly on #gs-status-bar-panel to override :root defaults,
+   ensuring layout/panel and components resolve unified colors per theme. */
+
+/* Light */
+#gs-status-bar-panel[data-theme="light"] {
+  --bg-color-start: var(--light-white);
+  --bg-color-end: var(--light-gray-100);
+  --container-border: var(--border-color);
+  --primary-text-color: var(--text-primary);
+  --secondary-text-color: var(--text-secondary);
+  --accent-blue: var(--blue-base);
+  --accent-blue-deep: var(--blue-dark);
+  --accent-glow-strong: rgba(59, 130, 246, 0.45);
+}
+
+/* Parchment */
+#gs-status-bar-panel[data-theme="parchment"] {
+  --bg-color-start: var(--parchment-light);
+  --bg-color-end: var(--parchment-base);
+  --container-border: var(--container-border);
+  --primary-text-color: var(--brown-dark);
+  --secondary-text-color: var(--brown-base);
+  --accent-blue: var(--bronze-base);
+  --accent-blue-deep: var(--bronze-dark);
+  --accent-glow-strong: rgba(205, 127, 50, 0.45);
+}
+
+/* Light Parchment */
+#gs-status-bar-panel[data-theme="light-parchment"] {
+  --bg-color-start: var(--ivory-lightest);
+  --bg-color-end: var(--ivory-base);
+  --container-border: var(--border-medium);
+  --primary-text-color: var(--text-primary);
+  --secondary-text-color: var(--text-secondary);
+  --accent-blue: var(--rose-gold);
+  --accent-blue-deep: var(--rose-gold-dark);
+  --accent-glow-strong: rgba(232, 180, 160, 0.45);
 }

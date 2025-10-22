@@ -19,6 +19,7 @@ export class PanelManager {
         this.panel = doc.getElementById('gs-status-bar-panel');
         this.openButton = doc.getElementById('gs-open-panel-button');
         this.closeButton = doc.getElementById('gs-close-panel-button');
+        this.contextMenu = doc.getElementById('gs-button-context-menu');
         this.navButtons = Array.from(doc.querySelectorAll('.top-nav .nav-button'));
         this.tabPanes = Array.from(doc.querySelectorAll('.content-area .tab-pane'));
 
@@ -47,6 +48,22 @@ export class PanelManager {
         // 开关按钮：切换面板显示/隐藏
         this.openButton.addEventListener('click', () => this.togglePanel());
         this.closeButton.addEventListener('click', () => this.hidePanel());
+        
+        // 右键菜单
+        this.openButton.addEventListener('contextmenu', (e) => this.showContextMenu(e));
+        
+        // 点击其他地方关闭右键菜单
+        window.parent.document.addEventListener('click', () => this.hideContextMenu());
+        
+        // 右键菜单项点击
+        if (this.contextMenu) {
+            this.contextMenu.addEventListener('click', (e) => {
+                const item = e.target.closest('.context-menu-item');
+                if (item) {
+                    this.handleContextMenuAction(item.dataset.action);
+                }
+            });
+        }
 
         Logger.log(`[PanelManager] Found ${this.navButtons.length} nav buttons`);
         
@@ -150,6 +167,11 @@ export class PanelManager {
             this.onMapTabActivated();
         }
         
+        // 触发日志界面渲染（如果切换到日志标签）
+        if (tabId === 'logs' && this.onLogsTabActivated) {
+            this.onLogsTabActivated();
+        }
+        
         // 触发设置界面渲染（如果切换到设置标签）
         if (tabId === 'settings' && this.onSettingsTabActivated) {
             this.onSettingsTabActivated();
@@ -171,7 +193,98 @@ export class PanelManager {
         this.onMapTabActivated = callback;
     }
 
+    setLogsTabCallback(callback) {
+        this.onLogsTabActivated = callback;
+    }
+
     setSettingsTabCallback(callback) {
         this.onSettingsTabActivated = callback;
+    }
+
+    /**
+     * 显示右键菜单
+     */
+    showContextMenu(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        if (!this.contextMenu) return;
+        
+        // 显示菜单
+        this.contextMenu.style.display = 'block';
+        
+        // 定位菜单
+        const x = event.clientX;
+        const y = event.clientY;
+        
+        // 确保菜单不会超出屏幕
+        const menuRect = this.contextMenu.getBoundingClientRect();
+        const viewportWidth = window.parent.innerWidth;
+        const viewportHeight = window.parent.innerHeight;
+        
+        let left = x;
+        let top = y;
+        
+        if (x + menuRect.width > viewportWidth) {
+            left = viewportWidth - menuRect.width - 10;
+        }
+        
+        if (y + menuRect.height > viewportHeight) {
+            top = viewportHeight - menuRect.height - 10;
+        }
+        
+        this.contextMenu.style.left = `${left}px`;
+        this.contextMenu.style.top = `${top}px`;
+        
+        Logger.log('[PanelManager] Context menu opened');
+    }
+
+    /**
+     * 隐藏右键菜单
+     */
+    hideContextMenu() {
+        if (this.contextMenu) {
+            this.contextMenu.style.display = 'none';
+        }
+    }
+
+    /**
+     * 处理右键菜单操作
+     */
+    handleContextMenuAction(action) {
+        this.hideContextMenu();
+        
+        Logger.log(`[PanelManager] Context menu action: ${action}`);
+        
+        switch (action) {
+            case 'reload-data':
+                if (this.onReloadData) {
+                    this.onReloadData();
+                }
+                break;
+            case 'open-logs':
+                this.showPanel();
+                setTimeout(() => this.switchTab('logs'), 100);
+                break;
+            case 'toggle-console':
+                if (this.onToggleConsole) {
+                    this.onToggleConsole();
+                }
+                break;
+        }
+    }
+
+    /**
+     * 设置重新加载数据的回调
+     */
+    setReloadDataCallback(callback) {
+        this.onReloadData = callback;
+    }
+
+    /**
+     * 设置切换控制台输出的回调
+     */
+    setToggleConsoleCallback(callback) {
+        this.onToggleConsole = callback;
     }
 }

@@ -70,10 +70,19 @@
     --accent-light: var(--rose-gold-light);
     --accent-dark: var(--rose-gold-dark);
     --accent-glow: rgba(232, 180, 160, 0.25);
+  /* Canonical variable mapping for layout/panel compatibility */
+  --bg-color-start: var(--ivory-lightest);
+  --bg-color-end: var(--ivory-base);
+  --container-border: var(--border-medium);
+  --primary-text-color: var(--text-primary);
+  --secondary-text-color: var(--text-secondary);
+  --accent-blue: var(--rose-gold);
+  --accent-blue-deep: var(--rose-gold-dark);
+  --accent-glow-strong: rgba(232, 180, 160, 0.45);
 }
 
 /* ========== 主面板 ========== */
-[data-theme="light-parchment"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="light-parchment"] {
     background: var(--bg-primary) !important;
     border: 2px solid var(--rose-gold) !important;
     box-shadow: 
@@ -85,7 +94,7 @@
 }
 
 /* 面板装饰光效 */
-[data-theme="light-parchment"] #gs-status-bar-panel::before {
+#gs-status-bar-panel[data-theme="light-parchment"]::before {
     background: linear-gradient(
         90deg,
         transparent,
@@ -97,7 +106,7 @@
     box-shadow: 0 0 30px rgba(244, 213, 200, 0.6) !important;
 }
 
-[data-theme="light-parchment"] #gs-status-bar-panel::after {
+#gs-status-bar-panel[data-theme="light-parchment"]::after {
     background: linear-gradient(
         90deg,
         transparent,
@@ -413,11 +422,11 @@
 }
 
 /* ========== 纹理效果 ========== */
-[data-theme="light-parchment"] #gs-status-bar-panel {
+#gs-status-bar-panel[data-theme="light-parchment"] {
     position: relative;
 }
 
-[data-theme="light-parchment"] #gs-status-bar-panel::after {
+#gs-status-bar-panel[data-theme="light-parchment"]::after {
     content: '';
     position: absolute;
     top: 0;
@@ -433,7 +442,7 @@
     z-index: 1;
 }
 
-[data-theme="light-parchment"] #gs-status-bar-panel > * {
+#gs-status-bar-panel[data-theme="light-parchment"] > * {
     position: relative;
     z-index: 2;
 }

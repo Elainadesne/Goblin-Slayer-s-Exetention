@@ -20,27 +20,46 @@ export class DataManager {
     }
 
     async loadMvuData() {
+        Logger.log('[DataManager] 开始加载 MVU 数据...');
+        
         // Mvu is now guaranteed to be on the parent window by app.js
         const Mvu = window.parent.Mvu;
         if (!Mvu || typeof Mvu.getMvuData !== 'function') {
-            throw new Error('MVU API not found or not ready.');
+            const error = new Error('MVU API 未找到或未就绪');
+            Logger.error('[DataManager] MVU API 检查失败', error);
+            throw error;
         }
         
-        // getMvuData might return stat_data directly, or wrapped in { stat_data: {...} }
-        let rawData = await Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+        Logger.log('[DataManager] MVU API 已找到，正在获取数据...');
         
-        // Check data structure
-        
-        // Handle both cases: direct stat_data or wrapped in stat_data property
-        if (rawData?.stat_data && typeof rawData.stat_data === 'object') {
-            // MVU returned data with stat_data wrapper, unwrap it
-            this.mvuData = rawData.stat_data;
-        } else if (rawData && typeof rawData === 'object') {
-            // MVU returned stat_data directly
-            this.mvuData = rawData;
-        } else {
-            // Invalid data, use empty object
-            this.mvuData = {};
+        try {
+            // getMvuData might return stat_data directly, or wrapped in { stat_data: {...} }
+            let rawData = await Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+            
+            Logger.log('[DataManager] MVU 原始数据已获取');
+            
+            // Handle both cases: direct stat_data or wrapped in stat_data property
+            if (rawData?.stat_data && typeof rawData.stat_data === 'object') {
+                // MVU returned data with stat_data wrapper, unwrap it
+                this.mvuData = rawData.stat_data;
+                Logger.success('[DataManager] MVU 数据加载成功（包装格式）');
+            } else if (rawData && typeof rawData === 'object') {
+                // MVU returned stat_data directly
+                this.mvuData = rawData;
+                Logger.success('[DataManager] MVU 数据加载成功（直接格式）');
+            } else {
+                // Invalid data, use empty object
+                this.mvuData = {};
+                Logger.warn('[DataManager] MVU 返回了无效数据，使用空对象');
+            }
+            
+            // 记录数据概要
+            const keys = Object.keys(this.mvuData);
+            Logger.log(`[DataManager] MVU 数据包含 ${keys.length} 个顶级键: ${keys.slice(0, 5).join(', ')}${keys.length > 5 ? '...' : ''}`);
+            
+        } catch (error) {
+            Logger.error('[DataManager] 加载 MVU 数据时发生错误', error);
+            throw error;
         }
     }
 

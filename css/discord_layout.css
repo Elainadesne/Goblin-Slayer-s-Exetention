@@ -549,3 +549,118 @@
         padding: 8px;
     }
 }
+
+/* ===== 平板设备优化 (768px - 1024px) ===== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* 调整侧边栏宽度 */
+    .sidebar-nav {
+        width: 140px;
+    }
+
+    .sub-list-panel {
+        width: 200px;
+    }
+
+    /* 调整字体大小 */
+    .sidebar-nav-item {
+        padding: 10px 12px;
+        font-size: 0.95em;
+    }
+
+    .sub-list-item {
+        padding: 9px 12px;
+        font-size: 0.95em;
+    }
+
+    /* 调整内容区域 */
+    .content-detail-panel {
+        padding: 12px;
+    }
+
+    /* 世界视图特殊处理 */
+    #world-sub-list {
+        width: 180px;
+    }
+
+    #world-sub-list .sub-list-item {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}
+
+/* ===== 小屏幕平板 (600px - 768px) ===== */
+@media (min-width: 600px) and (max-width: 767px) {
+    /* 进一步缩小侧边栏 */
+    .sidebar-nav {
+        width: 120px;
+    }
+
+    .sidebar-nav-item {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+
+    .sidebar-nav-item i {
+        font-size: 1em;
+    }
+
+    .sub-list-panel {
+        width: 160px;
+    }
+
+    .sub-list-item {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+
+    .content-detail-panel {
+        padding: 10px;
+    }
+
+    /* 世界视图 */
+    #world-sub-list {
+        width: 140px;
+    }
+
+    #world-sub-list .sub-list-item {
+        padding: 6px 8px;
+        font-size: 0.85em;
+    }
+}
+
+/* ===== 横屏平板优化 ===== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    /* 横屏时可以使用更宽的侧边栏 */
+    .sidebar-nav {
+        width: 160px;
+    }
+
+    .sub-list-panel {
+        width: 220px;
+    }
+
+    #world-sub-list {
+        width: 200px;
+    }
+}
+
+/* ===== 竖屏平板优化 ===== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    /* 竖屏时需要更紧凑的布局 */
+    .sidebar-nav {
+        width: 130px;
+    }
+
+    .sub-list-panel {
+        width: 180px;
+    }
+
+    #world-sub-list {
+        width: 160px;
+    }
+
+    /* 减小内边距 */
+    .content-detail-panel {
+        padding: 10px;
+    }
+}

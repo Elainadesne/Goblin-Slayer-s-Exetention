@@ -19,10 +19,14 @@ export class StatusBarApp {
     async init() {
         // script.js has confirmed that core APIs are ready.
         try {
-            Logger.log('[App] Starting initialization...');
+            Logger.log('[App] GS状态栏扩展开始初始化');
+            Logger.log('[App] 版本: 1.0.0');
+            Logger.log('[App] 环境: SillyTavern');
             
             // 1. Manually load the UI from the template.
+            Logger.log('[App] 正在加载面板HTML...');
             await this.uiController.loadPanelHtml();
+            Logger.success('[App] 面板HTML加载成功');
 
             // 2. Wait for the Mvu module to be available.
             const mvu = await this.waitForMvu();
@@ -62,8 +66,16 @@ export class StatusBarApp {
             Logger.success('[App] GS Status Bar initialized successfully.');
 
         } catch (error) {
-            Logger.error('[App] Failed to initialize GS Status Bar.', error);
-            this.showError(error ? error.message : 'An unknown error occurred.');
+            Logger.error('[App] 初始化失败 - GS状态栏扩展无法启动', error);
+            Logger.error('[App] 错误详情', error);
+            
+            // 尝试显示错误信息（即使面板可能没有加载）
+            try {
+                this.showError(error ? error.message : '发生未知错误');
+            } catch (e) {
+                // 如果连错误显示都失败了，至少记录到日志
+                Logger.error('[App] 无法显示错误信息', e);
+            }
         }
     }
 
@@ -209,9 +221,13 @@ export class StatusBarApp {
                     <h2 class="error-title">加载失败</h2>
                     <p class="error-message">${message}</p>
                     <div class="error-actions">
-                        <button class="error-button" onclick="location.reload()">
+                        <button class="error-button" id="gs-app-error-reload">
                             <i class="fa-solid fa-rotate-right"></i>
-                            重新加载
+                            重新加载扩展
+                        </button>
+                        <button class="error-button" onclick="location.reload()" style="background: rgba(255, 107, 107, 0.2); border-color: #ff6b6b;">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                            刷新页面
                         </button>
                     </div>
                 </div>
@@ -228,6 +244,32 @@ export class StatusBarApp {
                     setTimeout(() => {
                         container.style.display = 'none';
                     }, 300);
+                });
+            }
+            
+            // 绑定重新加载扩展按钮
+            const reloadBtn = window.parent.document.getElementById('gs-app-error-reload');
+            if (reloadBtn) {
+                reloadBtn.addEventListener('click', async () => {
+                    Logger.log('[App] 用户点击重新加载扩展按钮');
+                    
+                    // 关闭错误面板
+                    rootEl.classList.remove('visible');
+                    container.style.display = 'none';
+                    
+                    // 尝试重新初始化
+                    try {
+                        if (this.reinitialize) {
+                            await this.reinitialize();
+                            Logger.success('[App] 扩展重新加载成功');
+                        } else {
+                            Logger.error('[App] reinitialize 方法不可用');
+                            alert('重新加载失败，请刷新页面');
+                        }
+                    } catch (error) {
+                        Logger.error('[App] 扩展重新加载失败', error);
+                        alert('重新加载失败: ' + error.message);
+                    }
                 });
             }
         }
@@ -249,24 +291,80 @@ export class StatusBarApp {
     }
 
     waitForMvu() {
+        Logger.log('[App] 开始等待 Mvu 模块...');
+        
         return new Promise((resolve, reject) => {
             let attempts = 0;
             const maxAttempts = 40; // 10 seconds
+            
             const interval = setInterval(() => {
+                attempts++;
                 const mvu = this.getMvuInstance();
+                
                 if (mvu) {
                     clearInterval(interval);
-                    Logger.success("[App] Mvu is initialized.");
+                    Logger.success(`[App] Mvu 模块已就绪 (尝试次数: ${attempts})`);
+                    
+                    // 检查 Mvu 的关键方法
+                    if (typeof mvu.getMvuData === 'function') {
+                        Logger.success('[App] Mvu.getMvuData 方法可用');
+                    } else {
+                        Logger.warn('[App] Mvu.getMvuData 方法不可用');
+                    }
+                    
                     resolve(mvu);
                 } else {
-                    attempts++;
-                    Logger.log(`[App] Waiting for Mvu... (Attempt ${attempts})`);
+                    if (attempts % 4 === 0) { // 每秒记录一次
+                        Logger.log(`[App] 等待 Mvu 模块... (尝试 ${attempts}/${maxAttempts})`);
+                    }
+                    
                     if (attempts >= maxAttempts) {
                         clearInterval(interval);
-                        reject(new Error('Mvu module failed to load within the timeout period.'));
+                        const error = new Error(`Mvu 模块在 ${maxAttempts * 250 / 1000} 秒内未能加载`);
+                        Logger.error('[App] Mvu 模块加载超时', error);
+                        Logger.error('[App] 可能的原因:', new Error('1. MVU 扩展未安装或未启用\n2. MVU 扩展加载失败\n3. 网络问题导致加载延迟'));
+                        reject(error);
                     }
                 }
             }, 250);
         });
+    }
+
+    /**
+     * 重新初始化应用（用于错误恢复）
+     */
+    async reinitialize() {
+        Logger.log('[App] 开始重新初始化应用...');
+        
+        try {
+            // 清除缓存
+            if (this.uiController.renderCache) {
+                this.uiController.renderCache.clear();
+            }
+            
+            // 清除雷达图缓存
+            if (this.uiController.characterView && this.uiController.characterView.clearRadarChartCache) {
+                this.uiController.characterView.clearRadarChartCache();
+            }
+            
+            // 重新等待 Mvu
+            const mvu = await this.waitForMvu();
+            if (!mvu) {
+                throw new Error('Mvu 模块重新加载失败');
+            }
+            
+            // 重新加载数据
+            await this.dataManager.loadAllData();
+            
+            // 重新渲染
+            this.uiController.renderAll();
+            
+            Logger.success('[App] 应用重新初始化成功');
+            
+            return true;
+        } catch (error) {
+            Logger.error('[App] 应用重新初始化失败', error);
+            throw error;
+        }
     }
 }
