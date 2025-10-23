@@ -225,6 +225,32 @@
   border: 1px solid rgba(168, 192, 255, 0.2);
 }
 
+/* 性格标签 */
+.personality-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+.tag {
+    background: rgba(168, 192, 255, 0.1);
+    color: var(--accent-blue);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+/* 欲望统计 */
+.desire-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
 /* 移动端优化 */
 @media (max-width: 768px) {
   .character-card-content {

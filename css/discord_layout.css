@@ -100,13 +100,47 @@
     color: var(--primary-text-color);
 }
 
+.sub-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px; /* 在名字和图标之间增加一些间距 */
+}
+
+.char-name {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.char-status-indicators {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0; /* 防止图标被压缩 */
+}
+
+.char-status-indicator {
+    font-size: 0.8em;
+}
+
+.char-status-indicator.companion {
+    color: #ffd700; /* 金色 */
+}
+
+.char-status-indicator.present {
+    color: #ff85a2; /* 粉色，与好感度颜色匹配 */
+}
+
 /* Main content area for details */
 .content-detail-panel {
     flex: 1 1 auto;
     padding: 15px;
     overflow-y: auto;
     overflow-x: hidden;
-    min-width: 0; /* Prevent flex item from overflowing */
+    min-width: 0;
+    /* Prevent flex item from overflowing */
     width: 100%;
     box-sizing: border-box;
 }
@@ -156,6 +190,7 @@
 
 /* 移动端滚动条样式 */
 @media (max-width: 768px) {
+
     .sidebar-nav::-webkit-scrollbar,
     .sub-list-content::-webkit-scrollbar,
     .content-detail-panel::-webkit-scrollbar,
@@ -254,6 +289,7 @@
 
 /* Mobile Responsive Design for Discord Layout */
 @media (max-width: 768px) {
+
     /* 移动端：隐藏侧边栏，使用顶部标签页 */
     .discord-layout {
         flex-direction: column;
@@ -276,13 +312,18 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    /* 状态标签页：在移动端显示为顶部标签 */
-    #status-pane.discord-layout {
+    /* 状态标签页：在移动端显示为顶部标签 - 只在激活时显示 */
+    #status-pane.discord-layout.active {
         display: flex;
         flex-direction: column;
     }
+    
+    /* 非激活状态确保隐藏 */
+    #status-pane.discord-layout:not(.active) {
+        display: none !important;
+    }
 
-    #status-pane #status-sidebar {
+    #status-pane.active #status-sidebar {
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -294,6 +335,11 @@
         gap: 5px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: thin;
+    }
+    
+    /* 非激活状态下隐藏 */
+    #status-pane:not(.active) #status-sidebar {
+        display: none !important;
     }
 
     #status-pane #status-sidebar::-webkit-scrollbar {
@@ -350,7 +396,7 @@
     }
 
     /* 只有当父级导航项是装备且激活时才显示子菜单 */
-    #status-pane .sidebar-nav-item.active + .sidebar-submenu {
+    #status-pane .sidebar-nav-item.active+.sidebar-submenu {
         display: flex !important;
     }
 
@@ -375,14 +421,19 @@
         background-color: rgba(168, 192, 255, 0.2);
     }
 
-    /* 世界标签页：移动端特殊处理 */
-    #world-pane.discord-layout {
+    /* 世界标签页：移动端特殊处理 - 只在激活时显示 */
+    #world-pane.discord-layout.active {
         display: flex !important;
         flex-direction: column;
     }
+    
+    /* 非激活状态确保隐藏 */
+    #world-pane.discord-layout:not(.active) {
+        display: none !important;
+    }
 
     /* 世界分类：顶部水平标签 */
-    #world-sidebar-main {
+    #world-pane.active #world-sidebar-main {
         display: flex !important;
         flex-direction: row;
         width: 100%;
@@ -394,6 +445,11 @@
         gap: 5px;
         -webkit-overflow-scrolling: touch;
         flex-shrink: 0;
+    }
+    
+    /* 非激活状态下隐藏 */
+    #world-pane:not(.active) #world-sidebar-main {
+        display: none !important;
     }
 
     #world-sidebar-main .sidebar-nav-item {
@@ -425,7 +481,7 @@
     }
 
     /* 角色列表：显示为水平滚动条 */
-    #world-sub-list {
+    #world-pane.active #world-sub-list {
         display: flex !important;
         flex-direction: column;
         width: 100%;
@@ -434,6 +490,11 @@
         max-height: 120px;
         flex-shrink: 0;
         background: rgba(0, 0, 0, 0.15);
+    }
+    
+    /* 非激活状态下隐藏 */
+    #world-pane:not(.active) #world-sub-list {
+        display: none !important;
     }
 
     #world-sub-list .sub-list-header {
@@ -508,6 +569,7 @@
 }
 
 @media (max-width: 480px) {
+
     /* 小屏幕进一步优化 */
     .sidebar-nav-item {
         padding: 6px 10px !important;
@@ -552,6 +614,7 @@
 
 /* ===== 平板设备优化 (768px - 1024px) ===== */
 @media (min-width: 768px) and (max-width: 1024px) {
+
     /* 调整侧边栏宽度 */
     .sidebar-nav {
         width: 140px;
@@ -590,6 +653,7 @@
 
 /* ===== 小屏幕平板 (600px - 768px) ===== */
 @media (min-width: 600px) and (max-width: 767px) {
+
     /* 进一步缩小侧边栏 */
     .sidebar-nav {
         width: 120px;
@@ -630,6 +694,7 @@
 
 /* ===== 横屏平板优化 ===== */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
     /* 横屏时可以使用更宽的侧边栏 */
     .sidebar-nav {
         width: 160px;
@@ -646,6 +711,7 @@
 
 /* ===== 竖屏平板优化 ===== */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+
     /* 竖屏时需要更紧凑的布局 */
     .sidebar-nav {
         width: 130px;

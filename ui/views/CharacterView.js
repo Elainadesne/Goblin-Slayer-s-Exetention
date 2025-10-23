@@ -100,10 +100,25 @@ export class CharacterView {
         const jobPoints = this.dataManager.SafeGetValue(`${basePath}.职业点数`, 0);
 
         const jobs = this.dataManager.SafeGetValue(`${basePath}.职业`, {});
-        const jobEntries = ViewUtils.filterMetaEntries(jobs);
+        const jobEntries = ViewUtils.filterMetaEntries(jobs)
+            .map(([name, data]) => ({
+                name,
+                level: data['当前等级'] || 1
+            }))
+            .sort((a, b) => b.level - a.level); // 按等级降序排序
+
         const primaryJob = jobEntries.length > 0 ? jobEntries[0] : null;
-        const jobName = primaryJob ? primaryJob[0] : '无职业';
-        const jobLevel = primaryJob ? this.dataManager.SafeGetValue(`${basePath}.职业.${primaryJob[0]}.当前等级`, 1) : 0;
+        const subJobs = jobEntries.length > 1 ? jobEntries.slice(1) : [];
+
+        const jobName = primaryJob ? primaryJob.name : '无职业';
+        const jobLevel = primaryJob ? primaryJob.level : 0;
+
+        const subJobsHTML = subJobs.length > 0
+            ? `<div class="hero-sub-jobs">
+                 <span class="sub-jobs-label">副职业:</span>
+                 ${subJobs.map(job => `<span>${job.name} Lv.${job.level}</span>`).join(' · ')}
+               </div>`
+            : '';
 
         const guild = this.dataManager.SafeGetValue(`${basePath}.公会信息.所属公会`, '无');
         const guildRank = this.dataManager.SafeGetValue(`${basePath}.公会信息.公会阶级`, '无阶级');
@@ -135,6 +150,7 @@ export class CharacterView {
                         <div class="hero-job-level">Lv.${jobLevel}</div>
                     </div>
                 </div>
+                ${subJobsHTML}
 
                 <!-- Stats Grid -->
                 <div class="hero-stats-grid">

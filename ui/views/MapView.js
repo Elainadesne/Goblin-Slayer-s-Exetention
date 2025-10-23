@@ -392,6 +392,12 @@ export class MapView {
 
             const playerPos = [this.flipY(playerCoords[1]), playerCoords[0]];
 
+            // 在创建标记前，再次验证坐标的有效性
+            if (isNaN(playerPos[0]) || isNaN(playerPos[1])) {
+                Logger.warn(`无效的玩家坐标，无法创建标记: ${playerPos}`);
+                return;
+            }
+
             // 保存玩家标记的引用，方便后续更新
             if (this.playerMarker) {
                 this.map.removeLayer(this.playerMarker);

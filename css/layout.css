@@ -94,7 +94,7 @@
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    z-index: 9000;
+    z-index: 40;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -151,6 +151,34 @@
     border: 1px solid var(--container-border, #444);
 }
 
+/* 关闭按钮 - 和位置信息类似的样式 */
+.nav-close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px;
+    color: #ef4444;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.nav-close-button:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    transform: scale(1.05);
+}
+
+.nav-close-button:active {
+    transform: scale(0.95);
+}
+
+/* 其他模态框的关闭按钮保持原样 */
 .modal-close-button {
     position: absolute;
     top: 10px;
@@ -272,7 +300,8 @@
 /* Simple layout for tasks, map and territory tabs */
 #tasks-content,
 #map-content,
-#territory-content {
+#territory-content,
+#logs-content {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -288,15 +317,18 @@
 /* Settings tab scroll container fix:
    Ensure the Settings tab can scroll by making the host container a flex box
    and delegating overflow to the inner .gs-settings-view. */
-#settings-content {
+#settings-content,
+#logs-content {
     height: 100%;
     min-height: 0; /* allow inner flex child to shrink and scroll */
     display: flex;
     flex-direction: column;
     overflow: hidden; /* avoid double scrollbars on the outer container */
+    padding: 0; /* Let the inner container handle padding */
 }
 
-#settings-content > .gs-settings-view {
+#settings-content > .gs-settings-view,
+#logs-content > .logs-container {
     flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
@@ -387,36 +419,99 @@ ap Popup Styles */
         max-height: 90vh;
         margin-top: 10px;
     }
-
+    
     .top-nav {
         flex-direction: row;
         flex-wrap: wrap;
         padding: 5px;
         gap: 5px;
         justify-content: space-between;
+        position: relative;
+        z-index: 10000 !important;
+        pointer-events: auto !important;
+        display: flex !important;
     }
 
     .nav-location-info {
-        width: 100%;
+        flex: 1;
         justify-content: center;
         min-width: auto;
         padding: 6px 12px;
         font-size: 0.9em;
         order: -1;
     }
+    
+    /* 移动端关闭按钮 - 和位置信息并排 */
+    .nav-close-button {
+        order: -1;
+        padding: 6px 12px;
+        font-size: 1.1em;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .nav-close-button:active {
+        transform: scale(0.9);
+        background: rgba(239, 68, 68, 0.3);
+    }
 
     .nav-buttons {
         width: 100%;
         flex-wrap: nowrap;
-        justify-content: space-around;
-        gap: 3px;
+        justify-content: flex-start;
+        gap: 6px;
+        overflow-x: scroll !important; /* 强制启用滚动 */
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-blue) transparent;
+        padding-bottom: 4px;
+        display: flex !important;
+        flex-shrink: 0;
+        /* 确保可以滚动 */
+        max-width: 100%;
+        overscroll-behavior-x: contain;
+    }
+
+    /* Webkit (Chrome, Safari) 滚动条样式 */
+    .nav-buttons::-webkit-scrollbar {
+        height: 6px; /* 增加滚动条高度，更容易看到 */
+    }
+
+    .nav-buttons::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+
+    .nav-buttons::-webkit-scrollbar-thumb {
+        background-color: var(--accent-blue);
+        border-radius: 3px;
     }
 
     .nav-button {
-        padding: 8px 10px;
-        font-size: 0.85em;
-        flex: 1;
-        min-width: 0;
+        padding: 10px 14px !important; /* 增加按钮大小，更容易点击 */
+        font-size: 0.9em;
+        flex: 0 0 auto !important;
+        min-width: 48px !important; /* 设置最小宽度，确保按钮足够大 */
+        min-height: 48px !important; /* 确保符合移动端最小点击区域标准 */
+        width: auto !important; /* 确保有宽度 */
+        height: auto !important; /* 确保有高度 */
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation; /* 优化触摸响应 */
+        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3); /* iOS 点击高亮 */
+        user-select: none; /* 防止长按选中文本 */
+        -webkit-user-select: none;
+        cursor: pointer;
+        position: relative; /* 确保 z-index 生效 */
+        z-index: 10000 !important; /* 确保按钮在最上层，高于 SillyTavern 的元素 */
+        pointer-events: auto !important; /* 强制启用点击事件 */
+    }
+    
+    /* 防止图标阻止点击事件 */
+    .nav-button i {
+        pointer-events: none;
     }
 
     .nav-button span {
@@ -455,7 +550,9 @@ ap Popup Styles */
     }
 
     .nav-button {
-        padding: 6px 10px;
+        padding: 8px 12px; /* 小屏幕也保持足够的点击区域 */
+        min-width: 44px; /* 确保符合移动端最小点击区域标准 */
+        min-height: 44px;
     }
 
     #gs-open-panel-button {

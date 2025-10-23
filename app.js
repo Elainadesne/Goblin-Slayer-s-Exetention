@@ -295,7 +295,7 @@ export class StatusBarApp {
         
         return new Promise((resolve, reject) => {
             let attempts = 0;
-            const maxAttempts = 40; // 10 seconds
+            const pollInterval = 1000; // 1秒轮询间隔
             
             const interval = setInterval(() => {
                 attempts++;
@@ -303,7 +303,7 @@ export class StatusBarApp {
                 
                 if (mvu) {
                     clearInterval(interval);
-                    Logger.success(`[App] Mvu 模块已就绪 (尝试次数: ${attempts})`);
+                    Logger.success(`[App] Mvu 模块已就绪 (尝试次数: ${attempts}, 耗时: ${attempts * pollInterval / 1000}秒)`);
                     
                     // 检查 Mvu 的关键方法
                     if (typeof mvu.getMvuData === 'function') {
@@ -314,19 +314,10 @@ export class StatusBarApp {
                     
                     resolve(mvu);
                 } else {
-                    if (attempts % 4 === 0) { // 每秒记录一次
-                        Logger.log(`[App] 等待 Mvu 模块... (尝试 ${attempts}/${maxAttempts})`);
-                    }
-                    
-                    if (attempts >= maxAttempts) {
-                        clearInterval(interval);
-                        const error = new Error(`Mvu 模块在 ${maxAttempts * 250 / 1000} 秒内未能加载`);
-                        Logger.error('[App] Mvu 模块加载超时', error);
-                        Logger.error('[App] 可能的原因:', new Error('1. MVU 扩展未安装或未启用\n2. MVU 扩展加载失败\n3. 网络问题导致加载延迟'));
-                        reject(error);
-                    }
+                    // 每次都记录，因为间隔已经是1秒了
+                    Logger.log(`[App] 等待 Mvu 模块... (尝试 ${attempts}, 已等待 ${attempts * pollInterval / 1000}秒)`);
                 }
-            }, 250);
+            }, pollInterval);
         });
     }
 

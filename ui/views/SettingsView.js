@@ -343,7 +343,7 @@ export class SettingsView {
                                     为 SillyTavern 提供强大的游戏状态管理和可视化功能
                                 </p>
                                 <div class="gs-about-links">
-                                    <a href="#" class="gs-about-link" id="github-link">
+                                    <a href="https://github.com/Elainadesne/Goblin-Slayer-s-Exetention.git" target="_blank" rel="noopener noreferrer" class="gs-about-link" id="github-link">
                                         <i class="fa-brands fa-github"></i>
                                         GitHub
                                     </a>

@@ -126,3 +126,30 @@ details.section > summary .arrow-toggle {
   font-size: 0.95em;
   line-height: 1.7;
 }
+
+/* Media Slot for World View Character Portrait */
+.industry-media-slot {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* 确保子元素不会溢出 */
+    border-radius: 6px; /* 匹配卡片样式 */
+}
+
+.industry-media-slot .thumb {
+    display: block;
+    width: 100%;
+}
+
+.industry-media-slot img {
+    display: block;
+    width: 100%; /* 让图片填充容器宽度 */
+    height: auto; /* 保持宽高比 */
+    max-width: 100%; /* 防止溢出 */
+    object-fit: cover; /* 裁剪图片以适应容器，保持宽高比 */
+    border-radius: 6px; /* 匹配容器圆角 */
+    transition: transform 0.3s ease;
+}
+
+.industry-media-slot .thumb:hover img {
+    transform: scale(1.05);
+}

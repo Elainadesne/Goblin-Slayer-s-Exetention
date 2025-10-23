@@ -124,10 +124,10 @@ export class SidebarManager {
         
         const target = event.target.closest('.sub-list-item');
         if (!target) return;
-        const newCharacter = target.dataset.char;
-        Logger.log(`Clicked character: ${newCharacter}`);
-        this.setActive('worldCharacter', newCharacter, this.elements.worldSubList);
-        this.callbacks.onCharacterSelect?.(newCharacter);
+        const newCharacterName = target.dataset.char;
+        Logger.log(`Clicked character: ${newCharacterName}`);
+        this.setActive('worldCharacter', newCharacterName, this.elements.worldSubList);
+        this.callbacks.onCharacterSelect?.(newCharacterName);
     }
 
     setActive(type, value, container) {
@@ -195,14 +195,20 @@ export class SidebarManager {
         ).join('');
     }
 
-    renderCharacterList(characterNames) {
+    renderCharacterList(characters) {
         if (!this.elements.worldSubList) return;
-        
+
         this.elements.worldSubList.innerHTML = `
             <div class="sub-list-header">${this.activeState.worldCategory}</div>
             <div class="sub-list-content">
-                ${characterNames.length > 0 ? characterNames.map(name => `
-                    <div class="sub-list-item" data-char="${name}">${name}</div>
+                ${characters.length > 0 ? characters.map(char => `
+                    <div class="sub-list-item" data-char="${char.name}">
+                        <span class="char-name">${char.name}</span>
+                        <div class="char-status-indicators">
+                            ${char.is_companion ? '<i class="fa-solid fa-star char-status-indicator companion" title="同伴"></i>' : ''}
+                            ${char.is_present ? '<i class="fa-solid fa-location-dot char-status-indicator present" title="在场"></i>' : ''}
+                        </div>
+                    </div>
                 `).join('') : '<p style="padding: 10px;">无条目</p>'}
             </div>
         `;

@@ -80,7 +80,7 @@
   color: #f0f6fc;
   text-shadow: 0 0 5px var(--accent-glow-strong);
 }
-b {
+#gs-status-bar-panel b {
   color: var(--accent-blue);
   font-weight: normal;
 }

@@ -71,22 +71,39 @@ export class PanelManager {
             const tabId = button.dataset.tab;
             Logger.log(`[PanelManager] Binding button [${index}]: ${tabId}`);
             
-            // 点击事件
-            button.addEventListener('click', (e) => {
+            // 使用统一的处理函数
+            const handleTabSwitch = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                Logger.log(`[PanelManager] Nav button clicked: ${tabId}`);
+                Logger.log(`[PanelManager] Nav button activated: ${tabId} (${e.type})`);
                 this.switchTab(tabId);
-            });
+            };
             
-            // 触摸事件（移动端）
+            // 移动端优先使用触摸事件
             if ('ontouchstart' in window) {
+                let touchHandled = false;
+                
+                button.addEventListener('touchstart', (e) => {
+                    touchHandled = false;
+                }, { passive: true });
+                
                 button.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    Logger.log(`[PanelManager] Nav button touched: ${tabId}`);
-                    this.switchTab(tabId);
+                    if (!touchHandled) {
+                        touchHandled = true;
+                        handleTabSwitch(e);
+                    }
                 });
+                
+                // 仍然绑定 click 作为后备
+                button.addEventListener('click', (e) => {
+                    if (!touchHandled) {
+                        handleTabSwitch(e);
+                    }
+                    touchHandled = false;
+                });
+            } else {
+                // 桌面端只使用 click
+                button.addEventListener('click', handleTabSwitch);
             }
         });
         

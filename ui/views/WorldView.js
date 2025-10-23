@@ -16,21 +16,44 @@ export class WorldView {
 
     getCharacterListForCategory(category) {
         const statData = this.dataManager.mvuData;
-        
         if (!statData) {
             Logger.warn('getCharacterListForCategory called before mvuData is available.');
             return [];
         }
 
+        let characterList = [];
         if (category === '关系者') {
             const relations = statData.关系列表 || {};
-            return ViewUtils.filterMetaKeys(relations);
-        }
-        if (category === '敌对者') {
+            characterList = ViewUtils.filterMetaKeys(relations).map(name => {
+                const charData = this.dataManager.SafeGetValue(`关系列表.${name}`, {});
+                return {
+                    name: name,
+                    is_companion: charData.is_companion || false,
+                    is_present: charData.在场 || false,
+                };
+            });
+        } else if (category === '敌对者') {
             const enemies = statData.敌人列表 || {};
-            return ViewUtils.filterMetaKeys(enemies).filter(name => !this.dataManager.cache.hiddenEnemies.includes(name));
+            characterList = ViewUtils.filterMetaKeys(enemies)
+                .filter(name => !this.dataManager.cache.hiddenEnemies.includes(name))
+                .map(name => {
+                    const charData = this.dataManager.SafeGetValue(`敌人列表.${name}`, {});
+                    return {
+                        name: name,
+                        is_companion: false,
+                        is_present: charData.在场 || false,
+                    };
+                });
         }
-        return [];
+
+        // 排序：同伴 > 在场 > 其他
+        characterList.sort((a, b) => {
+            if (a.is_companion !== b.is_companion) return a.is_companion ? -1 : 1;
+            if (a.is_present !== b.is_present) return a.is_present ? -1 : 1;
+            return a.name.localeCompare(b.name);
+        });
+
+        return characterList;
     }
 
     renderCharacterDetail(charName, category) {
@@ -115,6 +138,27 @@ export class WorldView {
                 </div>`;
         } else {
             // Two-column layout for relations
+            const personalityTags = this.dataManager.SafeGetValue(`${basePath}.性格标签`, []);
+            const interestLevel = this.dataManager.SafeGetValue(`${basePath}.性趣度`, 0);
+            const desireLevel = this.dataManager.SafeGetValue(`${basePath}.性欲度`, 0);
+            const appellation = this.dataManager.SafeGetValue(`${basePath}.称呼`, '');
+
+            let extraInfoHTML = '';
+            if (personalityTags.length > 0 || interestLevel > 0 || desireLevel > 0) {
+                const tagsHTML = personalityTags.length > 0
+                    ? `<div class="personality-tags">${personalityTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>`
+                    : '';
+
+                extraInfoHTML = `
+                    <h4 class="detail-section-header">补充信息</h4>
+                    ${tagsHTML}
+                    <div class="desire-stats">
+                        <div class="stat-line"><div><span>❤️‍🔥<b>性趣度</b></span><span>${interestLevel}/100</span></div>${ViewUtils.createProgressBar(interestLevel, 100, '#ff85a2')}</div>
+                        <div class="stat-line"><div><span>🥵<b>性欲度</b></span><span>${desireLevel}/100</span></div>${ViewUtils.createProgressBar(desireLevel, 100, '#ff6b6b')}</div>
+                    </div>
+                `;
+            }
+
             cardBodyHTML = `
                 <div class="character-card-content">
                     <div class="card-col-left">
@@ -123,6 +167,7 @@ export class WorldView {
                         <h4 class="detail-section-header">人际关系</h4>
                         <div class="stat-line"><div><span>💖<b>好感度</b></span><span>${this.dataManager.SafeGetValue(`${basePath}.好感度.${userName}`, 0)}/100</span></div>${ViewUtils.createProgressBar(this.dataManager.SafeGetValue(`${basePath}.好感度.${userName}`, 0), 100, '#ff85a2')}</div>
                         <div class="stat-line"><div><span>🤝<b>信任度</b></span><span>${this.dataManager.SafeGetValue(`${basePath}.信任度.${userName}`, 0)}/100</span></div>${ViewUtils.createProgressBar(this.dataManager.SafeGetValue(`${basePath}.信任度.${userName}`, 0), 100, '#85e0ff')}</div>
+                        ${extraInfoHTML}
                         <h4 class="detail-section-header">能力与技能</h4>
                         ${abilitiesHTML}
                         <hr class="thin-divider"/>
@@ -131,6 +176,7 @@ export class WorldView {
                     <div class="card-col-right">
                         ${relationsMediaHTML}
                         <h4 class="detail-section-header">背景</h4>
+                        ${appellation ? `<p><b>称呼:</b> ${appellation}</p>` : ''}
                         <p><b>外貌:</b> ${this.dataManager.SafeGetValue(`${basePath}.外貌`, '...')}</p>
                         <p><b>背景:</b> ${this.dataManager.SafeGetValue(`${basePath}.身份背景`, '...')}</p>
                         <h4 class="detail-section-header">装备</h4>
@@ -142,10 +188,6 @@ export class WorldView {
         return `
             <div class="character-detail-header">
                 <span class="value-main">${nameText}</span>
-                <div class="char-indicators">
-                    ${this.dataManager.SafeGetValue(`${basePath}.在场`) ? '<span>📍 在场</span>' : ''}
-                    ${!isEnemy && this.dataManager.SafeGetValue(`${basePath}.is_companion`) ? '<span class="companion-indicator">⭐ 同伴</span>' : ''}
-                </div>
                 <span class="summary-details">${this.dataManager.SafeGetValue(`${basePath}.职业`, '未知')} Lv.${this.dataManager.SafeGetValue(`${basePath}.职业等级`, '?')} @ ${this.dataManager.SafeGetValue(`${basePath}.所处地点`, '?')}</span>
                 ${isEnemy ? `<button class="subtle-button hide-enemy-button" data-char-name="${nameText}">隐藏</button>` : ''}
             </div>
@@ -253,19 +295,28 @@ export class WorldView {
                 const s = raw.trim();
                 if (PLACEHOLDERS.has(s.toLowerCase())) continue;
                 itemName = s;
-            } else if (typeof raw === 'object') {
-                itemName = raw.name || raw.名称 || '';
-                itemDesc = raw.description || raw.描述 || '';
-                itemTier = raw.tier || '普通';
-                
-                // 获取属性加成
-                if (raw.attributes_bonus && typeof raw.attributes_bonus === 'object') {
-                    const bonusList = Object.entries(raw.attributes_bonus)
-                        .map(([attr, val]) => `${attr} +${val}`)
-                        .join('，');
-                    if (bonusList) {
-                        itemBonus = bonusList;
+            } else if (typeof raw === 'object' && raw !== null) {
+                // Handle nested object structure like "武器": { "null": { "name": "..." } }
+                const itemKeys = Object.keys(raw);
+                const itemData = itemKeys.length > 0 ? raw[itemKeys[0]] : raw;
+
+                if (typeof itemData === 'object' && itemData !== null) {
+                    itemName = itemData.name || itemData.名称 || '';
+                    itemDesc = itemData.description || itemData.描述 || '';
+                    itemTier = itemData.tier || '普通';
+
+                    if (itemData.attributes_bonus && typeof itemData.attributes_bonus === 'object') {
+                        const bonusList = Object.entries(itemData.attributes_bonus)
+                            .map(([attr, val]) => `${attr} +${val}`)
+                            .join('，');
+                        if (bonusList) {
+                            itemBonus = bonusList;
+                        }
                     }
+                } else if (typeof raw.name === 'string') {
+                     itemName = raw.name || raw.名称 || '';
+                     itemDesc = raw.description || raw.描述 || '';
+                     itemTier = raw.tier || '普通';
                 }
             }
 

@@ -22,6 +22,27 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.hero-sub-jobs {
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--container-border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    margin-top: -21px; /* 与头部卡片重叠，形成一体化效果 */
+    padding-top: 30px;
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sub-jobs-label {
+    font-weight: 600;
+    color: var(--accent-blue);
+}
+
 .hero-name-section {
     flex: 1;
 }
