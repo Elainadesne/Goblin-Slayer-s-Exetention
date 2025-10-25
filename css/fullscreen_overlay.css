@@ -1,0 +1,199 @@
+/**
+ * 全屏覆盖层样式
+ * 用于全屏地图、全屏技能树等
+ */
+
+/* 全屏覆盖层容器 */
+.gs-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.gs-fullscreen-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 关闭按钮 */
+.gs-fullscreen-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid rgba(168, 192, 255, 0.5);
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--accent-blue);
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.gs-fullscreen-close-btn:hover {
+    background: rgba(168, 192, 255, 0.2);
+    border-color: var(--accent-blue);
+    transform: scale(1.1);
+}
+
+.gs-fullscreen-close-btn:active {
+    transform: scale(0.95);
+}
+
+/* 内容区域 */
+.gs-fullscreen-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 全屏地图特定样式 */
+.fullscreen-map-view .fullscreen-map-container {
+    width: 100%;
+    height: 100%;
+}
+
+.fullscreen-map-view #fullscreen-map-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* 全屏地图的坐标显示 */
+.fullscreen-map-view #fullscreen-coord-overlay {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(168, 192, 255, 0.5);
+    background: rgba(15, 23, 42, 0.95);
+    color: #e0d6c8;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    user-select: none;
+    pointer-events: none;
+}
+
+/* 隐藏路径点按钮 */
+.fullscreen-map-view #toggle-markers-btn {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(168, 192, 255, 0.5);
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--accent-blue);
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1000;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.fullscreen-map-view #toggle-markers-btn:hover {
+    background: rgba(168, 192, 255, 0.2);
+    border-color: var(--accent-blue);
+}
+
+.fullscreen-map-view #toggle-markers-btn:active {
+    transform: scale(0.95);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .gs-fullscreen-close-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .fullscreen-map-view #fullscreen-coord-overlay {
+        top: 10px;
+        right: 60px;
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .fullscreen-map-view #toggle-markers-btn {
+        top: 60px;
+        right: 10px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+/* 动画 */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Leaflet 地图在全屏模式下的样式调整 */
+.fullscreen-map-view .leaflet-container {
+    background: #0a0e1a;
+}
+
+.fullscreen-map-view .leaflet-popup-content-wrapper {
+    background: rgba(15, 23, 42, 0.95);
+    color: #e0d6c8;
+    border: 1px solid rgba(168, 192, 255, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.fullscreen-map-view .leaflet-popup-tip {
+    background: rgba(15, 23, 42, 0.95);
+}
+
+.fullscreen-map-view .map-popup-header {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--accent-blue);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(168, 192, 255, 0.3);
+}
+
+.fullscreen-map-view .map-popup-body {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: #e0d6c8;
+}

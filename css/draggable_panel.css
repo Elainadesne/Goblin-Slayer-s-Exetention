@@ -1,0 +1,187 @@
+/**
+ * 可拖动可缩放面板样式
+ */
+
+/* 面板基础样式 - 仅PC端禁用动画 */
+@media (min-width: 769px) {
+    #gs-status-bar-panel {
+        transition: none !important;
+    }
+}
+
+#gs-status-bar-panel.dragging,
+#gs-status-bar-panel.resizing {
+    user-select: none;
+    pointer-events: auto;
+}
+
+/* 拖动手柄 */
+.drag-handle {
+    cursor: move !important;
+    user-select: none;
+}
+
+.drag-handle:active {
+    cursor: grabbing !important;
+}
+
+/* 缩放手柄 */
+.resize-handle {
+    position: absolute;
+    z-index: 10;
+    background: transparent;
+}
+
+/* 边缘缩放手柄 */
+.resize-n {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+.resize-s {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+.resize-e {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 8px;
+    cursor: ew-resize;
+}
+
+.resize-w {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 8px;
+    cursor: ew-resize;
+}
+
+/* 角落缩放手柄 */
+.resize-ne {
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nesw-resize;
+}
+
+.resize-nw {
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+}
+
+.resize-se {
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+}
+
+.resize-sw {
+    bottom: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nesw-resize;
+}
+
+/* 缩放手柄悬停效果 */
+.resize-handle:hover {
+    background: rgba(168, 192, 255, 0.2);
+}
+
+/* 窄屏模式 - 复用 layout.css 中 @media (max-width: 768px) 的样式 */
+/* 
+   当面板宽度 < 500px 时，通过 JavaScript 添加 .narrow-mode 类
+   所有样式定义在 layout.css 的移动端部分，使用组合选择器同时匹配两种情况
+*/
+
+/* 面板容器调整 - 仅PC端 */
+@media (min-width: 769px) {
+    #gs-status-bar-panel-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+        background: none !important;
+        backdrop-filter: none !important;
+    }
+
+    #gs-status-bar-panel-container #gs-status-bar-panel {
+        pointer-events: auto;
+    }
+}
+
+/* 内容区域滚动 - 仅PC端 */
+@media (min-width: 769px) {
+    #gs-status-bar-panel .content-area {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 60px);
+    }
+
+    #gs-status-bar-panel.narrow-mode .content-area {
+        height: calc(100% - 48px);
+    }
+
+    #gs-status-bar-panel .tab-pane {
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+        height: 100%;
+    }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    #gs-status-bar-panel {
+        /* 移动端默认全屏 */
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+    }
+
+    .resize-handle {
+        display: none;
+        /* 移动端禁用缩放 */
+    }
+
+    .drag-handle {
+        cursor: default !important;
+    }
+}
+
+/* 拖动时的视觉反馈 */
+#gs-status-bar-panel.dragging {
+    opacity: 0.95;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
+}
+
+#gs-status-bar-panel.resizing {
+    opacity: 0.95;
+}
+
+/* 面板关闭按钮调整 */
+.nav-close-button {
+    cursor: pointer;
+    flex-shrink: 0;
+}
