@@ -693,10 +693,10 @@
 
 @media (max-width: 600px) {
     .custom-skills-panel {
-        width: calc(100% - 20px);
-        max-height: 200px;
-        bottom: 80px;
-        top: auto;
+        width: 280px;
+        max-height: calc(100vh - 150px);
+        bottom: auto;
+        top: 10px;
         left: 10px;
     }
 }
@@ -823,4 +823,17 @@
 
 .skill-tooltip-requirements div {
     margin-bottom: 2px;
+}
+
+
+/* ===================================================================
+ * 窄屏模式 - 自定义技能面板优化
+ * =================================================================== */
+
+.narrow-mode .custom-skills-panel {
+    width: 280px;
+    max-height: calc(100vh - 150px);
+    bottom: auto;
+    top: 10px;
+    left: 10px;
 }

@@ -287,9 +287,9 @@
     left: 0;
     right: 0;
     height: 60px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent; /* 移除黑框背景 */
+    backdrop-filter: none;
+    border-top: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -526,4 +526,89 @@
     font-weight: bold;
     transform: translate(-50%, -50%);
     font-family: monospace;
+}
+
+
+/* ===================================================================
+ * 窄屏模式 - 自定义技能区域优化
+ * =================================================================== */
+
+/* 移动端：保持自定义技能区域在左侧，增加高度 */
+@media (max-width: 768px) {
+    .custom-skills-area {
+        left: 10px;
+        top: 80px;
+        width: 280px;
+        max-height: calc(100vh - 200px); /* 增加高度 */
+    }
+    
+    .custom-area-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+    
+    .custom-jobs-section,
+    .custom-skills-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    
+    .custom-job-card,
+    .custom-skill-card {
+        padding: 10px;
+        gap: 6px;
+    }
+    
+    .custom-card-icon {
+        font-size: 28px;
+    }
+    
+    .custom-card-name {
+        font-size: 13px;
+    }
+    
+    .custom-card-level {
+        font-size: 11px;
+    }
+}
+
+/* 窄屏模式（PC端窄面板）：保持在左侧 */
+.narrow-mode .custom-skills-area {
+    left: 10px;
+    top: 80px;
+    width: 280px;
+    max-height: calc(100vh - 200px);
+}
+
+.narrow-mode .custom-area-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+}
+
+.narrow-mode .custom-jobs-section,
+.narrow-mode .custom-skills-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.narrow-mode .custom-job-card,
+.narrow-mode .custom-skill-card {
+    padding: 10px;
+    gap: 6px;
+}
+
+.narrow-mode .custom-card-icon {
+    font-size: 28px;
+}
+
+.narrow-mode .custom-card-name {
+    font-size: 13px;
+}
+
+.narrow-mode .custom-card-level {
+    font-size: 11px;
 }

@@ -34,8 +34,9 @@ export class WorldView {
             });
         } else if (category === '敌对者') {
             const enemies = statData.敌人列表 || {};
+            const hiddenEnemies = this.dataManager.cache?.hiddenEnemies || [];
             characterList = ViewUtils.filterMetaKeys(enemies)
-                .filter(name => !this.dataManager.cache.hiddenEnemies.includes(name))
+                .filter(name => !hiddenEnemies.includes(name))
                 .map(name => {
                     const charData = this.dataManager.SafeGetValue(`敌人列表.${name}`, {});
                     return {

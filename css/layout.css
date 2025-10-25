@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    z-index: 9000;
+    z-index: 40;
 }
 
 #gs-status-bar-panel {

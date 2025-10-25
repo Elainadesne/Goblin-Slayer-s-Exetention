@@ -8,7 +8,7 @@ import { Logger } from '../../core/logger.js';
 export class SkillView {
     constructor(dataManager) {
         this.dataManager = dataManager;
-        
+
         this.SKILL_LEVEL_MAP = {
             0: { rank: '未学习', color: '#666' },
             1: { rank: 'F', color: '#8B4513' },
@@ -28,7 +28,7 @@ export class SkillView {
      */
     render(container) {
         Logger.log('[SkillView] Rendering skills...');
-        
+
         if (!container) {
             Logger.error('[SkillView] Container is missing!');
             return;
@@ -36,7 +36,7 @@ export class SkillView {
 
         const basePath = '主角';
         const skills = this.dataManager.SafeGetValue(`${basePath}.技能列表`, {});
-        
+
         // 过滤元数据
         const skillEntries = Object.entries(skills).filter(([key]) => !key.startsWith('<'));
 
@@ -91,7 +91,7 @@ export class SkillView {
         }).join('');
 
         container.innerHTML = `<div class="skills-grid-modern">${skillCards}</div>`;
-        
+
         Logger.success('[SkillView] Skills rendered successfully');
     }
 
