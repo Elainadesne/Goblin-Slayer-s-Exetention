@@ -288,6 +288,7 @@
 
 
 /* Mobile Responsive Design for Discord Layout */
+/* 使用组合选择器：移动端 OR 窄屏模式都应用相同样式 */
 @media (max-width: 768px) {
 
     /* 移动端：隐藏侧边栏，使用顶部标签页 */
@@ -311,6 +312,28 @@
         padding: 10px;
         -webkit-overflow-scrolling: touch;
     }
+}
+
+/* 窄屏模式 - 复用移动端样式（不在@media内，任何屏幕尺寸都生效） */
+#gs-status-bar-panel.narrow-mode .discord-layout {
+    flex-direction: column;
+}
+
+#gs-status-bar-panel.narrow-mode .sidebar-nav {
+    display: none;
+}
+
+#gs-status-bar-panel.narrow-mode .sub-list-panel {
+    display: none;
+}
+
+#gs-status-bar-panel.narrow-mode .content-detail-panel {
+    width: 100%;
+    padding: 10px;
+}
+
+/* 移动端：状态标签页特殊处理 */
+@media (max-width: 768px) {
 
     /* 状态标签页：在移动端显示为顶部标签 - 只在激活时显示 */
     #status-pane.discord-layout.active {
@@ -729,4 +752,230 @@
     .content-detail-panel {
         padding: 10px;
     }
+}
+
+/* =====
+==============================================================
+ * 窄屏模式 - 复用移动端样式
+ * 当面板宽度 < 500px 时，JavaScript 会添加 .narrow-mode 类
+ * =================================================================== */
+
+/* 状态标签页：窄屏模式下的横向侧边栏 */
+#gs-status-bar-panel.narrow-mode #status-pane.discord-layout.active {
+    display: flex;
+    flex-direction: column;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane.discord-layout:not(.active) {
+    display: none !important;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane.active #status-sidebar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 5px;
+    border-right: none;
+    border-bottom: 1px solid var(--container-border);
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 5px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane:not(.active) #status-sidebar {
+    display: none !important;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane #status-sidebar::-webkit-scrollbar {
+    height: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane #status-sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane #status-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-nav-item {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    white-space: nowrap;
+    font-size: 0.85em;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-nav-item span {
+    display: none;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-nav-item i {
+    font-size: 1.2em;
+    pointer-events: none;
+}
+
+/* 子菜单在窄屏模式：横向排列，确保可滚动 */
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-submenu {
+    display: none !important;
+    flex-direction: row;
+    padding-left: 0;
+    border-left: none;
+    gap: 4px;
+    margin-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-submenu::-webkit-scrollbar {
+    height: 3px;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-submenu::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-nav-item.active + .sidebar-submenu {
+    display: flex !important;
+}
+
+#gs-status-bar-panel.narrow-mode #status-pane .sidebar-submenu-item {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    font-size: 0.7em;
+    white-space: nowrap;
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 世界标签页：窄屏模式特殊处理 */
+#gs-status-bar-panel.narrow-mode #world-pane.discord-layout.active {
+    display: flex !important;
+    flex-direction: column;
+}
+
+#gs-status-bar-panel.narrow-mode #world-pane.discord-layout:not(.active) {
+    display: none !important;
+}
+
+/* 世界分类：顶部水平标签 */
+#gs-status-bar-panel.narrow-mode #world-pane.active #world-sidebar-main {
+    display: flex !important;
+    flex-direction: row;
+    width: 100%;
+    padding: 5px;
+    border-right: none;
+    border-bottom: 1px solid var(--container-border);
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 5px;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0;
+}
+
+#gs-status-bar-panel.narrow-mode #world-pane:not(.active) #world-sidebar-main {
+    display: none !important;
+}
+
+#gs-status-bar-panel.narrow-mode #world-sidebar-main .sidebar-nav-item {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    white-space: nowrap;
+    font-size: 0.85em;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 角色列表：显示为水平滚动条 */
+#gs-status-bar-panel.narrow-mode #world-pane.active #world-sub-list {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--container-border);
+    max-height: 120px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+#gs-status-bar-panel.narrow-mode #world-pane:not(.active) #world-sub-list {
+    display: none !important;
+}
+
+#gs-status-bar-panel.narrow-mode #world-sub-list .sub-list-header {
+    padding: 6px 10px;
+    font-size: 0.85em;
+    background: rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+#gs-status-bar-panel.narrow-mode #world-sub-list .sub-list-content {
+    display: flex !important;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 8px;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+}
+
+#gs-status-bar-panel.narrow-mode #world-sub-list .sub-list-content::-webkit-scrollbar {
+    height: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode #world-sub-list .sub-list-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#gs-status-bar-panel.narrow-mode #world-sub-list .sub-list-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+#gs-status-bar-panel.narrow-mode #world-sub-list .sub-list-item {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border-bottom: none;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 0.85em;
+}
+
+/* 滚动条样式 - 窄屏模式 */
+#gs-status-bar-panel.narrow-mode .sidebar-nav::-webkit-scrollbar,
+#gs-status-bar-panel.narrow-mode .sub-list-content::-webkit-scrollbar,
+#gs-status-bar-panel.narrow-mode .content-detail-panel::-webkit-scrollbar,
+#gs-status-bar-panel.narrow-mode #tasks-content::-webkit-scrollbar,
+#gs-status-bar-panel.narrow-mode #territory-content::-webkit-scrollbar,
+#gs-status-bar-panel.narrow-mode #status-sidebar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#gs-status-bar-panel.narrow-mode .sidebar-nav::-webkit-scrollbar-thumb,
+#gs-status-bar-panel.narrow-mode .sub-list-content::-webkit-scrollbar-thumb,
+#gs-status-bar-panel.narrow-mode .content-detail-panel::-webkit-scrollbar-thumb,
+#gs-status-bar-panel.narrow-mode #tasks-content::-webkit-scrollbar-thumb,
+#gs-status-bar-panel.narrow-mode #territory-content::-webkit-scrollbar-thumb,
+#gs-status-bar-panel.narrow-mode #status-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
 }

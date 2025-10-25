@@ -175,11 +175,11 @@
     background: rgba(168, 192, 255, 0.2);
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 #gs-status-bar-panel .gs-slider-control input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -257,11 +257,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#gs-status-bar-panel .gs-toggle-switch input:checked + .gs-toggle-slider {
+#gs-status-bar-panel .gs-toggle-switch input:checked+.gs-toggle-slider {
     background-color: var(--accent-blue);
 }
 
-#gs-status-bar-panel .gs-toggle-switch input:checked + .gs-toggle-slider:before {
+#gs-status-bar-panel .gs-toggle-switch input:checked+.gs-toggle-slider:before {
     transform: translateX(24px);
 }
 
@@ -670,4 +670,67 @@
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.3);
     color: #3b82f6;
+}
+
+
+/* ===================================================================
+ * 窄屏模式 - 复用移动端样式
+ * =================================================================== */
+
+#gs-status-bar-panel.narrow-mode .gs-settings-view {
+    padding: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-setting-info {
+    margin-right: 0;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-setting-label {
+    font-size: 0.9em;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-setting-description {
+    font-size: 0.75em;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-setting-control {
+    width: 100%;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-slider-control {
+    width: 100%;
+    min-width: 0;
+}
+
+/* 主题选择器 - 窄屏优化 */
+#gs-status-bar-panel.narrow-mode .gs-theme-toggle {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-theme-option {
+    padding: 8px 12px;
+    font-size: 0.8em;
+    gap: 4px;
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-theme-option i {
+    font-size: 14px;
+}
+
+#gs-status-bar-panel.narrow-mode .gs-theme-option span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

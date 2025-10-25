@@ -47,10 +47,6 @@ export class CharacterView {
                     Logger.log('[CharacterView] Rendering attributes...');
                     content = this.renderAttributes(basePath);
                     break;
-                case '技能':
-                    Logger.log('[CharacterView] Rendering skills...');
-                    content = this.renderSkillsModern(basePath);
-                    break;
                 case '当前状态':
                     Logger.log('[CharacterView] Rendering statuses...');
                     content = this.formatStatuses(`${basePath}.当前状态`);

@@ -606,13 +606,15 @@ export class SettingsView {
      * 重置面板位置
      */
     resetPanelPosition() {
-        const panel = this.elements.root;
-        if (panel) {
-            panel.style.left = '50%';
-            panel.style.top = '50%';
-            panel.style.transform = 'translate(-50%, -50%)';
+        // 通过全局应用实例调用PanelManager的重置方法
+        const app = window.parent.gsStatusBarApp || window.gsStatusBarApp;
+        if (app && app.uiController && app.uiController.panelManager) {
+            app.uiController.panelManager.resetPanelPosition();
             Logger.success('面板位置已重置');
             this.showNotification('面板位置已重置到屏幕中央');
+        } else {
+            Logger.error('无法访问PanelManager');
+            this.showNotification('重置失败', 'error');
         }
     }
 

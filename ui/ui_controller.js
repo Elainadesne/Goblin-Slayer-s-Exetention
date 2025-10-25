@@ -6,9 +6,10 @@ import { WorldView } from './views/WorldView.js';
 import { TerritoryView } from './views/TerritoryView.js';
 import { MapView } from './views/MapView.js';
 import { TaskView } from './views/TaskView.js';
-import { SkillTreeView } from './views/SkillTreeView.js';
+import { SkillView } from './views/SkillView.js';
 import { SettingsView } from './views/SettingsView.js';
 import { LogView } from './views/LogView.js';
+import { FullscreenUpgradeView } from './views/FullscreenUpgradeView.js';
 import { SkillTreeLoader } from '../core/skill_tree_loader.js';
 import { ImageDatabaseLoader } from '../core/image_database_loader.js';
 import { InventoryFilter } from '../utils/inventory_filter.js';
@@ -39,9 +40,10 @@ export class UIController {
         this.territoryView = new TerritoryView(this.dataManager, this.elements);
         this.mapView = new MapView(this.dataManager, this.elements);
         this.taskView = new TaskView(this.dataManager, this.elements);
-        this.skillTreeView = null; // 延迟初始化
+        this.skillView = new SkillView(this.dataManager); // 技能卡片视图
         this.settingsView = new SettingsView(this.dataManager, this.elements);
         this.logView = new LogView(this.elements);
+        this.fullscreenUpgradeView = null; // 延迟初始化
 
         this._boundDetailsToggleHandler = this._handleDetailsToggle.bind(this);
     }
@@ -119,9 +121,6 @@ export class UIController {
         this.taskView.elements = this.elements;
         this.logView.elements = this.elements;
         this.settingsView.elements = this.elements;
-        
-        // 初始化技能树视图
-        this.skillTreeView = new SkillTreeView(this.dataManager, this.skillTreeLoader, this.elements);
 
         // Initialize SidebarManager now that elements are cached
         this.sidebarManager = new SidebarManager(this.elements, {
@@ -138,6 +137,8 @@ export class UIController {
         this.panelManager.setSettingsTabCallback(() => this.renderSettings());
         this.panelManager.setReloadDataCallback(() => this.reloadAllData());
         this.panelManager.setToggleConsoleCallback(() => this.toggleConsoleOutput());
+        this.panelManager.setPanelOpeningCallback(() => this.handlePanelOpening());
+        this.panelManager.setMapButtonCallback(() => this.openFullscreenMap());
         this.sidebarManager.bindListeners();
 
         this.elements.root.addEventListener('toggle', this._boundDetailsToggleHandler, true);
@@ -280,11 +281,28 @@ export class UIController {
         await this.mapView.render();
     }
 
+    /**
+     * 打开全屏地图
+     */
+    openFullscreenMap() {
+        Logger.log('[UIController] 打开全屏地图');
+        this.mapView.openFullscreen();
+    }
+
     // === New Navigation Handlers ===
 
     handleStatusNavigation(navItem, subItem = null) {
         Logger.log(`Status navigation: ${navItem}${subItem ? ` > ${subItem}` : ''}`);
-        this.characterView.render(navItem, subItem);
+
+        if (navItem === '升级') {
+            // 打开全屏升级界面
+            this.openFullscreenUpgrade();
+        } else if (navItem === '技能') {
+            // 使用技能卡片视图
+            this.skillView.render(this.elements.statusContentDetail);
+        } else {
+            this.characterView.render(navItem, subItem);
+        }
         
         // 如果是背包页面，初始化筛选器
         if (navItem === '装备' && subItem === '背包') {
@@ -329,6 +347,23 @@ export class UIController {
         }
     }
 
+    /**
+     * 打开全屏升级界面
+     */
+    openFullscreenUpgrade() {
+        Logger.log('[UIController] 打开全屏升级界面');
+        
+        // 延迟初始化
+        if (!this.fullscreenUpgradeView) {
+            this.fullscreenUpgradeView = new FullscreenUpgradeView(
+                this.dataManager,
+                this.skillTreeLoader
+            );
+        }
+        
+        this.fullscreenUpgradeView.open();
+    }
+
     renderLogs() {
         Logger.log('Rendering logs view');
         if (this.elements.logsContent && this.logView) {
@@ -340,6 +375,66 @@ export class UIController {
         Logger.log('Rendering settings view');
         if (this.elements.settingsContent && this.settingsView) {
             this.settingsView.render(this.elements.settingsContent);
+        }
+    }
+
+    /**
+     * 处理面板打开事件（触发数据刷新）
+     */
+    async handlePanelOpening() {
+        Logger.log('[UIController] 面板打开，触发数据刷新...');
+        
+        // 显示加载指示器
+        this.showLoadingIndicator();
+        
+        try {
+            // 异步刷新数据
+            await this.dataManager.loadAllData();
+            
+            // 更新UI
+            this.renderAll();
+            
+            Logger.success('[UIController] 数据刷新完成');
+        } catch (error) {
+            Logger.error('[UIController] 数据刷新失败:', error);
+            this.showToast(`数据加载失败: ${error.message}`, 'error');
+        } finally {
+            // 隐藏加载指示器
+            this.hideLoadingIndicator();
+        }
+    }
+
+    /**
+     * 显示加载指示器
+     */
+    showLoadingIndicator() {
+        const panel = this.elements.root;
+        if (!panel) return;
+        
+        // 检查是否已存在加载指示器
+        let indicator = window.parent.document.getElementById('gs-loading-indicator');
+        if (indicator) return;
+        
+        // 创建加载指示器
+        indicator = window.parent.document.createElement('div');
+        indicator.id = 'gs-loading-indicator';
+        indicator.className = 'gs-loading-bar';
+        indicator.innerHTML = '<div class="gs-loading-bar-progress"></div>';
+        
+        // 插入到面板顶部
+        panel.insertBefore(indicator, panel.firstChild);
+        
+        Logger.log('[UIController] 加载指示器已显示');
+    }
+
+    /**
+     * 隐藏加载指示器
+     */
+    hideLoadingIndicator() {
+        const indicator = window.parent.document.getElementById('gs-loading-indicator');
+        if (indicator) {
+            indicator.remove();
+            Logger.log('[UIController] 加载指示器已隐藏');
         }
     }
 
