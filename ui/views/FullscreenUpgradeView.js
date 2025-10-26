@@ -732,14 +732,16 @@ export class FullscreenUpgradeView {
         Logger.log(`[FullscreenUpgradeView] 升级技能: ${skill.name} (${jobName})`);
 
         try {
-            // 获取当前数据
-            const [professionPoints, jobs, learnedSkills] = await Promise.all([
-                Mvu.getMvuVariable('主角.职业点数', { default_value: 0 }),
-                Mvu.getMvuVariable('主角.职业', { default_value: {} }),
-                Mvu.getMvuVariable('主角.技能列表', { default_value: {} })
-            ]);
+            // 获取当前 MVU 数据（从最新楼层）
+            const Mvu = window.parent.Mvu;
+            const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+            
+            // 使用 MVU API 读取数据（路径不包含 stat_data）
+            const professionPoints = Mvu.getMvuVariable(mvuData, '主角.职业点数', { default_value: 0 });
+            const jobs = Mvu.getMvuVariable(mvuData, '主角.职业', { default_value: {} });
+            const learnedSkills = Mvu.getMvuVariable(mvuData, '主角.技能列表', { default_value: {} });
 
-            const currentSkillData = learnedSkills[skill.name] || {};
+            const currentSkillData = (learnedSkills && learnedSkills[skill.name]) || {};
             const currentLevel = this.skillTreeLoader.getNumericSkillLevel(currentSkillData);
 
             const levelsArray = Array.isArray(skill.levels)
@@ -788,13 +790,9 @@ export class FullscreenUpgradeView {
                     return;
                 }
             }
-
+            
             // 扣除职业点数
-            if (typeof Mvu.addMvuVariable === 'function') {
-                await Mvu.addMvuVariable('主角.职业点数', -cost);
-            } else {
-                await Mvu.setMvuVariable('主角.职业点数', professionPoints - cost);
-            }
+            await Mvu.setMvuVariable(mvuData, '主角.职业点数', professionPoints - cost);
 
             // 更新技能数据
             const nextLvl = nextLevelInfo.level;
@@ -807,7 +805,10 @@ export class FullscreenUpgradeView {
             };
 
             learnedSkills[skill.name] = newSkillData;
-            await Mvu.setMvuVariable('主角.技能列表', learnedSkills);
+            await Mvu.setMvuVariable(mvuData, '主角.技能列表', learnedSkills);
+            
+            // 保存回 MVU（保存到原楼层位置）
+            await Mvu.replaceMvuData(mvuData, { type: 'message', message_id: 'latest' });
 
             Logger.success(`[FullscreenUpgradeView] 技能 ${skill.name} 升级至 Lv.${nextLvl}`);
             this._showToast(`技能 "${skill.name}" 升级成功 → Lv.${nextLvl}`, 'success');
@@ -1115,10 +1116,13 @@ export class FullscreenUpgradeView {
         Logger.log(`[FullscreenUpgradeView] 升级自定义技能: ${name}`);
 
         try {
-            const [professionPoints, learnedSkills] = await Promise.all([
-                Mvu.getMvuVariable('主角.职业点数', { default_value: 0 }),
-                Mvu.getMvuVariable('主角.技能列表', { default_value: {} })
-            ]);
+            // 获取当前 MVU 数据（从最新楼层）
+            const Mvu = window.parent.Mvu;
+            const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+            
+            // 使用 MVU API 读取数据（路径不包含 stat_data）
+            const professionPoints = Mvu.getMvuVariable(mvuData, '主角.职业点数', { default_value: 0 });
+            const learnedSkills = Mvu.getMvuVariable(mvuData, '主角.技能列表', { default_value: {} });
 
             const currentSkillData = learnedSkills[name] || {};
             const currentLevel = this.skillTreeLoader.getNumericSkillLevel(currentSkillData);
@@ -1137,11 +1141,7 @@ export class FullscreenUpgradeView {
             }
 
             // 扣除职业点数
-            if (typeof Mvu.addMvuVariable === 'function') {
-                await Mvu.addMvuVariable('主角.职业点数', -cost);
-            } else {
-                await Mvu.setMvuVariable('主角.职业点数', professionPoints - cost);
-            }
+            await Mvu.setMvuVariable(mvuData, '主角.职业点数', professionPoints - cost);
 
             // 更新技能数据
             const nextLvl = currentLevel + 1;
@@ -1155,7 +1155,10 @@ export class FullscreenUpgradeView {
             };
 
             learnedSkills[name] = newSkillData;
-            await Mvu.setMvuVariable('主角.技能列表', learnedSkills);
+            await Mvu.setMvuVariable(mvuData, '主角.技能列表', learnedSkills);
+            
+            // 保存回 MVU（保存到原楼层位置）
+            await Mvu.replaceMvuData(mvuData, { type: 'message', message_id: 'latest' });
 
             Logger.success(`[FullscreenUpgradeView] 自定义技能 ${name} 升级至 Lv.${nextLvl}`);
             this._showToast(`技能 "${name}" 升级成功 → Lv.${nextLvl}`, 'success');

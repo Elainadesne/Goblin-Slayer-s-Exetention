@@ -71,14 +71,14 @@ export class SkillTreeLoader {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             this.skillTreeData = await response.json();
 
             Logger.success('技能树数据加载成功（从JSON文件）');
             return true;
         } catch (error) {
             Logger.error('从JSON文件加载技能树数据失败，使用硬编码数据作为后备:', error);
-            
+
             // 如果加载失败，使用硬编码数据作为后备
             this.skillTreeData = this.getDefaultSkillTreeData();
             Logger.success('技能树数据加载成功（硬编码后备数据）');
@@ -421,6 +421,12 @@ export class SkillTreeLoader {
         try {
             Logger.log(`正在创建/更新世界书 "${worldbookName}" 中的技能树条目...`);
 
+            // 检查 TavernHelper 是否可用
+            if (!window.TavernHelper || !window.TavernHelper.worldbook) {
+                Logger.error('TavernHelper 或 worldbook API 不可用');
+                return false;
+            }
+
             // 检查世界书是否存在，不存在则创建
             const worldbookNames = window.TavernHelper.worldbook.getWorldbookNames();
             if (!worldbookNames.includes(worldbookName)) {
@@ -504,7 +510,7 @@ export class SkillTreeLoader {
 
     findSkillDefinitionById(skillId) {
         if (!this.skillTreeData) return null;
-        
+
         for (const jobKey in this.skillTreeData) {
             const job = this.skillTreeData[jobKey];
             const skills = this._getSkillsArray(job);
@@ -516,7 +522,7 @@ export class SkillTreeLoader {
 
     findSkillDefinitionByName(skillName) {
         if (!this.skillTreeData) return null;
-        
+
         for (const jobKey in this.skillTreeData) {
             const job = this.skillTreeData[jobKey];
             const skills = this._getSkillsArray(job);
@@ -536,13 +542,13 @@ export class SkillTreeLoader {
 
     getNumericSkillLevel(skillData) {
         if (!skillData) return 0;
-        
+
         const levelValue = skillData.level ?? skillData.等级;
-        
+
         if (typeof levelValue === 'number') {
             return levelValue;
         }
-        
+
         if (typeof levelValue === 'string') {
             for (const [lvl, data] of Object.entries(this.SKILL_LEVEL_MAP)) {
                 if (data.rank === levelValue) {
@@ -550,7 +556,7 @@ export class SkillTreeLoader {
                 }
             }
         }
-        
+
         return 0;
     }
 }

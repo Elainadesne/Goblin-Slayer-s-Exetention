@@ -10,6 +10,7 @@
     align-items: center;
     pointer-events: none;
     z-index: 40;
+    /* PC端默认 */
 }
 
 #gs-status-bar-panel {
@@ -94,7 +95,7 @@
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    z-index: 40;
+    z-index: 39;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -429,14 +430,18 @@ ap Popup Styles */
     #gs-status-bar-panel-container {
         align-items: flex-start;
         padding-top: 10px;
-        height: 100vh !important; /* 确保容器有足够高度 */
+        height: 100vh !important;
+        /* 确保容器有足够高度 */
+        z-index: 9000 !important;
+        /* 移动端提高层级，避免被遮挡 */
     }
 
     #gs-status-bar-panel {
         width: 95vw;
         height: auto;
         max-height: 90vh;
-        min-height: 500px; /* 确保最小高度 */
+        min-height: 500px;
+        /* 确保最小高度 */
         margin-top: 10px;
     }
 
@@ -446,6 +451,8 @@ ap Popup Styles */
         font-size: 20px;
         left: 5px;
         margin-top: -22.5px;
+        z-index: 8999 !important;
+        /* 移动端按钮层级略低于面板 */
     }
 }
 
@@ -780,7 +787,8 @@ ap Popup Styles */
 
 /* 全局字体缩放 */
 #gs-status-bar-panel.narrow-mode {
-    font-size: 13px; /* 基础字体缩小 */
+    font-size: 13px;
+    /* 基础字体缩小 */
 }
 
 /* 标题缩放 */
@@ -858,18 +866,51 @@ ap Popup Styles */
 }
 
 /* 间距工具类优化 */
-#gs-status-bar-panel.narrow-mode .p-1 { padding: 4px; }
-#gs-status-bar-panel.narrow-mode .p-2 { padding: 8px; }
-#gs-status-bar-panel.narrow-mode .p-3 { padding: 12px; }
-#gs-status-bar-panel.narrow-mode .p-4 { padding: 16px; }
+#gs-status-bar-panel.narrow-mode .p-1 {
+    padding: 4px;
+}
 
-#gs-status-bar-panel.narrow-mode .m-1 { margin: 4px; }
-#gs-status-bar-panel.narrow-mode .m-2 { margin: 8px; }
-#gs-status-bar-panel.narrow-mode .m-3 { margin: 12px; }
-#gs-status-bar-panel.narrow-mode .m-4 { margin: 16px; }
+#gs-status-bar-panel.narrow-mode .p-2 {
+    padding: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .p-3 {
+    padding: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .p-4 {
+    padding: 16px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-1 {
+    margin: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-2 {
+    margin: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-3 {
+    margin: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-4 {
+    margin: 16px;
+}
 
 /* Gap优化 */
-#gs-status-bar-panel.narrow-mode .gap-1 { gap: 4px; }
-#gs-status-bar-panel.narrow-mode .gap-2 { gap: 8px; }
-#gs-status-bar-panel.narrow-mode .gap-3 { gap: 12px; }
-#gs-status-bar-panel.narrow-mode .gap-4 { gap: 16px; }
+#gs-status-bar-panel.narrow-mode .gap-1 {
+    gap: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .gap-2 {
+    gap: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .gap-3 {
+    gap: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .gap-4 {
+    gap: 16px;
+}

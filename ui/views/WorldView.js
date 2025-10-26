@@ -34,10 +34,7 @@ export class WorldView {
             });
         } else if (category === '敌对者') {
             const enemies = statData.敌人列表 || {};
-            const hiddenEnemies = this.dataManager.cache?.hiddenEnemies || [];
-            characterList = ViewUtils.filterMetaKeys(enemies)
-                .filter(name => !hiddenEnemies.includes(name))
-                .map(name => {
+            characterList = ViewUtils.filterMetaKeys(enemies).map(name => {
                     const charData = this.dataManager.SafeGetValue(`敌人列表.${name}`, {});
                     return {
                         name: name,
@@ -190,7 +187,8 @@ export class WorldView {
             <div class="character-detail-header">
                 <span class="value-main">${nameText}</span>
                 <span class="summary-details">${this.dataManager.SafeGetValue(`${basePath}.职业`, '未知')} Lv.${this.dataManager.SafeGetValue(`${basePath}.职业等级`, '?')} @ ${this.dataManager.SafeGetValue(`${basePath}.所处地点`, '?')}</span>
-                ${isEnemy ? `<button class="subtle-button hide-enemy-button" data-char-name="${nameText}">隐藏</button>` : ''}
+                ${isEnemy ? `<button class="subtle-button hide-enemy-button" data-char-name="${nameText}">删除</button>` : ''}
+                ${!isEnemy ? `<button class="subtle-button hide-relation-button" data-char-name="${nameText}">删除</button>` : ''}
             </div>
             <hr class="thin-divider">
             <div class="details-wrapper">
