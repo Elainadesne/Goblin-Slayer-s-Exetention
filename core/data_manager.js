@@ -5,7 +5,7 @@ export class DataManager {
     this.skillTreeData = null;
     this.industryImageData = null;
     this.relationsImageData = null;
-    
+
     // 性能优化：缓存机制
     this.cachedData = null;
     this.isLoading = false;
@@ -20,7 +20,7 @@ export class DataManager {
     }
 
     this.isLoading = true;
-    
+
     this.loadPromise = (async () => {
       try {
         Logger.log('[DataManager] 开始并行加载所有数据...');
@@ -39,7 +39,7 @@ export class DataManager {
         const endTime = performance.now();
         const duration = (endTime - startTime).toFixed(2);
         Logger.success(`[DataManager] 所有数据加载完成，耗时: ${duration}ms`);
-        
+
         return true;
       } catch (error) {
         Logger.error('[DataManager] 数据加载失败:', error);
@@ -138,7 +138,7 @@ export class DataManager {
   async loadSkillTreeDataFixed() {
     try {
       Logger.log('[DataManager] 加载技能树数据...');
-      
+
       // 如果有 skillTreeLoader 实例，使用它
       if (window.parent.gsStatusBarApp?.uiController?.skillTreeLoader) {
         const loader = window.parent.gsStatusBarApp.uiController.skillTreeLoader;
@@ -162,7 +162,7 @@ export class DataManager {
   async loadImageDataOptimized() {
     try {
       Logger.log('[DataManager] 加载图床数据...');
-      
+
       const TH = window.parent.TavernHelper;
       if (!TH) {
         Logger.warn('[DataManager] TavernHelper 不可用');
@@ -173,7 +173,7 @@ export class DataManager {
 
       const charBooks = TH.getCharWorldbookNames('current');
       const primaryBookName = charBooks.primary;
-      
+
       if (!primaryBookName) {
         Logger.warn('[DataManager] 没有绑定主世界书');
         this.industryImageData = null;
@@ -185,10 +185,10 @@ export class DataManager {
       const entries = await TH.getWorldbook(primaryBookName);
 
       // 一次性查找所有图床数据
-      const industryEntry = entries.find(entry => 
+      const industryEntry = entries.find(entry =>
         entry.strategy?.keys?.includes('industry_image_database')
       );
-      const relationsEntry = entries.find(entry => 
+      const relationsEntry = entries.find(entry =>
         entry.strategy?.keys?.includes('relations_image_database')
       );
 

@@ -177,6 +177,7 @@ export class WorldView {
                         ${appellation ? `<p><b>称呼:</b> ${appellation}</p>` : ''}
                         <p><b>外貌:</b> ${this.dataManager.SafeGetValue(`${basePath}.外貌`, '...')}</p>
                         <p><b>背景:</b> ${this.dataManager.SafeGetValue(`${basePath}.身份背景`, '...')}</p>
+                        ${this._formatEventHistory(basePath)}
                         <h4 class="detail-section-header">装备</h4>
                         ${this._formatNPCEquipment(basePath)}
                     </div>
@@ -187,8 +188,8 @@ export class WorldView {
             <div class="character-detail-header">
                 <span class="value-main">${nameText}</span>
                 <span class="summary-details">${this.dataManager.SafeGetValue(`${basePath}.职业`, '未知')} Lv.${this.dataManager.SafeGetValue(`${basePath}.职业等级`, '?')} @ ${this.dataManager.SafeGetValue(`${basePath}.所处地点`, '?')}</span>
-                ${isEnemy ? `<button class="subtle-button hide-enemy-button" data-char-name="${nameText}">删除</button>` : ''}
-                ${!isEnemy ? `<button class="subtle-button hide-relation-button" data-char-name="${nameText}">删除</button>` : ''}
+                ${isEnemy ? `<button class="subtle-button hide-enemy-button" data-char-name="${name}">删除</button>` : ''}
+                ${!isEnemy ? `<button class="subtle-button hide-relation-button" data-char-name="${name}">删除</button>` : ''}
             </div>
             <hr class="thin-divider">
             <div class="details-wrapper">
@@ -257,6 +258,48 @@ export class WorldView {
     _sanitizeForNameMatch(name) {
         if (typeof name !== 'string') return '';
         return name.replace(/<[^>]*>/g, '').trim();
+    }
+
+    _formatEventHistory(basePath) {
+        const eventHistory = this.dataManager.SafeGetValue(`${basePath}.event_history`, {});
+        
+        // 过滤掉元数据键
+        const events = ViewUtils.filterMetaKeys(eventHistory);
+        
+        if (events.length === 0) {
+            return ''; // 没有事件历史，不显示
+        }
+
+        // 将事件按时间排序（假设键名包含时间信息，或者按字母顺序）
+        events.sort();
+
+        const eventItems = events.map(eventKey => {
+            const eventData = eventHistory[eventKey];
+            let eventText = '';
+            
+            if (typeof eventData === 'string') {
+                eventText = eventData;
+            } else if (typeof eventData === 'object' && eventData !== null) {
+                // 如果是对象，尝试获取描述字段
+                eventText = eventData.description || eventData.desc || JSON.stringify(eventData);
+            } else {
+                eventText = String(eventData);
+            }
+            
+            return `<div class="event-item">
+                <div class="event-key">${eventKey}</div>
+                <div class="event-desc">${eventText}</div>
+            </div>`;
+        }).join('');
+
+        return `
+            <details class="sub-section">
+                <summary><h4 class="detail-section-header" style="display: inline;">事件历史</h4> <span class="arrow-toggle">›</span></summary>
+                <div class="sub-section-content event-history-list">
+                    ${eventItems}
+                </div>
+            </details>
+        `;
     }
 
     _formatNPCEquipment(basePath) {
