@@ -1,0 +1,58 @@
+/* 加载指示器样式 */
+.gs-loading-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    overflow: hidden;
+}
+
+.gs-loading-bar-progress {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        #4a90e2 0%, 
+        #63b3ed 50%, 
+        #4a90e2 100%
+    );
+    animation: loading-progress 1.5s ease-in-out infinite;
+    width: 50%;
+}
+
+@keyframes loading-progress {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(300%);
+    }
+}
+
+/* 加载消息样式 */
+.loading-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: var(--primary-text-color, #e0d6c8);
+    font-family: 'Cinzel', serif;
+}
+
+.loading-message::before {
+    content: '⏳';
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: loading-spin 2s linear infinite;
+}
+
+@keyframes loading-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

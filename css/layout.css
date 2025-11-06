@@ -9,7 +9,8 @@
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    z-index: 9000;
+    z-index: 40;
+    /* PC端默认 */
 }
 
 #gs-status-bar-panel {
@@ -77,7 +78,7 @@
     opacity: 1;
 }
 
-/* Open/Toggle Button */
+/* Open/Toggle Button - D20骰子 */
 #gs-open-panel-button {
     position: fixed;
     top: 50vh;
@@ -94,13 +95,21 @@
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    z-index: 40;
+    z-index: 39;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-#gs-open-panel-button i {
+#gs-open-panel-button::before {
+    content: '';
+    width: 32px;
+    height: 32px;
+    background-image: url('../assets/icons/d20.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     animation: rotate 4s linear infinite;
+    filter: brightness(0) saturate(100%) invert(73%) sepia(18%) saturate(1089%) hue-rotate(186deg) brightness(103%) contrast(101%);
 }
 
 @keyframes rotate {
@@ -118,9 +127,14 @@
     box-shadow: 0 0 20px var(--accent-glow);
 }
 
-#gs-open-panel-button:hover i {
+#gs-open-panel-button:hover::before {
     animation-play-state: paused;
-    color: var(--primary-text-color);
+    filter: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(1089%) hue-rotate(186deg) brightness(103%) contrast(101%);
+}
+
+/* 隐藏原来的i标签内容 */
+#gs-open-panel-button i {
+    display: none;
 }
 
 /* 移除面板打开时的特殊样式，保持统一的蓝色外观 */
@@ -320,19 +334,23 @@
 #settings-content,
 #logs-content {
     height: 100%;
-    min-height: 0; /* allow inner flex child to shrink and scroll */
+    min-height: 0;
+    /* allow inner flex child to shrink and scroll */
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* avoid double scrollbars on the outer container */
-    padding: 0; /* Let the inner container handle padding */
+    overflow: hidden;
+    /* avoid double scrollbars on the outer container */
+    padding: 0;
+    /* Let the inner container handle padding */
 }
 
-#settings-content > .gs-settings-view,
-#logs-content > .logs-container {
+#settings-content>.gs-settings-view,
+#logs-content>.logs-container {
     flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 #leaflet-map-container {
     width: 100%;
     height: 100%;
@@ -406,120 +424,25 @@ ap Popup Styles */
 }
 
 
-/* Mobile Responsive Design */
+/* Mobile Responsive Design & Narrow Mode */
+/* 使用组合选择器：移动端 OR 窄屏模式都应用相同样式 */
 @media (max-width: 768px) {
     #gs-status-bar-panel-container {
         align-items: flex-start;
         padding-top: 10px;
+        height: 100vh !important;
+        /* 确保容器有足够高度 */
+        z-index: 9000 !important;
+        /* 移动端提高层级，避免被遮挡 */
     }
 
     #gs-status-bar-panel {
         width: 95vw;
         height: auto;
         max-height: 90vh;
+        min-height: 500px;
+        /* 确保最小高度 */
         margin-top: 10px;
-    }
-    
-    .top-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 5px;
-        gap: 5px;
-        justify-content: space-between;
-        position: relative;
-        z-index: 10000 !important;
-        pointer-events: auto !important;
-        display: flex !important;
-    }
-
-    .nav-location-info {
-        flex: 1;
-        justify-content: center;
-        min-width: auto;
-        padding: 6px 12px;
-        font-size: 0.9em;
-        order: -1;
-    }
-    
-    /* 移动端关闭按钮 - 和位置信息并排 */
-    .nav-close-button {
-        order: -1;
-        padding: 6px 12px;
-        font-size: 1.1em;
-        min-width: 44px;
-        min-height: 44px;
-    }
-    
-    .nav-close-button:active {
-        transform: scale(0.9);
-        background: rgba(239, 68, 68, 0.3);
-    }
-
-    .nav-buttons {
-        width: 100%;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: 6px;
-        overflow-x: scroll !important; /* 强制启用滚动 */
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-        scrollbar-color: var(--accent-blue) transparent;
-        padding-bottom: 4px;
-        display: flex !important;
-        flex-shrink: 0;
-        /* 确保可以滚动 */
-        max-width: 100%;
-        overscroll-behavior-x: contain;
-    }
-
-    /* Webkit (Chrome, Safari) 滚动条样式 */
-    .nav-buttons::-webkit-scrollbar {
-        height: 6px; /* 增加滚动条高度，更容易看到 */
-    }
-
-    .nav-buttons::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 3px;
-    }
-
-    .nav-buttons::-webkit-scrollbar-thumb {
-        background-color: var(--accent-blue);
-        border-radius: 3px;
-    }
-
-    .nav-button {
-        padding: 10px 14px !important; /* 增加按钮大小，更容易点击 */
-        font-size: 0.9em;
-        flex: 0 0 auto !important;
-        min-width: 48px !important; /* 设置最小宽度，确保按钮足够大 */
-        min-height: 48px !important; /* 确保符合移动端最小点击区域标准 */
-        width: auto !important; /* 确保有宽度 */
-        height: auto !important; /* 确保有高度 */
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        touch-action: manipulation; /* 优化触摸响应 */
-        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3); /* iOS 点击高亮 */
-        user-select: none; /* 防止长按选中文本 */
-        -webkit-user-select: none;
-        cursor: pointer;
-        position: relative; /* 确保 z-index 生效 */
-        z-index: 10000 !important; /* 确保按钮在最上层，高于 SillyTavern 的元素 */
-        pointer-events: auto !important; /* 强制启用点击事件 */
-    }
-    
-    /* 防止图标阻止点击事件 */
-    .nav-button i {
-        pointer-events: none;
-    }
-
-    .nav-button span {
-        display: none;
-    }
-
-    .nav-button i {
-        font-size: 1.3em;
     }
 
     #gs-open-panel-button {
@@ -528,6 +451,151 @@ ap Popup Styles */
         font-size: 20px;
         left: 5px;
         margin-top: -22.5px;
+        z-index: 8999 !important;
+        /* 移动端按钮层级略低于面板 */
+    }
+}
+
+/* 共享样式：移动端 OR 窄屏模式 */
+@media (max-width: 768px) {
+
+    .top-nav,
+    #gs-status-bar-panel.narrow-mode .top-nav {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        padding: 8px;
+        gap: 8px;
+        position: relative;
+        z-index: 10000 !important;
+        pointer-events: auto !important;
+    }
+
+    .nav-location-info {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 8px 12px;
+        font-size: 13px;
+        min-width: 0;
+    }
+
+    .nav-close-button {
+        grid-column: 2;
+        grid-row: 1;
+        padding: 8px;
+        font-size: 18px;
+        min-width: 40px;
+        min-height: 40px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-close-button:active {
+        transform: scale(0.9);
+        background: rgba(239, 68, 68, 0.3);
+    }
+
+    .nav-buttons {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: flex !important;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto !important;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-blue) transparent;
+        padding: 4px 0;
+        max-width: 100%;
+        overscroll-behavior-x: contain;
+    }
+
+    .nav-buttons::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .nav-buttons::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2px;
+    }
+
+    .nav-buttons::-webkit-scrollbar-thumb {
+        background-color: var(--accent-blue);
+        border-radius: 2px;
+    }
+
+    .nav-button {
+        padding: 10px !important;
+        font-size: 0.9em;
+        flex: 0 0 auto !important;
+        min-width: 52px !important;
+        min-height: 52px !important;
+        width: 52px !important;
+        height: 52px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3);
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: pointer;
+        position: relative;
+        z-index: 10000 !important;
+        pointer-events: auto !important;
+    }
+
+    .nav-button i {
+        pointer-events: none;
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .nav-button span {
+        display: none;
+    }
+
+    /* Discord布局调整 */
+    .discord-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-nav {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-right: none;
+        border-bottom: 1px solid var(--container-border);
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: auto;
+        max-height: 50px;
+    }
+
+    .sidebar-nav .nav-item {
+        flex-shrink: 0;
+        padding: 6px 12px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .sub-list-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-right: none;
+        border-bottom: 1px solid var(--container-border);
+        max-height: 120px;
+        overflow-y: auto;
+    }
+
+    .content-detail-panel {
+        width: 100% !important;
+        flex: 1;
+        overflow-y: auto;
     }
 }
 
@@ -550,8 +618,10 @@ ap Popup Styles */
     }
 
     .nav-button {
-        padding: 8px 12px; /* 小屏幕也保持足够的点击区域 */
-        min-width: 44px; /* 确保符合移动端最小点击区域标准 */
+        padding: 8px 12px;
+        /* 小屏幕也保持足够的点击区域 */
+        min-width: 44px;
+        /* 确保符合移动端最小点击区域标准 */
         min-height: 44px;
     }
 
@@ -569,4 +639,278 @@ ap Popup Styles */
         width: 90vw;
         height: 85vh;
     }
+}
+
+/* Narrow Mode - 复用移动端样式（不在@media内，任何屏幕尺寸都生效） */
+#gs-status-bar-panel.narrow-mode .top-nav {
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    padding: 6px;
+    gap: 6px;
+    position: relative;
+    z-index: 10000 !important;
+    pointer-events: auto !important;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-location-info {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 0;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-close-button {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 6px;
+    font-size: 16px;
+    min-width: 32px;
+    min-height: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-close-button:active {
+    transform: scale(0.9);
+    background: rgba(239, 68, 68, 0.3);
+}
+
+#gs-status-bar-panel.narrow-mode .nav-buttons {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex !important;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 6px;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) transparent;
+    padding: 2px 0;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-buttons::-webkit-scrollbar {
+    height: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-buttons::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-buttons::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue);
+    border-radius: 2px;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-button {
+    padding: 6px !important;
+    font-size: 0.85em;
+    flex: 0 0 auto !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(168, 192, 255, 0.3);
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 10000 !important;
+    pointer-events: auto !important;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-button i {
+    pointer-events: none;
+    font-size: 16px;
+    margin: 0;
+}
+
+#gs-status-bar-panel.narrow-mode .nav-button span {
+    display: none;
+}
+
+#gs-status-bar-panel.narrow-mode .discord-layout {
+    display: flex;
+    flex-direction: column;
+}
+
+#gs-status-bar-panel.narrow-mode .sidebar-nav {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-right: none;
+    border-bottom: 1px solid var(--container-border);
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: auto;
+    max-height: 50px;
+}
+
+#gs-status-bar-panel.narrow-mode .sidebar-nav .nav-item {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+#gs-status-bar-panel.narrow-mode .sub-list-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-right: none;
+    border-bottom: 1px solid var(--container-border);
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+#gs-status-bar-panel.narrow-mode .content-detail-panel {
+    width: 100% !important;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* 
+===================================================================
+ * 窄屏模式 - 全局优化
+ * 提高布局流动性，响应式缩小字体和间距
+ * =================================================================== */
+
+/* 全局字体缩放 */
+#gs-status-bar-panel.narrow-mode {
+    font-size: 13px;
+    /* 基础字体缩小 */
+}
+
+/* 标题缩放 */
+#gs-status-bar-panel.narrow-mode h1 {
+    font-size: 1.6em;
+}
+
+#gs-status-bar-panel.narrow-mode h2 {
+    font-size: 1.4em;
+}
+
+#gs-status-bar-panel.narrow-mode h3 {
+    font-size: 1.2em;
+}
+
+#gs-status-bar-panel.narrow-mode h4 {
+    font-size: 1.1em;
+}
+
+/* 卡片和容器间距优化 */
+#gs-status-bar-panel.narrow-mode .card,
+#gs-status-bar-panel.narrow-mode .container,
+#gs-status-bar-panel.narrow-mode .section {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* 按钮缩放 */
+#gs-status-bar-panel.narrow-mode button,
+#gs-status-bar-panel.narrow-mode .button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+/* 输入框缩放 */
+#gs-status-bar-panel.narrow-mode input,
+#gs-status-bar-panel.narrow-mode select,
+#gs-status-bar-panel.narrow-mode textarea {
+    font-size: 0.9em;
+    padding: 8px;
+}
+
+/* 模态框和弹出层优化 */
+#gs-status-bar-panel.narrow-mode .modal,
+#gs-status-bar-panel.narrow-mode .popup,
+#gs-status-bar-panel.narrow-mode .dialog {
+    max-width: 95%;
+    padding: 12px;
+}
+
+/* 表格优化 */
+#gs-status-bar-panel.narrow-mode table {
+    font-size: 0.85em;
+}
+
+#gs-status-bar-panel.narrow-mode th,
+#gs-status-bar-panel.narrow-mode td {
+    padding: 6px 8px;
+}
+
+/* 列表优化 */
+#gs-status-bar-panel.narrow-mode ul,
+#gs-status-bar-panel.narrow-mode ol {
+    padding-left: 20px;
+}
+
+#gs-status-bar-panel.narrow-mode li {
+    margin-bottom: 6px;
+}
+
+/* 图标缩放 */
+#gs-status-bar-panel.narrow-mode .icon,
+#gs-status-bar-panel.narrow-mode i {
+    font-size: 1em;
+}
+
+/* 间距工具类优化 */
+#gs-status-bar-panel.narrow-mode .p-1 {
+    padding: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .p-2 {
+    padding: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .p-3 {
+    padding: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .p-4 {
+    padding: 16px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-1 {
+    margin: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-2 {
+    margin: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-3 {
+    margin: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .m-4 {
+    margin: 16px;
+}
+
+/* Gap优化 */
+#gs-status-bar-panel.narrow-mode .gap-1 {
+    gap: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .gap-2 {
+    gap: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .gap-3 {
+    gap: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .gap-4 {
+    gap: 16px;
 }

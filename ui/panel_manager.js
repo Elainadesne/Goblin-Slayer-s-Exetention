@@ -1,5 +1,6 @@
 import { Logger } from '../core/logger.js';
 import { createGenieAnimator } from '../utils/genie_animator.js';
+import { DraggablePanel } from '../utils/draggable_panel.js';
 
 export class PanelManager {
     constructor() {
@@ -11,6 +12,7 @@ export class PanelManager {
         this.tabPanes = [];
         this.isPanelOpen = false;
         this.genieAnimator = null;
+        this.draggablePanel = null;
     }
 
     initializeDOMElements() {
@@ -32,6 +34,19 @@ export class PanelManager {
         this.genieAnimator = createGenieAnimator();
         if (!this.genieAnimator) {
             Logger.warn('PanelManager: Genie animator not initialized, falling back to simple animations');
+        }
+        
+        // 初始化可拖动面板
+        if (this.panel) {
+            this.draggablePanel = new DraggablePanel(this.panel, {
+                minWidth: 280,
+                minHeight: 400,
+                defaultWidth: 900,
+                defaultHeight: 700,
+                narrowThreshold: 500,
+                onResize: (isNarrow) => this._handleLayoutModeChange(isNarrow)
+            });
+            Logger.log('[PanelManager] 可拖动面板已初始化');
         }
         
         return true;
@@ -76,7 +91,15 @@ export class PanelManager {
                 e.preventDefault();
                 e.stopPropagation();
                 Logger.log(`[PanelManager] Nav button activated: ${tabId} (${e.type})`);
-                this.switchTab(tabId);
+                
+                // 地图按钮特殊处理：打开全屏地图
+                if (tabId === 'map') {
+                    if (this.onMapButtonClick) {
+                        this.onMapButtonClick();
+                    }
+                } else {
+                    this.switchTab(tabId);
+                }
             };
             
             // 移动端优先使用触摸事件
@@ -124,8 +147,26 @@ export class PanelManager {
     }
 
     async showPanel() {
-        if (this.genieAnimator) {
-            // 使用Genie动画
+        // 触发数据刷新（在打开面板时）
+        if (this.onPanelOpening) {
+            this.onPanelOpening();
+        }
+        
+        // 检测是否为移动端
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // 移动端：跳过Genie动画，直接显示
+            if (this.panelContainer && this.panel) {
+                this.panelContainer.style.display = 'flex';
+                this.panelContainer.style.height = '100vh'; // 确保容器有足够高度
+                this.panel.classList.add('visible');
+                this.isPanelOpen = true;
+                this.updateToggleButton();
+                Logger.log('Panel opened (mobile, no animation).');
+            }
+        } else if (this.genieAnimator) {
+            // PC端：使用Genie动画
             await this.genieAnimator.open();
             this.isPanelOpen = true;
             this.updateToggleButton();
@@ -145,8 +186,22 @@ export class PanelManager {
     }
 
     async hidePanel() {
-        if (this.genieAnimator) {
-            // 使用Genie动画
+        // 检测是否为移动端
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // 移动端：跳过Genie动画，直接隐藏
+            if (this.panelContainer && this.panel) {
+                this.panel.classList.remove('visible');
+                setTimeout(() => {
+                    this.panelContainer.style.display = 'none';
+                }, 300);
+                this.isPanelOpen = false;
+                this.updateToggleButton();
+                Logger.log('Panel closed (mobile, no animation).');
+            }
+        } else if (this.genieAnimator) {
+            // PC端：使用Genie动画
             await this.genieAnimator.close();
             this.isPanelOpen = false;
             this.updateToggleButton();
@@ -303,5 +358,48 @@ export class PanelManager {
      */
     setToggleConsoleCallback(callback) {
         this.onToggleConsole = callback;
+    }
+
+    /**
+     * 设置面板打开时的回调（用于触发数据刷新）
+     */
+    setPanelOpeningCallback(callback) {
+        this.onPanelOpening = callback;
+    }
+
+    /**
+     * 设置地图按钮点击的回调
+     */
+    setMapButtonCallback(callback) {
+        this.onMapButtonClick = callback;
+    }
+
+    /**
+     * 处理布局模式变化
+     */
+    _handleLayoutModeChange(isNarrow) {
+        Logger.log(`[PanelManager] 布局模式变化: ${isNarrow ? '窄屏' : '正常'}`);
+        
+        // 可以在这里触发UI重新渲染或调整
+        if (this.onLayoutModeChange) {
+            this.onLayoutModeChange(isNarrow);
+        }
+    }
+
+    /**
+     * 设置布局模式变化的回调
+     */
+    setLayoutModeChangeCallback(callback) {
+        this.onLayoutModeChange = callback;
+    }
+
+    /**
+     * 重置面板位置和大小
+     */
+    resetPanelPosition() {
+        if (this.draggablePanel) {
+            this.draggablePanel.reset();
+            Logger.log('[PanelManager] 面板位置已重置');
+        }
     }
 }

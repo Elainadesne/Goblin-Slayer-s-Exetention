@@ -6,9 +6,10 @@ import { WorldView } from './views/WorldView.js';
 import { TerritoryView } from './views/TerritoryView.js';
 import { MapView } from './views/MapView.js';
 import { TaskView } from './views/TaskView.js';
-import { SkillTreeView } from './views/SkillTreeView.js';
+import { SkillView } from './views/SkillView.js';
 import { SettingsView } from './views/SettingsView.js';
 import { LogView } from './views/LogView.js';
+import { FullscreenUpgradeView } from './views/FullscreenUpgradeView.js';
 import { SkillTreeLoader } from '../core/skill_tree_loader.js';
 import { ImageDatabaseLoader } from '../core/image_database_loader.js';
 import { InventoryFilter } from '../utils/inventory_filter.js';
@@ -22,12 +23,12 @@ export class UIController {
         this.panelManager = new PanelManager();
         this.sidebarManager = null; // Will be initialized after DOM is ready
         this.elements = {};
-        this.cache = { collapsedCards: {}, hiddenEnemies: [], hiddenStatuses: [], hiddenTasks: [] };
+        this.cache = { collapsedCards: {}, hiddenStatuses: [], hiddenTasks: [] };
 
         // 初始化加载器
         this.skillTreeLoader = new SkillTreeLoader();
         this.imageDatabaseLoader = new ImageDatabaseLoader();
-        
+
         // 初始化工具
         this.inventoryFilter = new InventoryFilter();
         this.renderCache = new RenderCache(30); // 缓存最多30个视图
@@ -39,9 +40,10 @@ export class UIController {
         this.territoryView = new TerritoryView(this.dataManager, this.elements);
         this.mapView = new MapView(this.dataManager, this.elements);
         this.taskView = new TaskView(this.dataManager, this.elements);
-        this.skillTreeView = null; // 延迟初始化
+        this.skillView = new SkillView(this.dataManager); // 技能卡片视图
         this.settingsView = new SettingsView(this.dataManager, this.elements);
         this.logView = new LogView(this.elements);
+        this.fullscreenUpgradeView = null; // 延迟初始化
 
         this._boundDetailsToggleHandler = this._handleDetailsToggle.bind(this);
     }
@@ -119,9 +121,6 @@ export class UIController {
         this.taskView.elements = this.elements;
         this.logView.elements = this.elements;
         this.settingsView.elements = this.elements;
-        
-        // 初始化技能树视图
-        this.skillTreeView = new SkillTreeView(this.dataManager, this.skillTreeLoader, this.elements);
 
         // Initialize SidebarManager now that elements are cached
         this.sidebarManager = new SidebarManager(this.elements, {
@@ -138,6 +137,8 @@ export class UIController {
         this.panelManager.setSettingsTabCallback(() => this.renderSettings());
         this.panelManager.setReloadDataCallback(() => this.reloadAllData());
         this.panelManager.setToggleConsoleCallback(() => this.toggleConsoleOutput());
+        this.panelManager.setPanelOpeningCallback(() => this.handlePanelOpening());
+        this.panelManager.setMapButtonCallback(() => this.openFullscreenMap());
         this.sidebarManager.bindListeners();
 
         this.elements.root.addEventListener('toggle', this._boundDetailsToggleHandler, true);
@@ -152,10 +153,18 @@ export class UIController {
                 event.preventDefault();
                 event.stopPropagation();
                 this.hideEnemy(button.dataset.charName);
-            } else if (button.classList.contains('hide-status-button')) {
+            } else if (button.classList.contains('hide-relation-button')) {
                 event.preventDefault();
                 event.stopPropagation();
-                this.hideStatus(button.dataset.statusName);
+                this.hideRelation(button.dataset.charName);
+            } else if (button.classList.contains('hide-item-button')) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.hideItem(button.dataset.itemName);
+            } else if (button.classList.contains('delete-status-button')) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.deleteStatus(button.dataset.statusName);
             } else if (button.classList.contains('hide-task-button')) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -219,13 +228,129 @@ export class UIController {
         }
     }
 
-    hideEnemy(charName) {
-        if (!this.cache.hiddenEnemies.includes(charName)) {
-            this.cache.hiddenEnemies.push(charName);
-            this.saveCache();
-            // Re-render the current world view to reflect the change
-            this.handleWorldCategoryChange(this.sidebarManager.activeState.worldCategory);
-            Logger.log(`Enemy hidden: ${charName}`);
+    async hideEnemy(charName) {
+        // 确认对话框
+        if (!confirm(`确定要删除敌人"${charName}"吗？\n此操作将从 MVU 数据中永久删除该敌人。`)) {
+            return;
+        }
+
+        Logger.log(`[UIController] 删除敌人: ${charName}`);
+
+        try {
+            // 获取 MVU 数据（从最新楼层）
+            const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+
+            // 获取敌人列表
+            const enemyList = Mvu.getMvuVariable(mvuData, '敌人列表', { default_value: {} });
+            
+            // 删除指定敌人
+            delete enemyList[charName];
+            
+            // 更新敌人列表
+            await Mvu.setMvuVariable(mvuData, '敌人列表', enemyList);
+
+            // 保存回 MVU（保存到原楼层位置）
+            await Mvu.replaceMvuData(mvuData, { type: 'message', message_id: 'latest' });
+            Logger.success(`[UIController] 敌人已从 MVU 数据中删除: ${charName}`);
+
+            // 重新加载 MVU 数据
+            await this.dataManager.loadMvuData();
+
+            // 立即从 UI 移除
+            if (this.sidebarManager && this.sidebarManager.activeState) {
+                this.handleWorldCategoryChange(this.sidebarManager.activeState.worldCategory);
+            }
+        } catch (error) {
+            Logger.error(`[UIController] 删除敌人失败: ${error.message}`);
+            alert(`删除失败: ${error.message}`);
+        }
+    }
+
+    async hideRelation(charName) {
+        // 确认对话框
+        if (!confirm(`确定要删除关系者"${charName}"吗？\n此操作将从 MVU 数据中永久删除该角色。`)) {
+            return;
+        }
+
+        Logger.log(`[UIController] 删除关系者: ${charName}`);
+
+        try {
+            // 获取 MVU 数据（从最新楼层）
+            const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+
+            // 获取关系列表
+            const relationList = Mvu.getMvuVariable(mvuData, '关系列表', { default_value: {} });
+            
+            // 删除指定关系者
+            delete relationList[charName];
+            
+            // 更新关系列表
+            await Mvu.setMvuVariable(mvuData, '关系列表', relationList);
+
+            // 保存回 MVU（保存到原楼层位置）
+            await Mvu.replaceMvuData(mvuData, { type: 'message', message_id: 'latest' });
+            Logger.success(`[UIController] 关系者已从 MVU 数据中删除: ${charName}`);
+
+            // 重新加载 MVU 数据
+            await this.dataManager.loadMvuData();
+
+            // 立即从 UI 移除
+            if (this.sidebarManager && this.sidebarManager.activeState) {
+                this.handleWorldCategoryChange(this.sidebarManager.activeState.worldCategory);
+            }
+        } catch (error) {
+            Logger.error(`[UIController] 删除关系者失败: ${error.message}`);
+            alert(`删除失败: ${error.message}`);
+        }
+    }
+
+    async hideItem(itemName) {
+        // 确认对话框
+        if (!confirm(`确定要删除物品"${itemName}"吗？\n此操作将从 MVU 数据中永久删除该物品。`)) {
+            return;
+        }
+
+        Logger.log(`[UIController] 删除物品: ${itemName}`);
+
+        try {
+            // 获取 MVU 数据（从最新楼层）
+            const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+
+            // 尝试从不同的物品列表中删除
+            const itemListNames = ['武器列表', '防具列表', '饰品列表', '消耗品列表', '材料与杂物列表'];
+
+            let deleted = false;
+            for (const listName of itemListNames) {
+                const itemList = Mvu.getMvuVariable(mvuData, `主角.${listName}`, { default_value: {} });
+                
+                if (itemName in itemList) {
+                    // 删除物品
+                    delete itemList[itemName];
+                    
+                    // 更新列表
+                    await Mvu.setMvuVariable(mvuData, `主角.${listName}`, itemList);
+                    
+                    deleted = true;
+                    Logger.success(`[UIController] 物品已删除: ${itemName} (列表: ${listName})`);
+                    break;
+                }
+            }
+
+            if (!deleted) {
+                Logger.warn(`[UIController] 未找到物品: ${itemName}`);
+                alert(`未找到物品: ${itemName}`);
+                return;
+            }
+
+            // 保存回 MVU（保存到原楼层位置）
+            await Mvu.replaceMvuData(mvuData, { type: 'message', message_id: 'latest' });
+
+            // 重新加载 MVU 数据并刷新视图
+            await this.dataManager.loadMvuData();
+            this.characterView.render();
+        } catch (error) {
+            Logger.error(`[UIController] 删除物品失败: ${error.message}`);
+            alert(`删除失败: ${error.message}`);
         }
     }
 
@@ -235,6 +360,42 @@ export class UIController {
             this.saveCache();
             this.characterView.render();
             Logger.log(`Status hidden: ${statusName}`);
+        }
+    }
+
+    async deleteStatus(statusName) {
+        // 确认对话框
+        if (!confirm(`确定要删除状态"${statusName}"吗？\n此操作将从 MVU 数据中永久删除该状态。`)) {
+            return;
+        }
+
+        Logger.log(`[UIController] 删除状态: ${statusName}`);
+
+        try {
+            // 获取 MVU 数据（从最新楼层）
+            const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
+
+            // 获取当前状态列表
+            const statusList = Mvu.getMvuVariable(mvuData, '主角.当前状态', { default_value: {} });
+            
+            // 删除指定状态
+            delete statusList[statusName];
+            
+            // 更新状态列表
+            await Mvu.setMvuVariable(mvuData, '主角.当前状态', statusList);
+
+            // 保存回 MVU（保存到原楼层位置）
+            await Mvu.replaceMvuData(mvuData, { type: 'message', message_id: 'latest' });
+            Logger.success(`[UIController] 状态已从 MVU 数据中删除: ${statusName}`);
+
+            // 重新加载 MVU 数据
+            await this.dataManager.loadMvuData();
+
+            // 立即从 UI 移除
+            this.characterView.render();
+        } catch (error) {
+            Logger.error(`[UIController] 删除状态失败: ${error.message}`);
+            alert(`删除失败: ${error.message}`);
         }
     }
 
@@ -260,7 +421,7 @@ export class UIController {
         // These are simple and can be rendered directly
         this.territoryView.render();
         this.taskView.render();
-        
+
         // 初始化懒加载
         setTimeout(() => {
             globalLazyLoader.observeAll('img[data-src]', window.parent.document);
@@ -269,7 +430,7 @@ export class UIController {
 
     updateLocationDisplay() {
         if (!this.elements.navLocationText) return;
-        
+
         const location = this.dataManager.SafeGetValue('主角.所在地', ['未知']);
         const currentLocation = Array.isArray(location) ? location[0] : location;
         this.elements.navLocationText.textContent = currentLocation;
@@ -280,12 +441,29 @@ export class UIController {
         await this.mapView.render();
     }
 
+    /**
+     * 打开全屏地图
+     */
+    openFullscreenMap() {
+        Logger.log('[UIController] 打开全屏地图');
+        this.mapView.openFullscreen();
+    }
+
     // === New Navigation Handlers ===
 
     handleStatusNavigation(navItem, subItem = null) {
         Logger.log(`Status navigation: ${navItem}${subItem ? ` > ${subItem}` : ''}`);
-        this.characterView.render(navItem, subItem);
-        
+
+        if (navItem === '升级') {
+            // 打开全屏升级界面
+            this.openFullscreenUpgrade();
+        } else if (navItem === '技能') {
+            // 使用技能卡片视图
+            this.skillView.render(this.elements.statusContentDetail);
+        } else {
+            this.characterView.render(navItem, subItem);
+        }
+
         // 如果是背包页面，初始化筛选器
         if (navItem === '装备' && subItem === '背包') {
             setTimeout(() => {
@@ -303,7 +481,7 @@ export class UIController {
 
         this.sidebarManager.setActive('worldCharacter', charToSelect, this.elements.worldSubList);
         this.handleCharacterSelection(charToSelect, category);
-        
+
         // 初始化人物搜索
         setTimeout(() => {
             this.characterSearch.initialize();
@@ -329,6 +507,23 @@ export class UIController {
         }
     }
 
+    /**
+     * 打开全屏升级界面
+     */
+    openFullscreenUpgrade() {
+        Logger.log('[UIController] 打开全屏升级界面');
+
+        // 延迟初始化
+        if (!this.fullscreenUpgradeView) {
+            this.fullscreenUpgradeView = new FullscreenUpgradeView(
+                this.dataManager,
+                this.skillTreeLoader
+            );
+        }
+
+        this.fullscreenUpgradeView.open();
+    }
+
     renderLogs() {
         Logger.log('Rendering logs view');
         if (this.elements.logsContent && this.logView) {
@@ -344,19 +539,79 @@ export class UIController {
     }
 
     /**
+     * 处理面板打开事件（触发数据刷新）
+     */
+    async handlePanelOpening() {
+        Logger.log('[UIController] 面板打开，触发数据刷新...');
+
+        // 显示加载指示器
+        this.showLoadingIndicator();
+
+        try {
+            // 异步刷新数据
+            await this.dataManager.loadAllData();
+
+            // 更新UI
+            this.renderAll();
+
+            Logger.success('[UIController] 数据刷新完成');
+        } catch (error) {
+            Logger.error('[UIController] 数据刷新失败:', error);
+            this.showToast(`数据加载失败: ${error.message}`, 'error');
+        } finally {
+            // 隐藏加载指示器
+            this.hideLoadingIndicator();
+        }
+    }
+
+    /**
+     * 显示加载指示器
+     */
+    showLoadingIndicator() {
+        const panel = this.elements.root;
+        if (!panel) return;
+
+        // 检查是否已存在加载指示器
+        let indicator = window.parent.document.getElementById('gs-loading-indicator');
+        if (indicator) return;
+
+        // 创建加载指示器
+        indicator = window.parent.document.createElement('div');
+        indicator.id = 'gs-loading-indicator';
+        indicator.className = 'gs-loading-bar';
+        indicator.innerHTML = '<div class="gs-loading-bar-progress"></div>';
+
+        // 插入到面板顶部
+        panel.insertBefore(indicator, panel.firstChild);
+
+        Logger.log('[UIController] 加载指示器已显示');
+    }
+
+    /**
+     * 隐藏加载指示器
+     */
+    hideLoadingIndicator() {
+        const indicator = window.parent.document.getElementById('gs-loading-indicator');
+        if (indicator) {
+            indicator.remove();
+            Logger.log('[UIController] 加载指示器已隐藏');
+        }
+    }
+
+    /**
      * 重新加载所有数据
      */
     async reloadAllData() {
         Logger.log('[UIController] 开始重新加载所有数据...');
-        
+
         try {
             // 显示加载提示
             if (this.elements.statusContentDetail) {
                 this.elements.statusContentDetail.innerHTML = '<div class="loading-message">正在重新加载数据...</div>';
             }
-            
+
             this.showToast('正在重新加载数据...', 'info');
-            
+
             // 尝试通过应用实例重新初始化（包括重新等待 Mvu）
             const app = window.parent.gsStatusBarApp;
             if (app && typeof app.reinitialize === 'function') {
@@ -365,33 +620,33 @@ export class UIController {
             } else {
                 // 降级方案：只重新加载数据
                 Logger.log('[UIController] 使用降级方案：只重新加载数据');
-                
+
                 // 重新加载数据
                 await this.dataManager.loadAllData();
-                
+
                 // 清除雷达图缓存
                 if (this.characterView && this.characterView.clearRadarChartCache) {
                     this.characterView.clearRadarChartCache();
                 }
-                
+
                 // 清除渲染缓存
                 if (this.renderCache) {
                     this.renderCache.clear();
                 }
-                
+
                 // 重新渲染当前视图
                 this.renderAll();
             }
-            
+
             Logger.success('[UIController] 数据重新加载成功');
-            
+
             // 显示成功提示
             this.showToast('数据已重新加载', 'success');
-            
+
         } catch (error) {
             Logger.error('[UIController] 重新加载数据失败', error);
             this.showToast('数据加载失败: ' + error.message, 'error');
-            
+
             // 如果是 Mvu 超时错误，提供更详细的提示
             if (error.message.includes('Mvu')) {
                 this.showToast('提示：可以尝试刷新页面或检查 MVU 扩展是否正常', 'warn');
@@ -405,10 +660,10 @@ export class UIController {
     toggleConsoleOutput() {
         const currentState = Logger.consoleEnabled;
         Logger.setConsoleEnabled(!currentState);
-        
+
         const newState = Logger.consoleEnabled ? '已启用' : '已禁用';
         Logger.log(`[UIController] 控制台输出${newState}`);
-        
+
         this.showToast(`控制台输出${newState}`, 'info');
     }
 
@@ -420,10 +675,10 @@ export class UIController {
         const toast = window.parent.document.createElement('div');
         toast.className = `gs-toast gs-toast-${type}`;
         toast.textContent = message;
-        
+
         // 根据类型设置不同的持续时间
         const duration = type === 'error' || type === 'warn' ? 5000 : 3000;
-        
+
         toast.style.cssText = `
             position: fixed;
             top: 20px;
@@ -439,9 +694,9 @@ export class UIController {
             max-width: 400px;
             word-wrap: break-word;
         `;
-        
+
         window.parent.document.body.appendChild(toast);
-        
+
         setTimeout(() => {
             toast.style.animation = 'slideOutRight 0.3s ease-out';
             setTimeout(() => toast.remove(), 300);

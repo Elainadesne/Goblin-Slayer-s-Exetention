@@ -1487,3 +1487,420 @@
         font-size: 0.8em;
     }
 }
+
+
+/* ===== Modern Skills Grid ===== */
+.skills-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.skill-card-modern {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--container-border);
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+    transition: all 0.3s ease;
+}
+
+/* 根据技能等级改变顶部边框颜色 */
+.skill-card-modern.rank-F::before {
+    background: linear-gradient(90deg, transparent, #8B4513, transparent);
+}
+
+.skill-card-modern.rank-E::before {
+    background: linear-gradient(90deg, transparent, #CD853F, transparent);
+}
+
+.skill-card-modern.rank-D::before {
+    background: linear-gradient(90deg, transparent, #DAA520, transparent);
+}
+
+.skill-card-modern.rank-C::before {
+    background: linear-gradient(90deg, transparent, #FFD700, transparent);
+}
+
+.skill-card-modern.rank-B::before {
+    background: linear-gradient(90deg, transparent, #87CEEB, transparent);
+}
+
+.skill-card-modern.rank-A::before {
+    background: linear-gradient(90deg, transparent, #4169E1, transparent);
+}
+
+.skill-card-modern.rank-S::before {
+    background: linear-gradient(90deg, transparent, #9370DB, transparent);
+}
+
+.skill-card-modern.rank-SS::before {
+    background: linear-gradient(90deg, transparent, #FF1493, transparent);
+}
+
+.skill-card-modern.rank-SSS::before {
+    background: linear-gradient(90deg, transparent, #FF0000, transparent);
+}
+
+.skill-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-blue);
+}
+
+.skill-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.skill-card-icon {
+    font-size: 2em;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(168, 192, 255, 0.1);
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.skill-card-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    margin-bottom: 4px;
+}
+
+.skill-rank {
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.skill-rank.rank-F {
+    color: #8B4513;
+    background: rgba(139, 69, 19, 0.15);
+}
+
+.skill-rank.rank-E {
+    color: #CD853F;
+    background: rgba(205, 133, 63, 0.15);
+}
+
+.skill-rank.rank-D {
+    color: #DAA520;
+    background: rgba(218, 165, 32, 0.15);
+}
+
+.skill-rank.rank-C {
+    color: #FFD700;
+    background: rgba(255, 215, 0, 0.15);
+}
+
+.skill-rank.rank-B {
+    color: #87CEEB;
+    background: rgba(135, 206, 235, 0.15);
+}
+
+.skill-rank.rank-A {
+    color: #4169E1;
+    background: rgba(65, 105, 225, 0.15);
+}
+
+.skill-rank.rank-S {
+    color: #9370DB;
+    background: rgba(147, 112, 219, 0.15);
+}
+
+.skill-rank.rank-SS {
+    color: #FF1493;
+    background: rgba(255, 20, 147, 0.15);
+}
+
+.skill-rank.rank-SSS {
+    color: #FF0000;
+    background: rgba(255, 0, 0, 0.15);
+}
+
+.skill-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skill-description {
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    line-height: 1.5;
+}
+
+.skill-cost {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    font-size: 0.9em;
+    color: var(--accent-blue);
+}
+
+.cost-icon {
+    font-size: 1.2em;
+}
+
+/* 移动端技能卡片优化 */
+@media (max-width: 768px) {
+    .skills-grid-modern {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .skill-card-modern {
+        padding: 12px;
+    }
+
+    .skill-card-icon {
+        font-size: 1.5em;
+        width: 40px;
+        height: 40px;
+    }
+
+    .skill-name {
+        font-size: 1em;
+    }
+
+    .skill-rank {
+        font-size: 0.8em;
+    }
+
+    .skill-description {
+        font-size: 0.85em;
+    }
+
+    .skill-cost {
+        font-size: 0.85em;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid-modern {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .skill-card-modern {
+        padding: 10px;
+    }
+
+    .skill-card-icon {
+        font-size: 1.3em;
+        width: 35px;
+        height: 35px;
+    }
+
+    .skill-name {
+        font-size: 0.95em;
+    }
+
+    .skill-description {
+        font-size: 0.8em;
+    }
+}
+
+
+/* ===================================================================
+ * 窄屏模式 - 复用移动端样式
+ * =================================================================== */
+
+#gs-status-bar-panel.narrow-mode .hero-status-layout {
+    padding: 10px;
+    gap: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .hero-header-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+#gs-status-bar-panel.narrow-mode .hero-job-section {
+    text-align: center;
+}
+
+#gs-status-bar-panel.narrow-mode .hero-name {
+    font-size: 2em;
+}
+
+#gs-status-bar-panel.narrow-mode .hero-subtitle {
+    font-size: 0.95em;
+}
+
+#gs-status-bar-panel.narrow-mode .hero-job-name {
+    font-size: 1.2em;
+}
+
+#gs-status-bar-panel.narrow-mode .hero-job-level {
+    font-size: 1.8em;
+}
+
+/* 属性网格 - 窄屏优化 */
+#gs-status-bar-panel.narrow-mode .attributes-grid-modern {
+    grid-template-columns: repeat(2, 1fr) !important; /* 强制2列布局 */
+    gap: 6px;
+    padding: 6px;
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-card-modern {
+    padding: 8px;
+    min-width: 0; /* 允许缩小 */
+    border-radius: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-card-modern.attr-large,
+#gs-status-bar-panel.narrow-mode .attribute-card-modern.attr-medium {
+    grid-column: span 1; /* 取消跨列 */
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-name-modern {
+    font-size: 0.7em;
+    margin-bottom: 4px;
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-value-large {
+    font-size: 1.4em;
+    margin-bottom: 6px;
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-stat {
+    font-size: 0.65em;
+    margin-bottom: 2px;
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-stat-label {
+    font-size: 0.6em;
+}
+
+#gs-status-bar-panel.narrow-mode .attribute-stat-value {
+    font-size: 0.65em;
+}
+
+/* 技能网格 */
+#gs-status-bar-panel.narrow-mode .skills-grid-modern {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+
+#gs-status-bar-panel.narrow-mode .skill-card-modern {
+    padding: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .skill-card-icon {
+    font-size: 1.5em;
+    width: 40px;
+    height: 40px;
+}
+
+#gs-status-bar-panel.narrow-mode .skill-name {
+    font-size: 1em;
+}
+
+#gs-status-bar-panel.narrow-mode .skill-rank {
+    font-size: 0.8em;
+}
+
+#gs-status-bar-panel.narrow-mode .skill-description {
+    font-size: 0.85em;
+}
+
+#gs-status-bar-panel.narrow-mode .skill-cost {
+    font-size: 0.85em;
+}
+
+/* 装备网格 */
+#gs-status-bar-panel.narrow-mode .equipment-section-modern {
+    padding: 10px;
+}
+
+#gs-status-bar-panel.narrow-mode .section-title-modern {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+    gap: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .equipment-grid-modern {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+#gs-status-bar-panel.narrow-mode .equipment-card-modern {
+    padding: 12px 15px;
+}
+
+#gs-status-bar-panel.narrow-mode .equipment-slot-name {
+    font-size: 0.75em;
+}
+
+#gs-status-bar-panel.narrow-mode .equipment-item-name {
+    font-size: 1em;
+}
+
+/* 库存部分 */
+#gs-status-bar-panel.narrow-mode .inventory-section-modern {
+    padding: 10px;
+}
+
+#gs-status-bar-panel.narrow-mode .money-display {
+    padding: 12px;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+#gs-status-bar-panel.narrow-mode .money-item {
+    padding: 8px 15px;
+    min-width: 100px;
+}
+
+#gs-status-bar-panel.narrow-mode .money-item i {
+    font-size: 1.2em;
+}
+
+#gs-status-bar-panel.narrow-mode .money-label {
+    font-size: 0.8em;
+}
+
+#gs-status-bar-panel.narrow-mode .money-value {
+    font-size: 1.1em;
+}
+
+#gs-status-bar-panel.narrow-mode .inventory-grid-modern {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}

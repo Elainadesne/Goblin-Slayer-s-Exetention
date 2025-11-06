@@ -1,4 +1,5 @@
 /* Import all modular CSS files */
+@import url('./draggable_panel.css');
 @import url('./discord_layout.css');
 @import url('./layout.css');
 @import url('./sections.css');
@@ -18,9 +19,12 @@
 @import url('./error_display.css');
 @import url('./settings.css');
 @import url('./logs.css');
+@import url('./fullscreen_overlay.css');
+@import url('./fullscreen_upgrade.css');
 @import url('./context_menu.css');
 @import url('./genie_effect.css');
 @import url('./glassmorphism.css');
+@import url('./loading_indicator.css');
 @import url('./light_theme.css');
 @import url('./parchment_theme.css');
 @import url('./light_parchment_theme.css');

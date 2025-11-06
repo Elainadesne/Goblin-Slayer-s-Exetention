@@ -1,0 +1,614 @@
+/* 全屏升级界面样式 - 圆形技能树 */
+
+.fullscreen-upgrade-view {
+    background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1e 100%);
+}
+
+/* 主容器 */
+.upgrade-view-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 技能树画布包装器（可拖动区域） */
+.skill-tree-canvas-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none; /* 禁用浏览器默认的触摸行为 */
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.skill-tree-canvas-wrapper:active {
+    cursor: grabbing;
+}
+
+/* 技能树画布 */
+.skill-tree-canvas-circular {
+    width: 2560px;
+    height: 1440px;
+    position: relative;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    transition: transform 0.1s ease-out;
+}
+
+/* 中心节点 - D20骰子 */
+.skill-node-center {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #1d242c;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 0 2px rgba(255, 255, 255, 0.5),
+        0 0 8px rgba(255, 255, 255, 0.5),
+        0 0 10px rgba(240, 248, 255, 0.5),
+        0 0 20px rgba(240, 248, 255, 0.5),
+        0 0 30px rgba(240, 248, 255, 0.5),
+        0 0 40px rgba(240, 248, 255, 0.5),
+        0 0 50px 28px rgba(240, 248, 255, 0.2),
+        0 0 80px 28px rgba(240, 248, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.center-icon {
+    width: 50px;
+    height: 50px;
+    background-image: url('../assets/icons/d20.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.skill-node-center:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 
+        0 0 2px rgba(255, 255, 255, 0.7),
+        0 0 8px rgba(255, 255, 255, 0.7),
+        0 0 10px rgba(240, 248, 255, 0.7),
+        0 0 20px rgba(240, 248, 255, 0.7),
+        0 0 30px rgba(240, 248, 255, 0.7),
+        0 0 40px rgba(240, 248, 255, 0.7),
+        0 0 50px 28px rgba(240, 248, 255, 0.3),
+        0 0 80px 28px rgba(240, 248, 255, 0.3);
+}
+
+/* 圆形技能节点 */
+.skill-node-circular {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #1d242c;
+    border: 2px solid rgba(245, 175, 25, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* 技能节点图标 */
+.skill-node-icon {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Cinzel', serif;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+/* 已学习状态 */
+.skill-node-circular.learned {
+    background: linear-gradient(135deg, #2a3f5f 0%, #1d242c 100%);
+    border-color: rgba(130, 170, 255, 0.6);
+    box-shadow: 
+        0 0 10px rgba(130, 170, 255, 0.4),
+        0 0 20px rgba(130, 170, 255, 0.3),
+        0 0 30px rgba(130, 170, 255, 0.2);
+}
+
+.skill-node-circular.learned .skill-node-icon {
+    color: #82aaff;
+}
+
+/* 锁定状态 */
+.skill-node-circular.locked {
+    background: #1d242c;
+    border-color: rgba(245, 175, 25, 0.2);
+    box-shadow: none;
+    z-index: 1;
+}
+
+.skill-node-circular.locked .skill-node-icon {
+    background-image: url('../assets/icons/lock.svg');
+    background-size: 24px 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: transparent;
+}
+
+.skill-node-circular.locked .skill-icon-img {
+    display: none;
+}
+
+/* 满级状态 */
+.skill-node-circular.maxed {
+    border-color: rgba(255, 215, 0, 0.8);
+    box-shadow: 
+        0 0 15px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(255, 215, 0, 0.3),
+        0 0 45px rgba(255, 215, 0, 0.2);
+}
+
+/* 悬停效果 */
+.skill-node-circular:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+    border-color: rgba(245, 175, 25, 0.8);
+    box-shadow: 
+        0 0 20px rgba(245, 175, 25, 0.6),
+        0 0 40px rgba(245, 175, 25, 0.4),
+        0 0 60px rgba(245, 175, 25, 0.3);
+    z-index: 5;
+}
+
+/* 技能等级徽章 */
+.skill-level-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #1d242c;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 职业标签 */
+.job-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.job-label-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #f5af19;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 4px;
+}
+
+.job-label-level {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 技能提示框 */
+.skill-tooltip {
+    position: fixed;
+    max-width: 350px;
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid rgba(245, 175, 25, 0.5);
+    border-radius: 12px;
+    padding: 16px;
+    z-index: 10001;
+    pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tooltip-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #f5af19;
+    font-family: 'Cinzel', serif;
+}
+
+.tooltip-level {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tooltip-body {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tooltip-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.tooltip-next-level {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tooltip-section-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #82aaff;
+    margin-bottom: 8px;
+}
+
+.tooltip-next-level > div {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+/* 底部信息栏 */
+.upgrade-view-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: transparent; /* 移除黑框背景 */
+    backdrop-filter: none;
+    border-top: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 32px;
+    z-index: 100;
+}
+
+.points-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    color: white;
+}
+
+.points-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.points-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #f5af19;
+    font-family: 'Cinzel', serif;
+}
+
+/* 空消息 */
+.empty-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+    text-align: center;
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+    .skill-node-circular {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .skill-node-icon {
+        font-size: 20px;
+    }
+    
+    .skill-node-center {
+        width: 64px;
+        height: 64px;
+    }
+    
+    .center-icon {
+        font-size: 32px;
+    }
+    
+    .job-label-name {
+        font-size: 14px;
+    }
+    
+    .job-label-level {
+        font-size: 12px;
+    }
+    
+    .skill-tooltip {
+        max-width: 280px;
+        padding: 12px;
+    }
+    
+    .tooltip-name {
+        font-size: 16px;
+    }
+    
+    .upgrade-view-footer {
+        padding: 0 16px;
+    }
+    
+    .points-info {
+        font-size: 14px;
+    }
+    
+    .points-value {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill-node-circular {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .skill-node-icon {
+        font-size: 16px;
+    }
+    
+    .skill-tooltip {
+        max-width: 240px;
+        font-size: 12px;
+    }
+}
+
+
+/* 自定义技能/职业区域 */
+.custom-skills-area {
+    position: absolute;
+    left: 50px;
+    top: 100px;
+    width: 300px;
+    max-height: 600px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(245, 175, 25, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.custom-area-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #f5af19;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 16px;
+    text-align: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(245, 175, 25, 0.3);
+}
+
+.custom-jobs-section,
+.custom-skills-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.custom-job-card,
+.custom-skill-card {
+    background: rgba(29, 36, 44, 0.9);
+    border: 1px solid rgba(245, 175, 25, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.custom-job-card:hover,
+.custom-skill-card:hover {
+    border-color: rgba(245, 175, 25, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 175, 25, 0.3);
+}
+
+.custom-card-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.custom-card-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    word-break: break-word;
+}
+
+.custom-card-level {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 自定义区域滚动条 */
+.custom-skills-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-skills-area::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.custom-skills-area::-webkit-scrollbar-thumb {
+    background: rgba(245, 175, 25, 0.5);
+    border-radius: 3px;
+}
+
+.custom-skills-area::-webkit-scrollbar-thumb:hover {
+    background: rgba(245, 175, 25, 0.7);
+}
+
+/* 调试网格 */
+.debug-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.grid-line {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.grid-line-v {
+    width: 1px;
+}
+
+.grid-line-h {
+    height: 1px;
+}
+
+.grid-label {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    transform: translate(-50%, -50%);
+    font-family: monospace;
+}
+
+.grid-center {
+    position: absolute;
+    color: rgba(255, 215, 0, 0.8);
+    font-size: 14px;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+    font-family: monospace;
+}
+
+
+/* ===================================================================
+ * 窄屏模式 - 自定义技能区域优化
+ * =================================================================== */
+
+/* 移动端：保持自定义技能区域在左侧，增加高度 */
+@media (max-width: 768px) {
+    .custom-skills-area {
+        left: 10px;
+        top: 80px;
+        width: 280px;
+        max-height: calc(100vh - 200px); /* 增加高度 */
+    }
+    
+    .custom-area-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+    
+    .custom-jobs-section,
+    .custom-skills-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    
+    .custom-job-card,
+    .custom-skill-card {
+        padding: 10px;
+        gap: 6px;
+    }
+    
+    .custom-card-icon {
+        font-size: 28px;
+    }
+    
+    .custom-card-name {
+        font-size: 13px;
+    }
+    
+    .custom-card-level {
+        font-size: 11px;
+    }
+}
+
+/* 窄屏模式（PC端窄面板）：保持在左侧 */
+.narrow-mode .custom-skills-area {
+    left: 10px;
+    top: 80px;
+    width: 280px;
+    max-height: calc(100vh - 200px);
+}
+
+.narrow-mode .custom-area-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+}
+
+.narrow-mode .custom-jobs-section,
+.narrow-mode .custom-skills-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.narrow-mode .custom-job-card,
+.narrow-mode .custom-skill-card {
+    padding: 10px;
+    gap: 6px;
+}
+
+.narrow-mode .custom-card-icon {
+    font-size: 28px;
+}
+
+.narrow-mode .custom-card-name {
+    font-size: 13px;
+}
+
+.narrow-mode .custom-card-level {
+    font-size: 11px;
+}

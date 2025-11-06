@@ -25,6 +25,11 @@ export class GenieAnimator {
         this.panel.style.visibility = 'hidden';
         this.container.style.display = 'flex';
         
+        // 确保容器有足够高度（特别是移动端）
+        if (window.innerWidth <= 768) {
+            this.container.style.height = '100vh';
+        }
+        
         // 等待两帧确保内容已渲染
         await this.nextFrame();
         await this.nextFrame();
@@ -179,6 +184,12 @@ export class GenieAnimator {
      */
     showImmediate() {
         this.container.style.display = 'flex';
+        
+        // 确保容器有足够高度（特别是移动端）
+        if (window.innerWidth <= 768) {
+            this.container.style.height = '100vh';
+        }
+        
         this.panel.classList.add('visible');
         this.panel.style.opacity = '1';
         this.panel.style.transform = 'scale(1) translateY(0)';

@@ -47,10 +47,6 @@ export class CharacterView {
                     Logger.log('[CharacterView] Rendering attributes...');
                     content = this.renderAttributes(basePath);
                     break;
-                case '技能':
-                    Logger.log('[CharacterView] Rendering skills...');
-                    content = this.renderSkillsModern(basePath);
-                    break;
                 case '当前状态':
                     Logger.log('[CharacterView] Rendering statuses...');
                     content = this.formatStatuses(`${basePath}.当前状态`);
@@ -663,7 +659,7 @@ export class CharacterView {
                 }
 
                 return `<details class="item-entry">
-                              <summary><b>${name}</b> (Lv.${level}) [${type}]<button class="subtle-button hide-status-button" data-status-name="${name}">隐藏</button><span class="arrow-toggle">›</span></summary>
+                              <summary><b>${name}</b> (Lv.${level}) [${type}]<button class="subtle-button delete-status-button" data-status-name="${name}">删除</button><span class="arrow-toggle">›</span></summary>
                               <div class="item-content">
                                   <div class="quote-text">${desc}</div>
                                   ${bonusText}${effectsText}
@@ -770,6 +766,7 @@ export class CharacterView {
                     <div class="inventory-card-header">
                         <div class="inventory-item-name">${name}</div>
                         <div class="inventory-item-quantity">x${quantity}</div>
+                        <button class="subtle-button hide-item-button" data-item-name="${name}">删除</button>
                     </div>
                     <div class="inventory-card-body">
                         <div class="inventory-item-type">${type}</div>

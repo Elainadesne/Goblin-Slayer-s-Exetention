@@ -148,6 +148,7 @@ export class SidebarManager {
             { name: '状态', icon: 'fa-solid fa-heart-pulse' },
             { name: '属性', icon: 'fa-solid fa-chart-simple' },
             { name: '技能', icon: 'fa-solid fa-wand-sparkles' },
+            { name: '升级', icon: 'fa-solid fa-arrow-up-right-dots', isFullscreen: true },
             { name: '当前状态', icon: 'fa-solid fa-bolt' },
             { name: '装备', icon: 'fa-solid fa-shield-halved', hasSubmenu: true }
         ];
@@ -159,7 +160,8 @@ export class SidebarManager {
         
         this.elements.statusSidebar.innerHTML = items.map(item => {
             const isActive = item.name === this.activeState.status;
-            let html = `<div class="sidebar-nav-item ${isActive ? 'active' : ''}" data-nav="${item.name}">
+            const fullscreenAttr = item.isFullscreen ? 'data-fullscreen="true"' : '';
+            let html = `<div class="sidebar-nav-item ${isActive ? 'active' : ''}" data-nav="${item.name}" ${fullscreenAttr}>
                 <i class="${item.icon}"></i>
                 <span>${item.name}</span>
             </div>`;

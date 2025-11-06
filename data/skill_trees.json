@@ -30,7 +30,42 @@
             "description": "可使用至多6阶的奇迹，并且每日一次，可在深度祈祷后获得一次来自神明的、与当前困境相关的直接启示（通常为一句话的暗喻）。"
           }
         ],
-        "dependencies": []
+        "dependencies": [],
+        "position": {
+          "x": 0,
+          "y": -2
+        }
+      },
+      {
+        "id": "priest_faith_allegiance",
+        "name": "信仰专精",
+        "description": "选择要求：\"请选择一位侍奉的神明（例如：至高神、地母神、战女神等）\"",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "施展所选神明的奇迹时，敌人抵抗该奇迹的判定难度+1。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "施展所选神明的奇迹时，可选择瞬发，无需咏唱时间。此能力每日可使用次数等同于你的信仰力修正值。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "无需圣徽即可引导神力，你的存在本身即为圣域。施展所选神明的奇迹时，周身会散发小范围的圣光，对不死生物和魔神爪牙造成持续性的微弱神圣伤害。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 0,
+          "y": -3.5
+        }
       }
     ]
   },
@@ -51,9 +86,1003 @@
             "required_job_level": 2,
             "cost": 1,
             "description": "在昏暗光照、阴影或利用遮蔽物时，潜行检定获得+2加值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "在任何环境下，潜行检定都获得+2加值，且移动时发出的声音显著减弱。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "潜行检定加值提升至+4，并且在未被发现的潜行状态下发动的第一次攻击必定被视为卓越成功（大成功）。"
           }
         ],
-        "dependencies": []
+        "dependencies": [],
+        "position": {
+          "x": 1.1,
+          "y": -1.7
+        }
+      },
+      {
+        "id": "scout_handiwork",
+        "name": "手工",
+        "description": "精通于处理精巧的机械结构。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "进行开锁或解除常规机械陷阱的检定时获得+2加值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "能够处理更复杂的机械机关，并且可以通过观察和使用工具尝试复制简单的物理钥匙。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "能够尝试解除附有魔法效果的陷阱或锁具，但这需要通过一次额外的【感知】或【知识】检定来对抗魔法的复杂性。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 1.9,
+          "y": -2.9
+        }
+      }
+    ]
+  },
+  "游侠": {
+    "name": "游侠",
+    "tier": 1,
+    "description": "荒野的生存者与致命的远程射手，精通弓箭与追踪技巧，是大自然最危险的猎人。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "ranger_archery_techniques",
+        "name": "箭术技巧",
+        "description": "掌握多种多样的射击技巧。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "解锁【速射】。以一个标准动作进行两次远程攻击，但每次攻击的命中判定承受-2减值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "解锁【曲射】。你的远程攻击可绕过标准盾牌或半身掩体提供的防御加值。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "可在同一回合内使用无惩罚的【速射】，或者同时使用【速射】与【曲射】（速射的两次攻击均可绕过掩体）。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 1.8,
+          "y": -0.8
+        }
+      },
+      {
+        "id": "ranger_survival",
+        "name": "生存术",
+        "description": "掌握在严酷的自然环境中生存下去的知识。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "在野外环境下进行追踪、寻找食��和水源的判定时获得+2加值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "能够快速搭建安全的庇护所（提供充分休息加值），并能制作简易的狩猎或警报陷阱。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "能够通过观察云层、风向等解读复杂的气候变化，并能通过姿态和声音与野兽进行有限的、基础的沟通（如表达“无敌意”）。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 3.2,
+          "y": -1.5
+        }
+      }
+    ]
+  },
+  "精灵使": {
+    "name": "精灵使",
+    "tier": 1,
+    "description": "大自然的沟通者，借用无处不在的精灵之力来施法的媒介，是荒野的宠儿。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "spirituser_spirit_arts",
+        "name": "精灵术",
+        "description": "与自然界的精灵沟通，并借用它们的力量。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "可与环境中的低阶精灵（如土、风、水、火）沟通，并借用它们的力量施展基础法术。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "能够与中阶精灵（如植物、雷电）沟通，并能指派精灵进行更复杂的协助，例如派遣风之精灵进行短途侦察。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "能够尝试与稀有的高阶精灵（如光、暗、生命）沟通。此外，你能够与一只特定的中低阶精灵建立长期契约，使其成为你的“精灵伙伴”，获得其持续性的被动加成或主动帮助。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 2,
+          "y": 0.3
+        }
+      },
+      {
+        "id": "spirituser_child_of_spirits",
+        "name": "精灵宠儿",
+        "description": "你深受精灵的喜爱，大自然视你为家人。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "施展精灵术时，有小概率无需消耗咒文使用次数。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "在自然环境中，对你友善的精灵会主动为你提供周围环境的简要情报（如“附近有水源”、“有大型生物正在靠近”）。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "你可以在任何自然环境中，通过短暂的冥想与精灵共鸣，每日一次，恢复少量体力和1D6魔力次数。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 3.5,
+          "y": 0.5
+        }
+      }
+    ]
+  },
+  "魔术师": {
+    "name": "魔术师",
+    "tier": 1,
+    "description": "通过严谨的学术研究和精准的咒文咏唱来驾驭魔法力量的学者，擅长识别并利用敌人的弱点。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "mage_true_magic",
+        "name": "真言咒文",
+        "description": "精准控制魔力，编织出现实世界的奇迹。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "能够理解并使用1-2环的真言咒文。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "可使用至多4环的真言咒文，并能对已知咒文进行简单改良（如改变元素形态或影响范围）。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "可使用至多6环的真言咒文，并能够基于现有理论尝试创造全新的低环（1-2环）法术。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 1.5,
+          "y": 1.3
+        }
+      },
+      {
+        "id": "mage_monster_lore",
+        "name": "怪物知识",
+        "description": "运用渊博的学识看破魔物的本质。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "知识判定成功后，能得知目标怪物的基本属性（如力量、敏捷）和一个代表性技能。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "知识判定成功后，能得知目标怪物的全部主动技能和一个关键弱点（如火焰易伤、特定部位无护甲等）。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "知识判定成功后，能得知其所有弱点、可预判的行为模式，并能对友军的下一次攻击提供精准的战术建议（例如“攻击其左眼可致盲”）。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 2.6,
+          "y": 2.3
+        }
+      }
+    ]
+  },
+  "武道家": {
+    "name": "武道家",
+    "tier": 1,
+    "description": "将肉体锤炼至极限的格斗大师，依靠速度、力量和技巧在战场上穿梭，以迅猛的拳脚击溃敌人。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "monk_acrobatics",
+        "name": "体术",
+        "description": "锤炼肉体，使其做出超越常人的动作。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "所有基于力量或敏捷的运动系判定（如攀爬、跳跃、平衡）获得+1加值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "运动系判定加值提升至+2，且跳跃距离增加50%。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "运动系判定加值提升至+3，并且可以在墙壁或水面等垂直或非固体表面进行短距离奔跑。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 0.6,
+          "y": 1.9
+        }
+      },
+      {
+        "id": "monk_insight",
+        "name": "看破",
+        "description": "在攻击的间隙中寻找破绽。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "在只被单个敌人攻击时，闪避判定获得+1加值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "对所有来源的攻击，闪避判定都获得+1加值，且闪避检定的大成功（双六）范围扩大（11或12）。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "闪避判定加值提升至+2，并且能够自动察觉并定位处于隐形状态的敌人。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 1,
+          "y": 3.4
+        }
+      },
+      {
+        "id": "monk_penetrating_strike",
+        "name": "发劲",
+        "description": "将力量集中于一点，穿透敌人的防御。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "下一次徒手攻击可无视目标的2点护甲值 (1次/日)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "下一次徒手攻击可无视目标的4点护甲值 (3次/日)。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "徒手攻击可无视目标一半的护甲值（向下取整）。每次使用会消耗额外体力（一次力竭），可随时使用。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": 1.4,
+          "y": 4.8
+        }
+      }
+    ]
+  },
+  "战士": {
+    "name": "战士",
+    "tier": 1,
+    "description": "精通多种武器与重型护甲的战场专家，攻守兼备，是队伍中最可靠的屏障。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "warrior_weapon_specialization",
+        "name": "武器专精",
+        "description": "选择一项专精的武器类型（例如：剑、斧、锤、长矛等）",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "使用已选定的专精武器类型时，可将一半的职业等级（向下取整）作为加值附加到命中判定上。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "使用专精武器时，可将完整的职业等级作为加值附加到命中判定上。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "使用专精武器时，可将完整的职业等级作为加值附加到命中与伤害威力判定上。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -0.6,
+          "y": 1.9
+        }
+      },
+      {
+        "id": "warrior_armor_adaptation",
+        "name": "铠甲适应",
+        "description": "选择一项适应的铠甲类型（例如：皮甲、锁甲、板甲等）",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "穿着已选定的适应铠甲类型时，该护甲带来的闪避检定惩罚减半。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "穿着适应铠甲时，完全免疫其带来的闪避检定惩罚。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "穿着适应铠甲时，额外获得1点装甲值（减伤）。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1,
+          "y": 3.4
+        }
+      },
+      {
+        "id": "warrior_taunt",
+        "name": "挑衅",
+        "description": "用言语或动作吸引敌人的注意力。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "可强迫一个可见的敌人以你为目标，持续1回合。需通过对抗检定 (1次/日)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "对抗检定获得+2加值，可强迫目标持续攻击你2回合 (3次/日)。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "可同时挑衅最多等同于你力量修正值的复数敌人 (等同于力量修正值/日，最少1次)。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1.4,
+          "y": 4.8
+        }
+      },
+      {
+        "id": "warrior_guard",
+        "name": "护卫",
+        "description": "挺身而出，为队友抵挡攻击。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "可为一名紧邻（1米内）的队友承受一次物理攻击 (1次/日)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "可为5米范围内的一名队友承受一次物理攻击 (3次/日)。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "可为10米范围内的一名队友承受一次物理或单体魔法攻击 (每回合1次，无每日次数限制)。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1.8,
+          "y": 6.2
+        }
+      }
+    ]
+  },
+  "女仆": {
+    "name": "女仆",
+    "tier": 1,
+    "description": "以无可挑剔的礼仪和出其不意的致命餐具服务于主人和队伍的辅助专家。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "maid_throwing_specialization",
+        "name": "投掷专精（餐刀）",
+        "description": "将女仆的优雅与致命的精准相结合。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "使用投掷类武器时，可将一半的职业等级（向下取整）作为加值附加到命中判定上。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "使用投掷类武器时，可将完整的职业等级作为加值附加到命中判定上。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "使用投掷类武器时，可将完整的职业等级作为加值附加到命中与伤害威力判定上。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1.5,
+          "y": 1.3
+        }
+      },
+      {
+        "id": "maid_housekeeping",
+        "name": "家政服务",
+        "description": "将战场环境整理得无可挑剔。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "从身上像变魔术一样拿出清扫工具花费时间将一小片区��打扫得一尘不染，移除水渍、血污、碎石等小型物理障碍或劣势环境 (3次/日)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "“一尘不染”：区域会散发着令人安心的洁净感，在该区域内的友方单位进行所有判定时获得+1加值。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "“完美洁净”：区域提供的判定加值提升至+2，并可以提前布置小型陷阱（如利用丝线和餐具），对进入该区域的敌人进行一次敏捷判定，失败则摔倒获得1d3的劣势。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -2.6,
+          "y": 2.3
+        }
+      },
+      {
+        "id": "maid_tea_time",
+        "name": "茶歇时间",
+        "description": "在战斗间隙为同伴提供片刻的休憩。",
+        "max_level": 3,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "在脱离战斗后，可以为全队准备一次短暂的茶歇，恢复每位成员3点体力值 (1次/日)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 2,
+            "description": "在恢复体力值的同时，额外恢复2d6的最大生命值。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "精心准备的“完美茶歇”，可恢复5点体力值和3d6生命值，并赋予全队“心满意足”状态，持续一小时内所有判定获得+1加值 (2次/日)。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -3.8,
+          "y": 3.3
+        }
+      }
+    ]
+  },
+  "剑客": {
+    "name": "剑客",
+    "tier": 1,
+    "description": "以剑为道的求道者。他们不依赖重甲，而是凭借精湛技艺、迅捷身法与独特的“架势”在生死一线间起舞。",
+    "next_tier": "剑豪",
+    "skills": [
+      {
+        "id": "swordsman_sword_forms",
+        "name": "剑式基础",
+        "description": "对挥剑、步法、呼吸等基础功的千锤百炼。",
+        "max_level": 5,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 1,
+            "description": "命中检定+1"
+          },
+          {
+            "level": 2,
+            "required_job_level": 3,
+            "cost": 1,
+            "description": "命中检定+2"
+          },
+          {
+            "level": 3,
+            "required_job_level": 5,
+            "cost": 2,
+            "description": "命中检定+3"
+          },
+          {
+            "level": 4,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "命中检定+4"
+          },
+          {
+            "level": 5,
+            "required_job_level": 10,
+            "cost": 3,
+            "description": "命中检定+5"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -2,
+          "y": 0.3
+        }
+      },
+      {
+        "id": "swordsman_flowing_stance",
+        "name": "流水架势",
+        "description": "将架势的运用融入呼吸与心跳，专注于防守反击的时机。",
+        "max_level": 5,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 1,
+            "description": "最大架势点+1 (总计1点)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 3,
+            "cost": 1,
+            "description": "成功进���“架势格挡”后，下一次进行闪避检定时获得+1加值。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 5,
+            "cost": 2,
+            "description": "最大架势点再+1。"
+          },
+          {
+            "level": 4,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "每日一次，可在架势点归零时，立即恢复1点架势点，避免一次“破势”。"
+          },
+          {
+            "level": 5,
+            "required_job_level": 10,
+            "cost": 3,
+            "description": "在你的回合开始时，若你的架势点为0，则自动恢复1点。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -3.5,
+          "y": 0.5
+        }
+      },
+      {
+        "id": "swordsman_blade_arts",
+        "name": "剑技变招",
+        "description": "主动消耗架势，将守御之势瞬间转化为凌厉的攻势。",
+        "max_level": 5,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "可使用【崩解】(本次攻击若命中，可使目标的格挡或招架效果在下一回合中效能减半)。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 1,
+            "description": "可使用【横扫】(本次攻击可同时对前方扇形范围内的至多2个敌人造成伤害，但伤害结果-2)。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 6,
+            "cost": 2,
+            "description": "【崩解】的效果提升��使目标完全无法格挡或招架；【横扫】的目标上限提升至3个。"
+          },
+          {
+            "level": 4,
+            "required_job_level": 8,
+            "cost": 2,
+            "description": "可使用【穿刺】(本次攻击无视目标[熟练度等级 * 2]点的护甲值)。"
+          },
+          {
+            "level": 5,
+            "required_job_level": 10,
+            "cost": 3,
+            "description": "当你使用剑技变招击败一个敌人时，立即解除自身的“架势决意”状态。"
+          }
+        ],
+        "dependencies": [
+          {
+            "skill_id": "swordsman_sword_forms",
+            "level": 1
+          }
+        ],
+        "position": {
+          "x": -4.9,
+          "y": 0.7
+        }
+      },
+      {
+        "id": "swordsman_flash_step",
+        "name": "瞬步",
+        "description": "消耗一点架势爆发斗气强化腿部力量，用于调整自身在战场上的位置。",
+        "max_level": 5,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 1,
+            "description": "下一次敏捷检定获得1d3加值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 3,
+            "cost": 1,
+            "description": "移动后，若你没有进行攻击，则本回合内受到的第一次远程攻击检定具有劣势。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 5,
+            "cost": 2,
+            "description": "发起一次敏捷对抗，成功则成功瞬步来到敌人身前。"
+          },
+          {
+            "level": 4,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "使用此技能不再消耗架势点。"
+          },
+          {
+            "level": 5,
+            "required_job_level": 10,
+            "cost": 3,
+            "description": "瞬步结束时，你可以恢复1点架势点，每日限一次。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -6.4,
+          "y": 0.9
+        }
+      },
+      {
+        "id": "swordsman_insight_strike",
+        "name": "看破",
+        "description": "集中精神，于瞬息之间洞察敌人防御体系中最薄弱的一点，并施以精准打击。",
+        "max_level": 5,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 2,
+            "cost": 1,
+            "description": "无视目标2点护甲值。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 4,
+            "cost": 1,
+            "description": "无视目标4点护甲值。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 6,
+            "cost": 2,
+            "description": "无视目标6点护甲值。"
+          },
+          {
+            "level": 4,
+            "required_job_level": 8,
+            "cost": 2,
+            "description": "本次攻击对目标的特定部位（如关节、缝隙）造成影响，使其下一次攻击命中检定-2。"
+          },
+          {
+            "level": 5,
+            "required_job_level": 10,
+            "cost": 3,
+            "description": "本次攻击直接命中要害，自动造成重创效果，但使用后会消耗1点架势点。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -7.9,
+          "y": 1.1
+        }
+      },
+      {
+        "id": "swordsman_swallow_reversal",
+        "name": "燕返",
+        "description": "在架势被破、身陷绝境的刹那，凭借不屈的意志与本能挥出的一记反击之剑。",
+        "max_level": 5,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 3,
+            "cost": 1,
+            "description": "当因“破势”状态受到伤害后，可以一个反应动作进行反击，本次反击的命中检定+1。"
+          },
+          {
+            "level": 2,
+            "required_job_level": 5,
+            "cost": 1,
+            "description": "反击的命中检定加值提升至+2。"
+          },
+          {
+            "level": 3,
+            "required_job_level": 7,
+            "cost": 2,
+            "description": "反击的命中检定加值提升至+3。"
+          },
+          {
+            "level": 4,
+            "required_job_level": 9,
+            "cost": 2,
+            "description": "反击额外造成等同于你[职业等级/2]的伤害。"
+          },
+          {
+            "level": 5,
+            "required_job_level": 10,
+            "cost": 3,
+            "description": "若此反击成功击杀敌人，你立即恢复1点架势点。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -9.4,
+          "y": 1.4
+        }
+      }
+    ]
+  },
+  "剑豪": {
+    "name": "剑豪",
+    "tier": 2,
+    "description": "将凡人的剑技磨炼至极致的武者。",
+    "requirements_description": "职业:剑客, 等级 10, 开创一门剑术并用它在生死搏斗中击杀一百名敌人/在天领奉纳試合中取得优胜, 得到挑战雷电影的机会。",
+    "next_tier": "剑圣",
+    "skills": [
+      {
+        "id": "blademaster_infinite_blades",
+        "name": "无穷之刃",
+        "description": "被动能力。当你的普通攻击成功命中后，可立即追加一次新的普通攻击，此效果可无限持续，直到某次攻击未能命中为止。每次追加攻击，其命中判定会承受-2的累计减值。",
+        "max_level": 1,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 5,
+            "description": "获得被动能力【无穷之刃】。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1.8,
+          "y": -0.8
+        }
+      },
+      {
+        "id": "blademaster_forged_in_battle",
+        "name": "百炼成钢",
+        "description": "被动能力。“架势格挡”获得强化。每次成功格挡时，可将被减免掉的伤害数值储存起来（最高可储存等同于你最大生命值一半的数值）。你可以随时在下一次任意攻击中，将所有储存的伤害作为额外伤害一并释放。",
+        "max_level": 1,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 5,
+            "description": "获得被动能力【百炼成钢】。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -3.2,
+          "y": -1.5
+        }
+      },
+      {
+        "id": "blademaster_mind_like_water",
+        "name": "明镜止水",
+        "description": "每日一次，主动进入“明镜止水”状态，在受到三次攻击前，你的架势点将锁定为最大值且不会被任何方式消耗或减少，同时你将免疫“架势决意”带来的负面效果。",
+        "max_level": 1,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 5,
+            "description": "获得主动能力【明镜止水】。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -4.5,
+          "y": -2.1
+        }
+      }
+    ]
+  },
+  "剑圣": {
+    "name": "剑圣",
+    "tier": 3,
+    "description": "超越了“剑术”本身，开始触及“理”之境界的求道者。",
+    "requirements_description": "职业:剑豪, 等级10, 与苇名一心厮杀到两败俱伤获得一心的认可, 在天领奉纳試合中战胜雷电影。",
+    "next_tier": null,
+    "skills": [
+      {
+        "id": "swordsaint_minds_eye",
+        "name": "心眼",
+        "description": "被动能力。你免疫所有幻术、致盲以及削弱感知的效果。在进行攻击与闪避检定时，你可以选择使用【感知】属性的基准值来代替【力量】或【敏捷】。",
+        "max_level": 1,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 10,
+            "description": "获得被动能力【心眼】。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1.1,
+          "y": -1.7
+        }
+      },
+      {
+        "id": "swordsaint_blade_of_principle",
+        "name": "理之锋",
+        "description": "被动能力。你的所有攻击都将无视目标一半的护甲与韧性。当攻击持有魔法护盾或增益效果的目标时，有一定几率直接将其驱散。",
+        "max_level": 1,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 10,
+            "description": "获得被动能力【理之锋】。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -1.9,
+          "y": -2.9
+        }
+      },
+      {
+        "id": "swordsaint_zanshin",
+        "name": "残心",
+        "description": "被动能力。当你使用近战攻击击败一个敌人后，可立即进入“残心”架势。在此架势下，你的架势点会���即恢复一点，并且��的下一次攻击获得1d3的加成。",
+        "max_level": 1,
+        "levels": [
+          {
+            "level": 1,
+            "required_job_level": 1,
+            "cost": 10,
+            "description": "获得被动能力【残心】。"
+          }
+        ],
+        "dependencies": [],
+        "position": {
+          "x": -2.7,
+          "y": -4.2
+        }
       }
     ]
   }

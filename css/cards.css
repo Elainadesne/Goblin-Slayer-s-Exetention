@@ -267,3 +267,84 @@
     font-size: 0.85em;
   }
 }
+
+
+/* ===================================================================
+ * 窄屏模式 - 复用移动端样式
+ * =================================================================== */
+
+#gs-status-bar-panel.narrow-mode .industry-card .industry-grid {
+    grid-template-columns: 1fr;
+}
+
+#gs-status-bar-panel.narrow-mode .industry-card .industry-title {
+    border-right: 0;
+    border-bottom: 1px solid var(--container-border);
+    padding-right: 0;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    height: auto;
+}
+
+#gs-status-bar-panel.narrow-mode .character-card-content {
+    gap: 15px;
+}
+
+#gs-status-bar-panel.narrow-mode .abilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+#gs-status-bar-panel.narrow-mode .abilities-grid span {
+    padding: 5px 8px;
+    font-size: 0.85em;
+}
+
+
+/* 全局卡片优化 - 窄屏模式 */
+#gs-status-bar-panel.narrow-mode .card {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .card-header {
+    padding: 8px 10px;
+    font-size: 0.95em;
+}
+
+#gs-status-bar-panel.narrow-mode .card-body {
+    padding: 10px;
+}
+
+#gs-status-bar-panel.narrow-mode .card-title {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .card-text {
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+/* 网格布局优化 */
+#gs-status-bar-panel.narrow-mode .grid {
+    gap: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#gs-status-bar-panel.narrow-mode .grid-3,
+#gs-status-bar-panel.narrow-mode .grid-4 {
+    grid-template-columns: repeat(2, 1fr); /* 3列和4列都变为2列 */
+}
+
+/* Flex布局优化 */
+#gs-status-bar-panel.narrow-mode .flex {
+    gap: 8px;
+}
+
+#gs-status-bar-panel.narrow-mode .flex-wrap {
+    flex-wrap: wrap;
+}

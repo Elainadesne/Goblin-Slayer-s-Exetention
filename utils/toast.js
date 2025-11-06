@@ -34,4 +34,8 @@ export class Toast {
     static warning(message, duration = 3000) {
         this.show(message, duration, 'warning');
     }
+    
+    static info(message, duration = 3000) {
+        this.show(message, duration, 'info');
+    }
 }
