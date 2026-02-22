@@ -8,7 +8,7 @@ import { MapView } from './views/MapView.js';
 import { TaskView } from './views/TaskView.js';
 import { SkillView } from './views/SkillView.js';
 import { SettingsView } from './views/SettingsView.js';
-import { LogView } from './views/LogView.js';
+import { LogView } from './views/HistoryView.js';
 import { FullscreenUpgradeView } from './views/FullscreenUpgradeView.js';
 import { SkillTreeLoader } from '../core/skill_tree_loader.js';
 import { ImageDatabaseLoader } from '../core/image_database_loader.js';
@@ -316,29 +316,29 @@ export class UIController {
             // 获取 MVU 数据（从最新楼层）
             const mvuData = Mvu.getMvuData({ type: 'message', message_id: 'latest' });
 
-            // 尝试从不同的物品列表中删除
-            const itemListNames = ['武器列表', '防具列表', '饰品列表', '消耗品列表', '材料与杂物列表'];
+            const itemListCategories = ['武器', '防具', '饰品', '消耗品', '材料', '杂物'];
 
             let deleted = false;
-            for (const listName of itemListNames) {
-                const itemList = Mvu.getMvuVariable(mvuData, `主角.${listName}`, { default_value: {} });
+            for (const category of itemListCategories) {
+                const listPath = `主角.背包.${category}`;
+                const itemList = Mvu.getMvuVariable(mvuData, listPath, { default_value: {} });
                 
                 if (itemName in itemList) {
                     // 删除物品
                     delete itemList[itemName];
                     
                     // 更新列表
-                    await Mvu.setMvuVariable(mvuData, `主角.${listName}`, itemList);
+                    await Mvu.setMvuVariable(mvuData, listPath, itemList);
                     
                     deleted = true;
-                    Logger.success(`[UIController] 物品已删除: ${itemName} (列表: ${listName})`);
+                    Logger.success(`[UIController] 物品已删除: ${itemName} (分类: ${category})`);
                     break;
                 }
             }
 
             if (!deleted) {
                 Logger.warn(`[UIController] 未找到物品: ${itemName}`);
-                alert(`未找到物品: ${itemName}`);
+                alert(`未找到物品: ${itemName} (请检查是否在背包中)`);
                 return;
             }
 

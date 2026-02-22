@@ -93,13 +93,15 @@ export class CharacterView {
         // Debug log
         console.log('[CharacterView] 角色名字:', name);
         const expLevel = this.dataManager.SafeGetValue(`${basePath}.经验等级`, 0);
-        const jobPoints = this.dataManager.SafeGetValue(`${basePath}.职业点数`, 0);
+        const jobPoints = this.dataManager.SafeGetValue(`${basePath}.技能点`, 0);
 
         const jobs = this.dataManager.SafeGetValue(`${basePath}.职业`, {});
         const jobEntries = ViewUtils.filterMetaEntries(jobs)
             .map(([name, data]) => ({
                 name,
-                level: data['当前等级'] || 1
+                level: data['当前等级'] || 1,
+                exp: data['当前经验'] || 0,
+                maxExp: data['升级所需'] || 1000
             }))
             .sort((a, b) => b.level - a.level); // 按等级降序排序
 
@@ -130,8 +132,9 @@ export class CharacterView {
         const maxFaith = this.dataManager.SafeGetValue(`${basePath}.信仰力值.最大值`, 1);
         const currentStamina = this.dataManager.SafeGetValue(`${basePath}.体力值.当前值`, 0);
         const maxStamina = this.dataManager.SafeGetValue(`${basePath}.体力值.最大值`, 1);
-        const currentXP = this.dataManager.SafeGetValue(`${basePath}.职业经验.当前值`, 0);
-        const maxXP = this.dataManager.SafeGetValue(`${basePath}.职业经验.升级所需`, 1000);
+        
+        const currentXP = primaryJob ? primaryJob.exp : 0;
+        const maxXP = primaryJob ? primaryJob.maxExp : 1000;
 
         return `
             <div class="hero-status-layout">
@@ -232,7 +235,7 @@ export class CharacterView {
                     <div class="progress-item">
                         <div class="progress-header">
                             <span class="progress-icon">⭐</span>
-                            <span class="progress-label">职业经验</span>
+                            <span class="progress-label">职业经验 (主)</span>
                             <span class="progress-value">${currentXP} / ${maxXP}</span>
                         </div>
                         <div class="progress-bar-modern">
@@ -245,14 +248,14 @@ export class CharacterView {
     }
 
     renderAttributes(basePath) {
-        const totalAbilities = this.dataManager.SafeGetValue(`${basePath}.总能力`, {});
+        const totalAbilities = this.dataManager.SafeGetValue(`${basePath}.能力`, {});
         const abilityKeys = ViewUtils.filterMetaKeys(totalAbilities);
         if (abilityKeys.length === 0) return '<p>无能力数据。</p>';
 
         // 准备雷达图数据
         const radarData = {};
         abilityKeys.forEach(key => {
-            radarData[key] = this.dataManager.SafeGetValue(`${basePath}.总能力.${key}`, 0);
+            radarData[key] = this.dataManager.SafeGetValue(`${basePath}.能力.${key}`, 0);
         });
 
         // 生成雷达图 HTML（带缓存和性能优化）
@@ -316,11 +319,12 @@ export class CharacterView {
 
         // 生成能力卡片 HTML（现有逻辑）
         const cardsHTML = abilityKeys.map(key => {
-            const total = this.dataManager.SafeGetValue(`${basePath}.总能力.${key}`, 0);
-            const baseCurrent = this.dataManager.SafeGetValue(`${basePath}.基础能力.${key}.当前值`, 0);
-            const baseMax = this.dataManager.SafeGetValue(`${basePath}.基础能力.${key}.最大值`, 1);
-            const trainingCurrent = this.dataManager.SafeGetValue(`${basePath}.历练值.${key}.当前值`, 0);
-            const trainingMax = this.dataManager.SafeGetValue(`${basePath}.历练值.${key}.突破所需`, 100);
+            const total = this.dataManager.SafeGetValue(`${basePath}.能力.${key}`, 0);
+            const baseCurrent = total; 
+            const baseMax = '∞'; 
+            
+            const trainingCurrent = this.dataManager.SafeGetValue(`${basePath}.历练进度.${key}`, 0);
+            const trainingMax = 100; // 历练进度始终是百分比
 
             // 根据数值大小决定视觉效果
             let sizeClass = 'attr-small';
@@ -340,12 +344,12 @@ export class CharacterView {
                     <div class="attribute-value-large ${colorClass}">${total}</div>
                     <div class="attribute-details-modern">
                         <div class="attribute-stat">
-                            <span class="stat-label">基础</span>
-                            <span class="stat-value">${baseCurrent}/${baseMax}</span>
+                            <span class="stat-label">数值</span>
+                            <span class="stat-value">${baseCurrent}</span>
                         </div>
                         <div class="attribute-stat">
                             <span class="stat-label">历练</span>
-                            <span class="stat-value">${trainingCurrent}/${trainingMax}</span>
+                            <span class="stat-value">${trainingCurrent}%</span>
                         </div>
                         <div class="training-progress">
                             <div class="training-progress-fill" style="width: ${this.getPercentage(trainingCurrent, trainingMax)}%"></div>
@@ -472,25 +476,29 @@ export class CharacterView {
 
     renderEquipmentModern(basePath) {
         const equipmentSlots = [
-            { name: '武器', path: '装备栏.武器', icon: '⚔️' },
-            { name: '副手', path: '装备栏.副手', icon: '🛡️' },
-            { name: '头部', path: '装备栏.防具.头部', icon: '👑' },
-            { name: '身体', path: '装备栏.防具.身体', icon: '👕' },
-            { name: '内衬', path: '装备栏.防具.内衬', icon: '🧥' },
-            { name: '手部', path: '装备栏.防具.手部', icon: '🧤' },
-            { name: '腿部', path: '装备栏.防具.腿部', icon: '👖' },
-            { name: '饰品', path: '装备栏.饰品', icon: '💍' }
+            { name: '武器', path: '装备.武器', icon: '⚔️' },
+            { name: '副手', path: '装备.副手', icon: '🛡️' },
+            { name: '头部', path: '装备.防具.头部', icon: '👑' },
+            { name: '身体', path: '装备.防具.身体', icon: '👕' },
+            { name: '内衬', path: '装备.防具.内衬', icon: '🧥' },
+            { name: '手部', path: '装备.防具.手部', icon: '🧤' },
+            { name: '腿部', path: '装备.防具.腿部', icon: '👖' },
+            { name: '饰品', path: '装备.饰品', icon: '💍' }
         ];
 
         const itemPools = {
-            ...this.dataManager.SafeGetValue(`${basePath}.武器列表`, {}),
-            ...this.dataManager.SafeGetValue(`${basePath}.防具列表`, {}),
-            ...this.dataManager.SafeGetValue(`${basePath}.饰品列表`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.武器`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.防具`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.饰品`, {}),
         };
 
         const equipmentCards = equipmentSlots.map(slot => {
             let raw = this.dataManager.SafeGetValue(`${basePath}.${slot.path}`);
-            if (Array.isArray(raw)) raw = raw[0];
+            // 如果是对象（Record），取第一个值或者特定逻辑
+            if (raw && typeof raw === 'object' && !raw.name) { 
+                 const keys = Object.keys(raw);
+                 if(keys.length > 0) raw = keys[0]; // 简化处理：如果是Map，取Key名
+            }
 
             let itemName = '未装备';
             let itemTier = '普通';
@@ -562,11 +570,12 @@ export class CharacterView {
 
     renderInventory(basePath) {
         const itemLists = {
-            ...this.dataManager.SafeGetValue(`${basePath}.武器列表`, {}),
-            ...this.dataManager.SafeGetValue(`${basePath}.防具列表`, {}),
-            ...this.dataManager.SafeGetValue(`${basePath}.饰品列表`, {}),
-            ...this.dataManager.SafeGetValue(`${basePath}.消耗品列表`, {}),
-            ...this.dataManager.SafeGetValue(`${basePath}.材料与杂物列表`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.武器`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.防具`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.饰品`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.消耗品`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.材料`, {}),
+            ...this.dataManager.SafeGetValue(`${basePath}.背包.杂物`, {}),
         };
         const items = ViewUtils.filterMetaEntries(itemLists);
 
@@ -595,7 +604,7 @@ export class CharacterView {
             })
             .join('');
 
-        const moneyHTML = `<div class="property"><span class="property-name">金钱:</span> <span class="value-main">G: ${this.dataManager.SafeGetValue(`${basePath}.金钱.金币`, 0)} | S: ${this.dataManager.SafeGetValue(`${basePath}.金钱.银币`, 0)} | C: ${this.dataManager.SafeGetValue(`${basePath}.金钱.铜币`, 0)}</span></div>`;
+        const moneyHTML = `<div class="property"><span class="property-name">金钱:</span> <span class="value-main">G: ${this.dataManager.SafeGetValue(`${basePath}.背包.金钱.金币`, 0)} | S: ${this.dataManager.SafeGetValue(`${basePath}.背包.金钱.银币`, 0)} | C: ${this.dataManager.SafeGetValue(`${basePath}.背包.金钱.铜币`, 0)}</span></div>`;
         return moneyHTML + '<hr class="thin-divider">' + `<div class="inventory-grid">${html}</div>`;
     }
 
@@ -699,19 +708,16 @@ export class CharacterView {
     renderInventoryModern(basePath) {
         Logger.log(`[CharacterView] renderInventoryModern called with basePath: ${basePath}`);
         
-        // 合并所有物品列表
-        const weaponList = this.dataManager.SafeGetValue(`${basePath}.武器列表`, {});
-        const armorList = this.dataManager.SafeGetValue(`${basePath}.防具列表`, {});
-        const accessoryList = this.dataManager.SafeGetValue(`${basePath}.饰品列表`, {});
-        const consumableList = this.dataManager.SafeGetValue(`${basePath}.消耗品列表`, {});
-        const materialList = this.dataManager.SafeGetValue(`${basePath}.材料与杂物列表`, {});
+        const weaponList = this.dataManager.SafeGetValue(`${basePath}.背包.武器`, {});
+        const armorList = this.dataManager.SafeGetValue(`${basePath}.背包.防具`, {});
+        const accessoryList = this.dataManager.SafeGetValue(`${basePath}.背包.饰品`, {});
+        const consumableList = this.dataManager.SafeGetValue(`${basePath}.背包.消耗品`, {});
+        const materialList = this.dataManager.SafeGetValue(`${basePath}.背包.材料`, {}); // Schema有材料和杂物
+        const junkList = this.dataManager.SafeGetValue(`${basePath}.背包.杂物`, {});
         
         Logger.log('[CharacterView] Item lists retrieved:');
         Logger.log(`  武器列表: ${Object.keys(weaponList).length} items`);
         Logger.log(`  防具列表: ${Object.keys(armorList).length} items`);
-        Logger.log(`  饰品列表: ${Object.keys(accessoryList).length} items`);
-        Logger.log(`  消耗品列表: ${Object.keys(consumableList).length} items`);
-        Logger.log(`  材料与杂物列表: ${Object.keys(materialList).length} items`);
         
         const itemLists = {
             ...weaponList,
@@ -719,6 +725,7 @@ export class CharacterView {
             ...accessoryList,
             ...consumableList,
             ...materialList,
+            ...junkList
         };
 
         Logger.log(`[CharacterView] Merged item lists: ${Object.keys(itemLists).length} total items`);
@@ -732,9 +739,9 @@ export class CharacterView {
         }
 
         // 金钱显示
-        const gold = this.dataManager.SafeGetValue(`${basePath}.金钱.金币`, 0);
-        const silver = this.dataManager.SafeGetValue(`${basePath}.金钱.银币`, 0);
-        const copper = this.dataManager.SafeGetValue(`${basePath}.金钱.铜币`, 0);
+        const gold = this.dataManager.SafeGetValue(`${basePath}.背包.金钱.金币`, 0);
+        const silver = this.dataManager.SafeGetValue(`${basePath}.背包.金钱.银币`, 0);
+        const copper = this.dataManager.SafeGetValue(`${basePath}.背包.金钱.铜币`, 0);
         
         Logger.log(`[CharacterView] Money: Gold=${gold}, Silver=${silver}, Copper=${copper}`);
         

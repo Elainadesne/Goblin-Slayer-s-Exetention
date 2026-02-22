@@ -129,6 +129,11 @@ export class SkillView {
                     return Number(lvl);
                 }
             }
+            if (levelValue === '初级') return 1;
+            if (levelValue === '中级') return 2;
+            if (levelValue === '高级') return 3;
+            if (levelValue === '精通') return 4;
+            if (levelValue === '大师') return 5;
         }
         return 0;
     }

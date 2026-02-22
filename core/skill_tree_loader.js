@@ -66,8 +66,9 @@ export class SkillTreeLoader {
         try {
             Logger.log('正在加载技能树数据...');
 
-            // 从JSON文件加载技能树数据
-            const response = await fetch('/scripts/extensions/gs_status_bar_extension/data/skill_trees.json');
+            // 动态获取当前文件目录的上一级目录的 data 文件夹
+            const jsonUrl = new URL('../data/skill_trees.json', import.meta.url).href;
+            const response = await fetch(jsonUrl);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
